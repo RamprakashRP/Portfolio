@@ -20,7 +20,7 @@ export default function AchievementDetailPage({ params }: { params: { id: string
   }
 
   return (
-    <div className="bg-[#000000] min-h-screen text-white font-sans selection:bg-white/20">
+    <div className="bg-transparent min-h-screen text-white font-sans selection:bg-white/20">
       <Navbar />
       
       <main className="max-w-4xl mx-auto px-6 pt-32 pb-24">
@@ -33,7 +33,7 @@ export default function AchievementDetailPage({ params }: { params: { id: string
           <div className="flex flex-wrap items-center gap-4 mb-6">
             <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-xs font-medium">
               <Tag className="w-4 h-4" />
-              <span>{achievement.category}</span>
+              <span>{achievement.tags?.[0] || 'Achievement'}</span>
             </div>
             <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/5 backdrop-blur-md border border-white/5 text-xs text-neutral-300">
               <Calendar className="w-4 h-4" />
