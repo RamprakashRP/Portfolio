@@ -9,7 +9,7 @@ const statsData = [
   { value: 25000, suffix: '+', label: 'LINES OF CODE WRITTEN' },
 ];
 
-const Counter = ({ value, suffix = '' }) => {
+const Counter = ({ value, suffix = '' }: { value: number, suffix?: string }) => {
   const ref = useRef(null);
   // Triggers when the element is 100px into the viewport
   const inView = useInView(ref, { once: true, margin: "-100px" });
