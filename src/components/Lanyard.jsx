@@ -26,6 +26,9 @@ const BLANK_PIXEL =
 const FRONT_UV_RECT = { x: 0, y: 0, w: 0.5, h: 0.755 };
 const BACK_UV_RECT = { x: 0.5, y: 0, w: 0.5, h: 0.757 };
 
+/**
+ * @param {{ position?: number[], gravity?: number[], fov?: number, transparent?: boolean, frontImage?: string | null, backImage?: string | null, imageFit?: 'cover' | 'contain' | 'fill', lanyardImage?: string | null, lanyardWidth?: number }} props
+ */
 export default function Lanyard({
   position = [0, 0, 30],
   gravity = [0, -40, 0],
