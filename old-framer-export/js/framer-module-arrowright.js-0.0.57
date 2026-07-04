@@ -1,0 +1,8 @@
+/*
+ * ArrowRight (phosphor-icons/ArrowRight@0.0.57)
+ *
+ * Learn More: https://www.framer.com/asset-urls
+ */
+
+export * from "../js/arrowright.js"
+export { default } from "../js/arrowright.js"
