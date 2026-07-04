@@ -16,7 +16,7 @@ const tickerItems = [
 
 const ServiceCard = ({ card }: { card: ServiceData }) => {
   const hasImages = card.images && card.images.length > 0;
-  const isSlider = hasImages && card.images.length > 1;
+  const isSlider = hasImages && (card.images?.length || 0) > 1;
   const Icon = (LucideIcons as any)[card.iconName] || LucideIcons.Check;
 
   return (
