@@ -34,12 +34,15 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-transparent" suppressHydrationWarning>
         <GlobalBackground />
         
-        {/* Global Fading Edges (Bottom Only, Small) */}
+        {/* Global Fading Edges (Bottom Only, Small & Smooth) */}
         <GradualBlur 
           target="page" 
           position="bottom" 
-          height="4rem" 
-          strength={1.5} 
+          height="6rem" 
+          strength={2}
+          divCount={8}
+          exponential={true}
+          curve="bezier"
           zIndex={-10} 
         />
         
