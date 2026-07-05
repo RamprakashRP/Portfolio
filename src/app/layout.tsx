@@ -34,18 +34,13 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-transparent" suppressHydrationWarning>
         <GlobalBackground />
         
-        {/* Global Fading Edges */}
+        {/* Global Fading Edges (Bottom Only, Small) */}
         <GradualBlur 
-          preset="page-header" 
+          target="page" 
+          position="bottom" 
           height="4rem" 
+          strength={1.5} 
           zIndex={-10} 
-          style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0))' }}
-        />
-        <GradualBlur 
-          preset="page-footer" 
-          height="4rem" 
-          zIndex={-10} 
-          style={{ background: 'linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0))' }}
         />
         
         <Navbar />
