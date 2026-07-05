@@ -39,13 +39,13 @@ export default function RootLayout({
           preset="page-header" 
           height="4rem" 
           zIndex={-10} 
-          style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.9), transparent)' }}
+          style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0))' }}
         />
         <GradualBlur 
           preset="page-footer" 
           height="4rem" 
           zIndex={-10} 
-          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.9), transparent)' }}
+          style={{ background: 'linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0))' }}
         />
         
         <Navbar />
