@@ -35,8 +35,8 @@ export default function RootLayout({
         <GlobalBackground />
         
         {/* Global Fading Edges */}
-        <GradualBlur preset="page-header" zIndex={-10} />
-        <GradualBlur preset="page-footer" zIndex={-10} />
+        <GradualBlur preset="page-header" height="3rem" zIndex={-10} />
+        <GradualBlur preset="page-footer" height="3rem" zIndex={-10} />
         
         <Navbar />
         {children}
