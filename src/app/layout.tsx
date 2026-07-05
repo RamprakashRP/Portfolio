@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GlobalBackground from "@/components/GlobalBackground";
+import GradualBlur from "@/components/GradualBlur";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,11 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-transparent" suppressHydrationWarning>
         <GlobalBackground />
+        
+        {/* Global Fading Edges */}
+        <GradualBlur preset="page-header" zIndex={-10} />
+        <GradualBlur preset="page-footer" zIndex={-10} />
+        
         <Navbar />
         {children}
         <Footer />
