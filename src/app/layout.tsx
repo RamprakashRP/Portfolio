@@ -38,7 +38,7 @@ export default function RootLayout({
         <GradualBlur 
           target="page" 
           position="bottom" 
-          height="6rem" 
+          height="2.5rem" 
           strength={2}
           divCount={8}
           exponential={true}
