@@ -50,8 +50,8 @@ export default function Experience() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_2.5fr] gap-10 lg:gap-20 items-start relative">
           
           {/* Left Column: Title and Image Viewer (Sticky) */}
-          <div className="sticky top-32 flex flex-col items-start h-[calc(100vh-8rem)] pb-10">
-            <h2 className="text-5xl md:text-6xl font-black tracking-tight uppercase break-words w-full mb-12">
+          <div className="lg:sticky lg:top-32 flex flex-col items-start h-auto lg:h-[calc(100vh-8rem)] lg:pb-10">
+            <h2 className="text-5xl md:text-6xl font-black tracking-tight uppercase break-words w-full mb-4 lg:mb-12">
               EXPERIENCE
             </h2>
 

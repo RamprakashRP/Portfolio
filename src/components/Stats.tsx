@@ -11,8 +11,8 @@ const statsData = [
 
 const Counter = ({ value, suffix = '' }: { value: number, suffix?: string }) => {
   const ref = useRef(null);
-  // Triggers when the element is 100px into the viewport
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  // Triggers when the element comes into the viewport
+  const inView = useInView(ref, { once: true, amount: 0.2 });
   const [displayValue, setDisplayValue] = useState("0");
 
   useEffect(() => {

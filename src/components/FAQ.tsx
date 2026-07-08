@@ -96,7 +96,7 @@ export default function FAQ() {
       <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-10 md:gap-20 items-start">
         
         {/* Left Column */}
-        <div className="flex flex-col items-start sticky top-32">
+        <div className="flex flex-col items-start lg:sticky lg:top-32 h-fit">
           <div className="flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 w-fit mb-6">
             <span className="text-xs font-semibold text-neutral-300 tracking-wider">FAQ Section</span>
           </div>

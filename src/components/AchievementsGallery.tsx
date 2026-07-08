@@ -274,7 +274,7 @@ export default function AchievementsGallery({ achievements, onViewDetails }: Pro
       <div className="relative flex flex-col lg:flex-row gap-8 lg:gap-12 min-h-[600px]">
         
         {/* LEFT: Sticky Featured Viewer */}
-        <div className="w-full lg:w-1/2 lg:sticky lg:top-32 h-[450px] sm:h-[500px] lg:h-[600px] rounded-3xl overflow-hidden bg-[#09090a] border border-white/10 flex-shrink-0 relative group shadow-2xl">
+        <div className="hidden lg:block w-full lg:w-1/2 lg:sticky lg:top-32 lg:h-[600px] rounded-3xl overflow-hidden bg-[#09090a] border border-white/10 flex-shrink-0 relative group shadow-2xl">
           {activeAchievement ? (
             <>
               <AnimatePresence mode="wait">
@@ -367,15 +367,20 @@ export default function AchievementsGallery({ achievements, onViewDetails }: Pro
         </div>
 
         {/* RIGHT: Interactive Scrollable List */}
-        <div className="w-full lg:w-1/2 flex max-lg:flex-row max-lg:overflow-x-auto max-lg:snap-x max-lg:snap-mandatory max-lg:space-x-4 max-lg:pb-6 custom-scrollbar lg:flex-col lg:space-y-3">
+        <div className="w-full lg:w-1/2 flex flex-col space-y-3 custom-scrollbar">
           {processedAchievements.map((achievement) => {
             const isActive = activeId === achievement.id;
             return (
               <div 
                 key={achievement.id}
                 onMouseEnter={() => setActiveId(achievement.id)}
-                onClick={() => setActiveId(achievement.id)}
-                className={`relative p-5 rounded-2xl cursor-pointer transition-all duration-300 border flex-shrink-0 max-lg:w-[85vw] max-lg:snap-center sm:max-lg:w-[60vw] ${
+                onClick={() => {
+                  setActiveId(achievement.id);
+                  if (window.innerWidth < 1024 && onViewDetails) {
+                    onViewDetails(achievement);
+                  }
+                }}
+                className={`relative p-5 rounded-2xl cursor-pointer transition-all duration-300 border flex-shrink-0 w-full ${
                   isActive 
                     ? 'bg-white/10 border-white/20 shadow-lg lg:scale-[1.02] z-10' 
                     : 'bg-transparent border-white/5 lg:border-transparent hover:bg-white/5'
@@ -411,7 +416,7 @@ export default function AchievementsGallery({ achievements, onViewDetails }: Pro
                   </div>
 
                   <div className={`w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 transition-all duration-500 ${
-                    isActive ? 'ring-2 ring-white/30 shadow-md' : 'opacity-40 grayscale'
+                    isActive ? 'opacity-40 grayscale' : 'opacity-100 grayscale-0 shadow-md ring-1 ring-white/10'
                   }`}>
                     {achievement.media[0] ? (
                       <Image 

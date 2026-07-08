@@ -34,13 +34,6 @@ export const leftReviews: Testimonial[] = [
     rating: 5.0,
     text: "Working with Ram has been such a smooth and fun experience he is proactive, reliable, and always bring good energy to the team. Id rate a solid 5/5 as a coworker, with just a little room left for growth (which I know he will ace!) Keep it up ✨",
     image: '/testimonials/aman.avif'
-  },
-  {
-    name: 'Could be Anyone!!',
-    role: '...',
-    rating: 5.0,
-    text: "If Yall have something to say reach out, DM me ILL check it out !!",
-    image: '/testimonials/anyone.png'
   }
 ];
 
@@ -79,6 +72,13 @@ export const rightReviews: Testimonial[] = [
     rating: 4.0,
     text: "Working with Ram felt like a true partnership. Beyond just sharing the workload, he had a knack for seeing potential problems before they arose, which made every project run more smoothly. His dedication was a constant motivator; you could always rely on him to follow through, which ultimately made the entire experience productive and genuinely enjoyable.",
     image: '/testimonials/varshini.avif'
+  },
+  {
+    name: 'Could be Anyone!!',
+    role: '...',
+    rating: 5.0,
+    text: "If Yall have something to say reach out, DM me ILL check it out !!",
+    image: '/testimonials/anyone.png'
   }
 ];
 

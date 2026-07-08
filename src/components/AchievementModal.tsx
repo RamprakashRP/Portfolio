@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Calendar, Tag, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Calendar, Tag, ChevronLeft, ChevronRight, GripHorizontal } from 'lucide-react';
 import { Achievement } from '@/data/achievements';
 
 interface Props {
@@ -12,6 +12,27 @@ interface Props {
 
 export default function AchievementModal({ achievement, isOpen, onClose }: Props) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  
+  const [splitRatio, setSplitRatio] = useState(50);
+  const [isDragging, setIsDragging] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    setIsDragging(true);
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!isDragging || !containerRef.current) return;
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const newRatio = ((e.clientY - containerRect.top) / containerRect.height) * 100;
+    setSplitRatio(Math.min(Math.max(newRatio, 20), 80));
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    setIsDragging(false);
+    (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+  };
 
   // Prevent scrolling on body when modal is open
   useEffect(() => {
@@ -98,10 +119,16 @@ export default function AchievementModal({ achievement, isOpen, onClose }: Props
             </div>
 
             {/* Split Content Area */}
-            <div className="flex flex-col lg:flex-row flex-1 overflow-hidden min-h-0">
+            <div 
+              ref={containerRef}
+              className="flex flex-col lg:flex-row flex-1 overflow-hidden min-h-0 relative"
+            >
               
               {/* Left Pane: Content */}
-              <div className="w-full lg:w-[45%] p-6 md:p-12 overflow-y-auto custom-scrollbar border-b lg:border-b-0 lg:border-r border-white/5 relative pr-4 md:pr-10">
+              <div 
+                style={{ height: `${splitRatio}%` }}
+                className="w-full lg:w-[45%] lg:!h-full p-6 md:p-12 overflow-y-auto custom-scrollbar border-b lg:border-b-0 lg:border-r border-white/5 relative pr-4 md:pr-10 lg:transition-none"
+              >
                 
                 {/* Title & Tags */}
                 <div className="mb-6">
@@ -131,10 +158,26 @@ export default function AchievementModal({ achievement, isOpen, onClose }: Props
                 </div>
               </div>
 
+              {/* Resizer Handle (Mobile Only) */}
+              <div 
+                className="lg:hidden flex items-center justify-center w-full h-8 -my-4 relative z-20 cursor-ns-resize touch-none"
+                onPointerDown={handlePointerDown}
+                onPointerMove={handlePointerMove}
+                onPointerUp={handlePointerUp}
+                onPointerCancel={handlePointerUp}
+              >
+                <div className="w-12 h-1.5 bg-white/20 hover:bg-white/40 rounded-full transition-colors flex items-center justify-center">
+                   <GripHorizontal className="w-3 h-3 text-white/50" />
+                </div>
+              </div>
+
               {/* Right Pane: Media Gallery (Masonry Layout) */}
-              <div className="w-full lg:w-[55%] p-6 md:p-12 overflow-y-auto custom-scrollbar bg-[#09090a] pl-4 md:pl-10">
+              <div 
+                style={{ height: `${100 - splitRatio}%` }}
+                className="w-full lg:w-[55%] lg:!h-full p-6 md:p-12 overflow-y-auto custom-scrollbar bg-[#09090a] pl-4 md:pl-10 lg:transition-none"
+              >
                 {achievement.media && achievement.media.length > 0 ? (
-                  <div className="columns-1 sm:columns-2 gap-4 space-y-4">
+                  <div className={`gap-4 space-y-4 ${splitRatio > 65 ? 'columns-3' : splitRatio > 40 ? 'columns-2' : 'columns-1'}`}>
                     {achievement.media.map((url, idx) => (
                       <div 
                         key={idx} 
