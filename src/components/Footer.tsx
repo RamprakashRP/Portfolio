@@ -14,7 +14,7 @@ export default function Footer() {
         {/* Bottom Footer Section */}
         <div className="w-full flex flex-col gap-10">
           
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-white/10 pb-8">
+          <div className="flex flex-row items-center justify-between gap-6 border-b border-white/10 pb-8 w-full">
             {/* Logo */}
             <div className="flex items-center">
               <Logo />
@@ -37,7 +37,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pb-12 border-b border-white/5 w-full">
+          <div className="grid grid-cols-2 gap-6 md:gap-12 pb-12 border-b border-white/5 w-full">
             {/* Navigation Column */}
             <div className="flex flex-col gap-4">
               <h4 className="text-white font-semibold mb-2 tracking-wider uppercase text-sm">Navigation</h4>

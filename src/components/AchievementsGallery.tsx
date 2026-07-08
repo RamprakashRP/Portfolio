@@ -274,7 +274,7 @@ export default function AchievementsGallery({ achievements, onViewDetails }: Pro
       <div className="relative flex flex-col lg:flex-row gap-8 lg:gap-12 min-h-[600px]">
         
         {/* LEFT: Sticky Featured Viewer */}
-        <div className="w-full lg:w-1/2 lg:sticky lg:top-32 h-[500px] lg:h-[600px] rounded-3xl overflow-hidden bg-[#09090a] border border-white/10 flex-shrink-0 relative group shadow-2xl">
+        <div className="w-full lg:w-1/2 lg:sticky lg:top-32 h-[450px] sm:h-[500px] lg:h-[600px] rounded-3xl overflow-hidden bg-[#09090a] border border-white/10 flex-shrink-0 relative group shadow-2xl">
           {activeAchievement ? (
             <>
               <AnimatePresence mode="wait">
@@ -367,17 +367,18 @@ export default function AchievementsGallery({ achievements, onViewDetails }: Pro
         </div>
 
         {/* RIGHT: Interactive Scrollable List */}
-        <div className="w-full lg:w-1/2 flex flex-col space-y-3">
+        <div className="w-full lg:w-1/2 flex max-lg:flex-row max-lg:overflow-x-auto max-lg:snap-x max-lg:snap-mandatory max-lg:space-x-4 max-lg:pb-6 custom-scrollbar lg:flex-col lg:space-y-3">
           {processedAchievements.map((achievement) => {
             const isActive = activeId === achievement.id;
             return (
               <div 
                 key={achievement.id}
                 onMouseEnter={() => setActiveId(achievement.id)}
-                className={`relative p-5 rounded-2xl cursor-pointer transition-all duration-300 border ${
+                onClick={() => setActiveId(achievement.id)}
+                className={`relative p-5 rounded-2xl cursor-pointer transition-all duration-300 border flex-shrink-0 max-lg:w-[85vw] max-lg:snap-center sm:max-lg:w-[60vw] ${
                   isActive 
-                    ? 'bg-white/10 border-white/20 shadow-lg scale-[1.02] z-10' 
-                    : 'bg-transparent border-transparent hover:bg-white/5'
+                    ? 'bg-white/10 border-white/20 shadow-lg lg:scale-[1.02] z-10' 
+                    : 'bg-transparent border-white/5 lg:border-transparent hover:bg-white/5'
                 }`}
               >
                 <div className="flex items-center justify-between">

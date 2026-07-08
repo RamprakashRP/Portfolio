@@ -13,8 +13,9 @@ export default function AchievementsPage() {
   const highlight1 = achievements.find(a => a.rpRank === 1);
   const highlight2 = achievements.find(a => a.rpRank === 2);
   const highlight3 = achievements.find(a => a.rpRank === 3);
+  const highlight4 = achievements.find(a => a.rpRank === 4);
   
-  const highlights = [highlight1, highlight2, highlight3].filter(Boolean) as typeof achievements;
+  const highlights = [highlight1, highlight2, highlight3, highlight4].filter(Boolean) as typeof achievements;
   const allAchievements = achievements;
 
   return (
@@ -48,7 +49,7 @@ export default function AchievementsPage() {
                       onClick={() => setSelectedAchievement(achievement)}
                       className={`group relative overflow-hidden rounded-3xl bg-[#0a0a0a] border border-white/10 flex flex-col justify-end p-6 md:p-8 hover:border-white/20 transition-all cursor-pointer ${
                         isRank1 ? 'col-span-1 lg:col-span-2 h-[500px]' : 'col-span-1 h-[400px]'
-                      }`}
+                      } ${achievement.rpRank === 4 ? 'hidden md:flex' : 'flex'}`}
                     >
                       {/* Background Image (Cover) */}
                       {achievement.media[0] && (

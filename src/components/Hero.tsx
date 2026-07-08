@@ -1,15 +1,16 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 import Lanyard from './Lanyard';
-import { ArrowUpRight, MousePointer2 } from 'lucide-react';
+import { ArrowUpRight, MousePointer2, Bell } from 'lucide-react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 
 export default function Hero() {
+
   return (
-    <div className="min-h-[150vh] text-white relative flex flex-col items-center pt-32 pb-24 px-6 font-sans">
+    <section className="min-h-[150vh] text-white relative flex flex-col items-center pt-32 pb-24 px-6 font-sans">
       
       {/* Background Video (Hero Only) */}
       <div className="absolute top-0 left-0 w-full h-[100vh] z-0 overflow-hidden pointer-events-none">
@@ -27,7 +28,7 @@ export default function Hero() {
       </div>
 
       {/* Lanyard Background */}
-      <div className="absolute inset-x-0 top-0 h-[100vh] z-[20] pointer-events-none overflow-hidden">
+      <div className="absolute inset-x-0 top-0 h-[100vh] z-[20] pointer-events-none overflow-hidden hidden md:block">
         <div className="w-full h-full relative">
           <Lanyard
             position={[0, 0, 20]}
@@ -42,7 +43,7 @@ export default function Hero() {
       <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-[1.2fr_auto_0.8fr] gap-8 items-center relative mb-24">
 
         {/* Left: Text Content */}
-        <div className="flex flex-col space-y-6 max-w-xl">
+        <div className="flex flex-col space-y-6 max-w-xl md:items-start items-center text-center md:text-left mx-auto md:mx-0 z-30 relative">
           {/* Badge */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -98,7 +99,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="flex items-center space-x-4 pt-4 relative z-[30]"
+            className="flex items-center space-x-4 pt-4 relative z-[30] justify-center md:justify-start"
           >
             <Link href="/projects" className="px-6 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-sm font-medium transition-colors">
               See All Projects
@@ -106,8 +107,17 @@ export default function Hero() {
             <Link href="/contact" className="px-6 py-2.5 rounded-full bg-gradient-to-b from-white to-neutral-200 text-black text-sm font-semibold hover:opacity-90 transition-opacity shadow-[0_0_30px_rgba(255,255,255,0.4)]">
               Contact Now
             </Link>
-            <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer" title="Notifications">
-              <ArrowUpRight className="w-4 h-4 text-neutral-400" />
+            <div 
+              onClick={() => window.dispatchEvent(new Event('open-notifications'))}
+              className="relative w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer group" 
+              title="Notifications"
+            >
+              <Bell className="w-4 h-4 text-neutral-400 group-hover:text-white transition-colors" />
+              {/* Notification Ping Dot */}
+              <span className="absolute top-2.5 right-2.5 flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+              </span>
             </div>
           </motion.div>
         </div>
@@ -201,7 +211,6 @@ export default function Hero() {
         </Link>
 
       </div>
-
-    </div>
+    </section>
   );
 }

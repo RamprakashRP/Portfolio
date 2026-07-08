@@ -56,7 +56,7 @@ export default function Experience() {
             </h2>
 
             {/* Creative Image Viewer */}
-            <div className="w-full flex-1 relative flex flex-col justify-start items-center pt-8">
+            <div className="w-full flex-1 relative hidden lg:flex flex-col justify-start items-center pt-8">
               <AnimatePresence mode="wait">
                 {activeImages && activeImages.length > 0 ? (
                   <motion.div 
@@ -189,6 +189,28 @@ export default function Experience() {
                             <p className={`text-sm md:text-base leading-relaxed font-light transition-colors duration-300 ${isActive ? 'text-neutral-200' : 'text-neutral-400'}`}>
                               {role.description}
                             </p>
+
+                            {/* Inline images for mobile */}
+                            {role.images && role.images.length > 0 && isActive && (
+                              <div className="lg:hidden mt-8 w-full flex justify-center h-[280px] relative z-20">
+                                 <Stack
+                                    randomRotation={true}
+                                    sensitivity={180}
+                                    sendToBackOnClick={true}
+                                    cards={role.images.map((src, i) => (
+                                      <div key={i} className="relative w-full h-[250px] max-w-[200px] rounded-xl overflow-hidden mx-auto">
+                                        <Image 
+                                          src={src} 
+                                          alt={`Role highlight ${i}`}
+                                          fill
+                                          className="object-cover"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-50" />
+                                      </div>
+                                    ))}
+                                  />
+                              </div>
+                            )}
                           </div>
                         </div>
                       );
@@ -200,10 +222,10 @@ export default function Experience() {
 
             {/* Load More Button */}
             {visibleCount < experiences.length && (
-              <div className="mt-16 flex justify-start">
+              <div className="mt-16 flex justify-start relative z-50">
                 <button 
                   onClick={handleLoadMore}
-                  className="px-6 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-sm font-semibold transition-colors"
+                  className="px-6 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-sm font-semibold transition-colors pointer-events-auto"
                 >
                   Load More
                 </button>

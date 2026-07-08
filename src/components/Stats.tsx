@@ -31,7 +31,7 @@ const Counter = ({ value, suffix = '' }: { value: number, suffix?: string }) => 
   }, [inView, value]);
 
   return (
-    <div ref={ref} className="text-7xl md:text-8xl font-black tracking-tighter text-white mb-6">
+    <div ref={ref} className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter text-white mb-4 md:mb-6">
       {displayValue}{suffix}
     </div>
   );
@@ -60,7 +60,7 @@ export default function Stats() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 items-start">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-8 items-start">
           {statsData.map((stat, idx) => (
             <div key={idx} className="flex flex-col items-start">
               <Counter value={stat.value} suffix={stat.suffix} />
