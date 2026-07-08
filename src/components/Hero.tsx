@@ -68,7 +68,7 @@ export default function Hero() {
               Ramprakash
             </motion.span>
             <motion.span 
-              whileHover={{ scale: 1.05, textShadow: "0px 0px 20px rgba(255,255,255,0.5)", WebkitTextStroke: '2px rgba(255,255,255,1)' }}
+              whileHover={{ scale: 1.05, textShadow: "0px 0px 20px rgba(255,255,255,0.5)", WebkitTextStroke: '2px rgba(255,255,255,1)' } as any}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
               className="md:ml-4 text-transparent inline-block origin-left transition-colors duration-300" 
               style={{ WebkitTextStroke: '1px rgba(255,255,255,0.5)' }}
