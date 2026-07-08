@@ -1,15 +1,22 @@
 'use client';
-import { motion, useMotionValue, useTransform } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { motion, useMotionValue, useTransform, PanInfo } from 'framer-motion';
+import { useState, useEffect, ReactNode } from 'react';
 import './Stack.css';
 
-function CardRotate({ children, onSendToBack, sensitivity, disableDrag = false }) {
+interface CardRotateProps {
+  children: ReactNode;
+  onSendToBack: () => void;
+  sensitivity: number;
+  disableDrag?: boolean;
+}
+
+function CardRotate({ children, onSendToBack, sensitivity, disableDrag = false }: CardRotateProps) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotateX = useTransform(y, [-100, 100], [60, -60]);
   const rotateY = useTransform(x, [-100, 100], [-60, 60]);
 
-  function handleDragEnd(_, info) {
+  function handleDragEnd(_: any, info: PanInfo) {
     if (Math.abs(info.offset.x) > sensitivity || Math.abs(info.offset.y) > sensitivity) {
       onSendToBack();
     } else {
@@ -41,6 +48,19 @@ function CardRotate({ children, onSendToBack, sensitivity, disableDrag = false }
   );
 }
 
+interface StackProps {
+  randomRotation?: boolean;
+  sensitivity?: number;
+  cards?: ReactNode[];
+  animationConfig?: { stiffness: number; damping: number };
+  sendToBackOnClick?: boolean;
+  autoplay?: boolean;
+  autoplayDelay?: number;
+  pauseOnHover?: boolean;
+  mobileClickOnly?: boolean;
+  mobileBreakpoint?: number;
+}
+
 export default function Stack({
   randomRotation = false,
   sensitivity = 200,
@@ -52,7 +72,7 @@ export default function Stack({
   pauseOnHover = false,
   mobileClickOnly = false,
   mobileBreakpoint = 768
-}) {
+}: StackProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
 
@@ -85,7 +105,7 @@ export default function Stack({
     }
   }, [cards]);
 
-  const sendToBack = id => {
+  const sendToBack = (id: number) => {
     setStack(prev => {
       const newStack = [...prev];
       const index = newStack.findIndex(card => card.id === id);
