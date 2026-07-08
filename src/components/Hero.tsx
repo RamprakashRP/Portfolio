@@ -44,17 +44,46 @@ export default function Hero() {
         {/* Left: Text Content */}
         <div className="flex flex-col space-y-6 max-w-xl">
           {/* Badge */}
-          <div className="flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-3 py-1.5 w-fit">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-3 py-1.5 w-fit"
+          >
             <div className="w-4 h-4 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0xMiAydjIwTTIyIDEySDIiLz48L3N2Zz4=')] bg-cover bg-center opacity-70" />
             <span className="text-xs font-medium text-neutral-300">Software Developer / AIML Professional</span>
-          </div>
+          </motion.div>
 
-          <h1 className="text-5xl md:text-[4.5rem] font-medium tracking-tight leading-none mt-2 uppercase">
-            Ramprakash Raja
-          </h1>
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-5xl md:text-[4.5rem] font-bold tracking-tight leading-[1.1] mt-2 uppercase drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)] flex flex-col md:flex-row md:items-center cursor-default"
+          >
+            <motion.span 
+              whileHover={{ scale: 1.05, textShadow: "0px 0px 20px rgba(255,255,255,0.8)" }}
+              transition={{ type: "spring", stiffness: 300, damping: 15 }}
+              className="text-white inline-block origin-left"
+            >
+              Ramprakash
+            </motion.span>
+            <motion.span 
+              whileHover={{ scale: 1.05, textShadow: "0px 0px 20px rgba(255,255,255,0.5)", WebkitTextStroke: '2px rgba(255,255,255,1)' }}
+              transition={{ type: "spring", stiffness: 300, damping: 15 }}
+              className="md:ml-4 text-transparent inline-block origin-left transition-colors duration-300" 
+              style={{ WebkitTextStroke: '1px rgba(255,255,255,0.5)' }}
+            >
+              Raja
+            </motion.span>
+          </motion.h1>
 
-          <p className="text-sm md:text-base text-neutral-400 leading-relaxed font-light mt-4">
-            Hello, I am <strong className="text-neutral-200 font-medium">Ramprakash Raja</strong>, a dedicated student pursuing
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-sm md:text-base text-neutral-200 leading-relaxed font-light mt-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] max-w-[95%]"
+          >
+            Hello, I am <strong className="text-white font-medium drop-shadow-md">Ramprakash Raja</strong>, a dedicated student pursuing
             education at SRM IST Vadapalani Campus, specializing in
             Software Development. Based in Chennai, Tamil Nadu, I am
             passionate about technology and innovation, consistently
@@ -62,10 +91,15 @@ export default function Hero() {
             foundation in emerging technologies and a commitment to
             excellence, I aspire to make a meaningful impact in the software
             development industry.
-          </p>
+          </motion.p>
 
           {/* Buttons - Elevated z-index to be above Lanyard */}
-          <div className="flex items-center space-x-4 pt-4 relative z-[30]">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="flex items-center space-x-4 pt-4 relative z-[30]"
+          >
             <Link href="/projects" className="px-6 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-sm font-medium transition-colors">
               See All Projects
             </Link>
@@ -75,7 +109,7 @@ export default function Hero() {
             <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer" title="Notifications">
               <ArrowUpRight className="w-4 h-4 text-neutral-400" />
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Center: Lanyard Spacer */}

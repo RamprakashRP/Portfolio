@@ -2,6 +2,7 @@ export interface RoleData {
   position: string;
   duration: string;
   description: string;
+  images?: string[];
 }
 
 export interface ExperienceData {
@@ -19,16 +20,19 @@ export const experiences: ExperienceData[] = [
         position: 'India Representative (Top 6 India AI Impact Summit 2026)',
         duration: 'Feb 2026 - Present',
         description: 'Achieved the "Top Candidate" status, securing a spot in the Top 0.0001% of ambassadors nationwide. Impact: Spoke about the Program\'s reach, How it helps youngsters, how it can be moved forward, etc.',
+        images: ['/achievements/sundar-pichai/1.jpg', '/achievements/sundar-pichai/2.jpg']
       },
       {
         position: 'India Representative (Top 5 Winning Candidate)',
         duration: 'Dec 2025 - May 2026',
         description: 'Achieved the "Winning Candidate" status, securing a spot in the Top 0.0001% of ambassadors nationwide. Awarded a fully sponsored mentorship trip to Dubai to attend the AI Film Festival.',
+        images: ['/achievements/dubai-ai-film-festival/1.jpg', '/achievements/dubai-ai-film-festival/2.jpg']
       },
       {
         position: 'Student Ambassador at Top Achievers Club (Top 0.001%)',
         duration: 'Nov 2025 - Dec 2025',
         description: 'Identified as a top-tier ambassador (Top 0.01% India) based on sustained performance, leadership, and technical advocacy. Successfully fostered a developer culture on campus.',
+        images: ['/achievements/overall-champions/1.jpg']
       },
       {
         position: 'Google Student Ambassador',
@@ -45,6 +49,7 @@ export const experiences: ExperienceData[] = [
         position: 'Beta Ambassador',
         duration: 'Mar 2025 - Present',
         description: 'Contributed to Microsoft campus initiatives, enhanced communication and leadership skills, and explored AI-related projects.',
+        images: ['/achievements/best-outgoing-student/1.jpg']
       },
       {
         position: 'Microsoft Student Ambassador',
