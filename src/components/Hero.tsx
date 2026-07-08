@@ -6,8 +6,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Lanyard from './Lanyard';
 import { ArrowUpRight, MousePointer2, Bell } from 'lucide-react';
 import Image from 'next/image';
+import { useLoaderStore } from '@/store/loaderStore';
 
 export default function Hero() {
+  const { isLoading } = useLoaderStore();
 
   return (
     <section className="min-h-[150vh] text-white relative flex flex-col items-center pt-32 pb-24 px-6 font-sans">
@@ -46,8 +48,9 @@ export default function Hero() {
         <div className="flex flex-col space-y-6 max-w-xl md:items-start items-center text-center md:text-left mx-auto md:mx-0 z-30 relative">
           {/* Badge */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial="hidden"
+            animate={isLoading ? "hidden" : "visible"}
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-3 py-1.5 w-fit"
           >
@@ -56,8 +59,9 @@ export default function Hero() {
           </motion.div>
 
           <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial="hidden"
+            animate={isLoading ? "hidden" : "visible"}
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-[4.5rem] font-bold tracking-tight leading-[1.1] mt-2 uppercase drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)] flex flex-col md:flex-row md:items-center cursor-default"
           >
@@ -79,8 +83,9 @@ export default function Hero() {
           </motion.h1>
 
           <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial="hidden"
+            animate={isLoading ? "hidden" : "visible"}
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-sm md:text-base text-neutral-200 leading-relaxed font-light mt-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] max-w-[95%]"
           >
@@ -96,8 +101,9 @@ export default function Hero() {
 
           {/* Buttons - Elevated z-index to be above Lanyard */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial="hidden"
+            animate={isLoading ? "hidden" : "visible"}
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="flex items-center space-x-4 pt-4 relative z-[30] justify-center md:justify-start"
           >

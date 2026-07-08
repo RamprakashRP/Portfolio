@@ -11,6 +11,7 @@ const lanyard = '/lanyard/lanyard.jpg';
 
 import * as THREE from 'three';
 import './Lanyard.css';
+import { useLoaderStore } from '@/store/loaderStore';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
@@ -41,6 +42,7 @@ export default function Lanyard({
   lanyardWidth = 1
 }) {
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
+  const { isLoading } = useLoaderStore();
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -57,7 +59,7 @@ export default function Lanyard({
         onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
       >
         <ambientLight intensity={Math.PI} />
-        <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
+        <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60} paused={isLoading}>
           <Band
             isMobile={isMobile}
             frontImage={frontImage}
