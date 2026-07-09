@@ -29,14 +29,14 @@ export default function RecentProjects() {
               <span className="text-xs font-semibold text-neutral-300 tracking-wider">Recent Projects</span>
             </div>
 
-            <div className="flex items-center gap-4">
-              <h2 className="text-5xl md:text-6xl font-medium tracking-tight">
+            <Link href="/projects" className="flex items-center gap-4 cursor-pointer group">
+              <h2 className="text-5xl md:text-6xl font-medium tracking-tight group-hover:opacity-80 transition-opacity">
                 Recent <span className="text-neutral-500">Projects</span>
               </h2>
-              <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center bg-white/5">
-                <ArrowUpRight className="w-5 h-5 text-neutral-400" />
+              <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center bg-white/5 group-hover:bg-white/10 transition-colors">
+                <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />
               </div>
-            </div>
+            </Link>
             
             <p className="text-neutral-400 text-sm md:text-base">
               Showcase of some of my recent sleek websites

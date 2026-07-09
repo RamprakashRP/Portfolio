@@ -22,9 +22,18 @@ export default function Profile() {
 
         {/* Top: Heading & Button */}
         <div className="flex flex-col items-center text-center mb-16 space-y-6">
-          <div className="flex items-center space-x-2 bg-[#111] border border-white/10 rounded-full px-4 py-1.5 w-fit shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)]">
-            <div className="w-4 h-4 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0xMiAydjIwTTIyIDEySDIiLz48L3N2Zz4=')] bg-cover bg-center opacity-70" />
-            <span className="text-xs font-semibold text-neutral-300 tracking-wider">JOAT</span>
+          <div className="group flex items-center space-x-2 bg-[#111] border border-white/10 rounded-full px-4 py-1.5 w-fit shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] cursor-default transition-all duration-500">
+            <div className="w-4 h-4 shrink-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0xMiAydjIwTTIyIDEySDIiLz48L3N2Zz4=')] bg-cover bg-center opacity-70" />
+            <span className="text-xs font-semibold text-neutral-300 tracking-wider flex items-center whitespace-nowrap">
+              <span>J</span>
+              <span className="max-w-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0 group-hover:max-w-[40px] group-hover:opacity-100 group-hover:mr-1">ack</span>
+              <span>O</span>
+              <span className="max-w-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0 group-hover:max-w-[40px] group-hover:opacity-100 group-hover:mr-1">f</span>
+              <span>A</span>
+              <span className="max-w-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0 group-hover:max-w-[40px] group-hover:opacity-100 group-hover:mr-1">ll</span>
+              <span>T</span>
+              <span className="max-w-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0 group-hover:max-w-[50px] group-hover:opacity-100">rades</span>
+            </span>
           </div>
 
           <h2 className="text-4xl md:text-5xl font-medium tracking-tight">

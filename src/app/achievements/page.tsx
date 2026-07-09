@@ -13,9 +13,8 @@ export default function AchievementsPage() {
   const highlight1 = achievements.find(a => a.rpRank === 1);
   const highlight2 = achievements.find(a => a.rpRank === 2);
   const highlight3 = achievements.find(a => a.rpRank === 3);
-  const highlight4 = achievements.find(a => a.rpRank === 4);
   
-  const highlights = [highlight1, highlight2, highlight3, highlight4].filter(Boolean) as typeof achievements;
+  const highlights = [highlight1, highlight2, highlight3].filter(Boolean) as typeof achievements;
   const allAchievements = achievements;
 
   return (
