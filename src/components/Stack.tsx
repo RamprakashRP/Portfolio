@@ -59,6 +59,7 @@ interface StackProps {
   pauseOnHover?: boolean;
   mobileClickOnly?: boolean;
   mobileBreakpoint?: number;
+  onTopCardChange?: (index: number) => void;
 }
 
 export default function Stack({
@@ -71,7 +72,8 @@ export default function Stack({
   autoplayDelay = 3000,
   pauseOnHover = false,
   mobileClickOnly = false,
-  mobileBreakpoint = 768
+  mobileBreakpoint = 768,
+  onTopCardChange
 }: StackProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -91,7 +93,7 @@ export default function Stack({
 
   const [stack, setStack] = useState(() => {
     if (cards.length) {
-      return cards.map((content, index) => ({ id: index + 1, content }));
+      return cards.map((content, index) => ({ id: index, content })).reverse();
     } else {
       return [];
     }
@@ -99,7 +101,7 @@ export default function Stack({
 
   useEffect(() => {
     if (cards.length) {
-      setStack(cards.map((content, index) => ({ id: index + 1, content })));
+      setStack(cards.map((content, index) => ({ id: index, content })).reverse());
     } else {
       setStack([]);
     }
@@ -114,6 +116,13 @@ export default function Stack({
       return newStack;
     });
   };
+
+  useEffect(() => {
+    if (stack.length > 0 && onTopCardChange) {
+      const topCard = stack[stack.length - 1];
+      onTopCardChange(topCard.id);
+    }
+  }, [stack, onTopCardChange]);
 
   useEffect(() => {
     if (autoplay && stack.length > 1 && !isPaused) {

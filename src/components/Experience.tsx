@@ -1,15 +1,22 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { experiences } from '@/data/experience';
 import Stack from './Stack';
+import PdfPreview from './PdfPreview';
 
 export default function Experience() {
   const [visibleCount, setVisibleCount] = useState(4);
   const [hoveredRoleId, setHoveredRoleId] = useState<string | null>(null);
   const [lockedRoleId, setLockedRoleId] = useState<string | null>(null);
+  const [topCardIndex, setTopCardIndex] = useState(0);
+
+  // Reset top card index when active role changes
+  useEffect(() => {
+    setTopCardIndex(0);
+  }, [hoveredRoleId, lockedRoleId]);
 
   const handleLoadMore = () => {
     setVisibleCount(prev => Math.min(prev + 4, experiences.length));
@@ -29,12 +36,57 @@ export default function Experience() {
     const [cIdx, rIdx] = activeId.split('-').map(Number);
     return {
       company: experiences[cIdx]?.company,
-      position: experiences[cIdx]?.roles[rIdx]?.position
+      position: experiences[cIdx]?.roles[rIdx]?.position,
+      logo: experiences[cIdx]?.logo
     };
   };
 
   const activeImages = getActiveImages();
   const activeRole = getActiveRoleDetails();
+  
+  // Format the filename for display
+  const activeFileName = activeImages?.[topCardIndex] 
+    ? decodeURIComponent(activeImages[topCardIndex].split('/').pop()?.split('.')[0] || '')
+    : '';
+
+  const stackCards = React.useMemo(() => {
+    if (!activeImages) return [];
+    return activeImages.map((src, i) => {
+      const isPdf = src.toLowerCase().endsWith('.pdf');
+      return (
+        <div key={i} className="relative w-full h-full rounded-2xl overflow-hidden bg-white/5 flex items-center justify-center">
+          {isPdf ? (
+            <>
+              <div className="absolute inset-0 z-0 pointer-events-none">
+                <PdfPreview file={src} isCertificate={src.toLowerCase().includes('certificate')} />
+              </div>
+              
+              {/* Glass overlay to prevent drag interference */}
+              <div className="absolute inset-0 bg-transparent z-10" />
+              <a 
+                href={src}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute bottom-4 right-4 z-20 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-[10px] font-semibold flex items-center gap-1 hover:bg-white/10 transition-colors pointer-events-auto"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                View PDF
+              </a>
+            </>
+          ) : (
+            <Image 
+              src={src} 
+              alt={`Role highlight ${i}`}
+              fill
+              className="object-cover"
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-50 pointer-events-none" />
+        </div>
+      );
+    });
+  }, [activeImages]);
 
   return (
     <section id="experience" className="w-full bg-[#000000]/50 text-white py-32 px-6 flex justify-center border-t border-white/5">
@@ -67,28 +119,9 @@ export default function Experience() {
                     transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                     className="relative w-full flex flex-col items-center"
                   >
-                    <div className="w-full max-w-[300px] aspect-[4/5] md:aspect-square relative z-20">
-                      <Stack
-                        randomRotation={true}
-                        sensitivity={180}
-                        sendToBackOnClick={true}
-                        cards={activeImages.map((src, i) => (
-                          <div key={i} className="relative w-full h-full rounded-2xl overflow-hidden">
-                            <Image 
-                              src={src} 
-                              alt={`Role highlight ${i}`}
-                              fill
-                              className="object-cover"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-50" />
-                          </div>
-                        ))}
-                      />
-                    </div>
-                    
-                    {/* Role Title Below Viewer */}
+                    {/* Role Title Above Viewer */}
                     {activeRole && (
-                      <div className="mt-8 text-center max-w-[300px] relative z-10">
+                      <div className="mb-6 text-center max-w-[300px] relative z-10">
                         <span className="text-[10px] font-bold tracking-widest text-neutral-500 uppercase block mb-1">
                           {activeRole.company}
                         </span>
@@ -97,6 +130,56 @@ export default function Experience() {
                         </h4>
                       </div>
                     )}
+                    
+                    <div className="w-full max-w-[300px] aspect-[4/5] md:aspect-square relative z-20">
+                      <Stack
+                        randomRotation={true}
+                        sensitivity={180}
+                        sendToBackOnClick={true}
+                        onTopCardChange={setTopCardIndex}
+                        cards={stackCards}
+                      />
+                    </div>
+                    
+                    {/* Filename Below Viewer */}
+                    {activeFileName && (
+                      <div className="mt-6 text-center max-w-[300px] relative z-10">
+                        <span className="text-[10px] font-medium tracking-wider text-neutral-400">
+                          {activeFileName}
+                        </span>
+                      </div>
+                    )}
+                  </motion.div>
+                ) : activeRole ? (
+                  <motion.div
+                    key="company-logo"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.4 }}
+                    className="w-full max-w-[300px] aspect-[4/5] md:aspect-square rounded-2xl border border-white/5 bg-white/[0.02] flex flex-col items-center justify-center p-8 relative overflow-hidden group shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                    <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent group-hover:opacity-40 transition-opacity duration-700" />
+                    
+                    <div className="relative z-10 w-32 h-32 mb-8 drop-shadow-2xl transform group-hover:scale-110 transition-transform duration-700">
+                      {activeRole.logo && (
+                        <Image 
+                          src={activeRole.logo} 
+                          alt={activeRole.company} 
+                          fill 
+                          className="object-contain filter drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" 
+                        />
+                      )}
+                    </div>
+                    <div className="relative z-10 text-center mt-auto pb-4">
+                      <span className="text-[10px] font-bold tracking-widest text-neutral-500 uppercase block mb-2">
+                        {activeRole.company}
+                      </span>
+                      <h4 className="text-base text-white font-medium px-4">
+                        {activeRole.position}
+                      </h4>
+                    </div>
                   </motion.div>
                 ) : (
                   <motion.div
@@ -104,13 +187,13 @@ export default function Experience() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="w-full max-w-[300px] aspect-square rounded-2xl border border-white/5 border-dashed flex flex-col items-center justify-center text-neutral-500 bg-white/[0.01]"
+                    className="w-full max-w-[300px] aspect-[4/5] md:aspect-square rounded-2xl border border-white/5 border-dashed flex flex-col items-center justify-center text-neutral-500 bg-white/[0.01]"
                   >
                     <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-4">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
                     </div>
                     <span className="text-xs font-bold tracking-widest uppercase text-white/50">Hover role to view</span>
-                    <span className="text-[10px] mt-1 opacity-30 uppercase tracking-widest">Images & Certificates</span>
+                    <span className="text-[10px] mt-1 opacity-30 uppercase tracking-widest">Images & Details</span>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -197,17 +280,44 @@ export default function Experience() {
                                     randomRotation={true}
                                     sensitivity={180}
                                     sendToBackOnClick={true}
-                                    cards={role.images.map((src, i) => (
-                                      <div key={i} className="relative w-full h-[250px] max-w-[200px] rounded-xl overflow-hidden mx-auto">
-                                        <Image 
-                                          src={src} 
-                                          alt={`Role highlight ${i}`}
-                                          fill
-                                          className="object-cover"
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-50" />
-                                      </div>
-                                    ))}
+                                    cards={role.images.map((src, i) => {
+                                      const isPdf = src.toLowerCase().endsWith('.pdf');
+                                      const isCertificate = src.toLowerCase().includes('certificate');
+                                      const pdfViewParam = isCertificate ? 'FitV' : 'FitH';
+
+                                      return (
+                                        <div key={i} className="relative w-full h-[250px] max-w-[200px] rounded-xl overflow-hidden mx-auto bg-[#323639] flex items-center justify-center">
+                                          {isPdf ? (
+                                            <>
+                                  <div className="absolute inset-0 z-0 pointer-events-none">
+                                    <PdfPreview file={src} isCertificate={src.toLowerCase().includes('certificate')} />
+                                  </div>
+                                  
+                                  {/* Glass overlay to prevent drag interference */}
+                                  <div className="absolute inset-0 bg-transparent z-10" />
+                                              <a 
+                                                href={src}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="absolute bottom-4 right-4 z-20 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-[10px] font-semibold flex items-center gap-1 hover:bg-white/10 transition-colors pointer-events-auto"
+                                                onClick={(e) => e.stopPropagation()}
+                                              >
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                                PDF
+                                              </a>
+                                            </>
+                                          ) : (
+                                            <Image 
+                                              src={src} 
+                                              alt={`Role highlight ${i}`}
+                                              fill
+                                              className="object-cover"
+                                            />
+                                          )}
+                                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-50 pointer-events-none" />
+                                        </div>
+                                      );
+                                    })}
                                   />
                               </div>
                             )}

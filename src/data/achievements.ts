@@ -1,3 +1,5 @@
+import rawAchievements from './achievements.json';
+
 export interface Achievement {
   id: string;
   title: string;
@@ -8,7 +10,7 @@ export interface Achievement {
   rpRank?: number;
 }
 
-export const achievements: Achievement[] = [
+const curatedAchievements: Achievement[] = [
   {
     id: "sundar-pichai",
     title: "Meeting Sundar Pichai as Top 6 Google Student Ambassador",
@@ -66,3 +68,22 @@ export const achievements: Achievement[] = [
     rpRank: 4,
   }
 ];
+
+const scrapedAchievements: Achievement[] = rawAchievements.map((post: any) => {
+  let title = post.content ? post.content.split('\n')[0] : 'LinkedIn Post';
+  if (title.length > 60) title = title.substring(0, 60) + '...';
+  
+  const dateObj = new Date(post.postedAt?.date || Date.now());
+  const formattedDate = dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+  return {
+    id: post.id,
+    title: title,
+    description: post.content || '',
+    tags: ["LinkedIn"],
+    date: formattedDate,
+    media: post.postImages ? post.postImages.map((img: any) => img.url) : [],
+  };
+});
+
+export const achievements: Achievement[] = [...curatedAchievements, ...scrapedAchievements];

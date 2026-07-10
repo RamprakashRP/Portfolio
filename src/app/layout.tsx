@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import GlobalBackground from "@/components/GlobalBackground";
 import GradualBlur from "@/components/GradualBlur";
 import Loader from "@/components/Loader";
+import ScrollHandler from "@/components/ScrollHandler";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -37,6 +38,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-transparent" suppressHydrationWarning>
         <Loader />
+        <ScrollHandler />
         <GlobalBackground />
         
         {/* Global Fading Edges (Bottom Only, Small & Smooth) */}
