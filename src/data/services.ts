@@ -51,6 +51,6 @@ export const rightCards: ServiceData[] = [
     title: 'Ambassador Roles',
     iconName: 'Award',
     description: 'We take pride in representing brands and platforms, fostering community growth, organizing outreach, and promoting innovation.',
-    images: ['/services/ambassador1.avif', '/services/ambassador2.avif']
+    images: ['/Microsoft Logo.png', '/google.png']
   }
 ];

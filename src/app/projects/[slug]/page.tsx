@@ -5,6 +5,30 @@ import { projectsList } from '@/data/projects';
 
 // Mock data that would typically come from a CMS or database
 const projectsData: Record<string, any> = {
+  neuroscript: {
+    title: 'NeuroScript: Digital to Organic Handwriting',
+    description: 'A sophisticated full-stack application that transforms digital text into highly realistic, organic handwriting. It features multi-page PDF compilation, exact physical paper dimensions (A4, Classmate Long, Short), cloud storage integration, and a custom physics engine for natural character jitter, dynamic kerning, and line drift.',
+    liveUrl: '#',
+    client: 'Personal Project',
+    service: 'Fullstack Development',
+    info: {
+      goal: "Awaiting Goal content...",
+      challenge: "Awaiting Challenge content...",
+      result: "Awaiting Result content..."
+    }
+  },
+  omnivault: {
+    title: 'OmniVault: Secure Data Governance',
+    description: "A hybrid framework integrating Blockchain and encrypted Cloud storage to solve the 'Trust–Scalability–Privacy' trilemma. It utilizes Zero-Knowledge Proofs and local AI classification to ensure verifiable data sharing without revealing sensitive content.",
+    liveUrl: 'https://omnivault-core.vercel.app/',
+    client: 'Personal Project',
+    service: 'Web3 & AI',
+    info: {
+      goal: "Awaiting Goal content...",
+      challenge: "Awaiting Challenge content...",
+      result: "Awaiting Result content..."
+    }
+  },
   ecoscan: {
     title: 'EcoScan',
     description: "EcoScan is an AI-based web app that identifies electronic waste through image uploads. It provides smart recycling, reuse, or repair suggestions using Google's Gemini API. The system promotes eco-friendly disposal by calculating an item's environmental impact.",

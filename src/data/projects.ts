@@ -15,6 +15,44 @@ export interface Project {
 
 export const projectsList: Project[] = [
   {
+    id: 'neuroscript',
+    name: 'NeuroScript: Digital to Organic Handwriting',
+    imageType: 'dark',
+    description: 'A sophisticated full-stack application that transforms digital text into highly realistic, organic handwriting. It features multi-page PDF compilation, exact physical paper dimensions (A4, Classmate Long, Short), cloud storage integration, and a custom physics engine for natural character jitter, dynamic kerning, and line drift.',
+    category: 'Fullstack',
+    date: '2026',
+    period: 'Jan 2026 - Present',
+    sortDate: new Date('2026-01-01').getTime(),
+    tags: ['Next.js', 'React', 'FastAPI', 'Python', 'Supabase', 'Tailwind CSS', 'Pillow'],
+    rpRank: 1,
+    media: [
+      '/projects/neuroscript/1.png', 
+      '/projects/neuroscript/2.png', 
+      '/projects/neuroscript/3.png', 
+      '/projects/neuroscript/4.png'
+    ],
+    isHighlighted: true,
+  },
+  {
+    id: 'omnivault',
+    name: 'OmniVault: Secure Data Governance',
+    imageType: 'dark',
+    description: "A hybrid framework integrating Blockchain and encrypted Cloud storage to solve the 'Trust–Scalability–Privacy' trilemma. It utilizes Zero-Knowledge Proofs and local AI classification to ensure verifiable data sharing without revealing sensitive content.",
+    category: 'Web3 & AI',
+    date: '2026',
+    period: 'Jan 2026 - May 2026',
+    sortDate: new Date('2026-01-01').getTime(),
+    tags: ['Next.js', 'Ethereum', 'IPFS', 'TensorFlow.js', 'zk-SNARKs', 'Solidity'],
+    rpRank: 1,
+    media: [
+      '/projects/omnivault/1.png', 
+      '/projects/omnivault/2.png', 
+      '/projects/omnivault/3.png', 
+      '/projects/omnivault/4.png'
+    ],
+    isHighlighted: true,
+  },
+  {
     id: 'ecoscan',
     name: 'EcoScan: E-Waste Solutions',
     imageType: 'dark',
