@@ -5,7 +5,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import { experiences } from '@/data/experience';
 import Stack from './Stack';
-import PdfPreview from './PdfPreview';
+import dynamic from 'next/dynamic';
+
+const PdfPreview = dynamic(() => import('./PdfPreview'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex flex-col items-center justify-center p-6 bg-gradient-to-br from-white/[0.08] to-transparent border border-white/10 relative animate-pulse">
+      <div className="w-20 h-24 bg-white/10 rounded-lg" />
+    </div>
+  )
+});
 
 export default function Experience() {
   const [visibleCount, setVisibleCount] = useState(4);
