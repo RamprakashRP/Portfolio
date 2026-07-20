@@ -26,9 +26,9 @@ export const projectsList: Project[] = [
     tags: ['Next.js', 'React', 'FastAPI', 'Python', 'Supabase', 'Tailwind CSS', 'Pillow'],
     rpRank: 1,
     media: [
-      '/projects/neuroscript/1.png', 
-      '/projects/neuroscript/2.png', 
-      '/projects/neuroscript/3.png', 
+      '/projects/neuroscript/1.png',
+      '/projects/neuroscript/2.png',
+      '/projects/neuroscript/3.png',
       '/projects/neuroscript/4.png'
     ],
     isHighlighted: true,
@@ -45,9 +45,9 @@ export const projectsList: Project[] = [
     tags: ['Next.js', 'Ethereum', 'IPFS', 'TensorFlow.js', 'zk-SNARKs', 'Solidity'],
     rpRank: 1,
     media: [
-      '/projects/omnivault/1.png', 
-      '/projects/omnivault/2.png', 
-      '/projects/omnivault/3.png', 
+      '/projects/omnivault/1.png',
+      '/projects/omnivault/2.png',
+      '/projects/omnivault/3.png',
       '/projects/omnivault/4.png'
     ],
     isHighlighted: true,
@@ -75,7 +75,7 @@ export const projectsList: Project[] = [
     sortDate: new Date('2024-08-01').getTime(),
     tags: ['React', 'API Integration', 'Fullstack'],
     rpRank: 9,
-    media: ['/projects/entracker/1.jpg', '/projects/entracker/2.jpg', '/projects/entracker/3.jpg', '/projects/entracker/4.jpg'],
+    media: ['/projects/entracker/1.png', '/projects/entracker/2.png', '/projects/entracker/3.png', '/projects/entracker/4.png'],
   },
   {
     id: 'srm-gpa-calculator',

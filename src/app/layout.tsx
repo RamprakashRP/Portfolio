@@ -18,11 +18,54 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
 export const metadata: Metadata = {
-  title: "RP Portfolio",
-  description: "Software Developer & AIML Professional",
+  title: {
+    template: "%s | Ramprakash Raja",
+    default: "Ramprakash Raja - Portfolio",
+  },
+  description: "Ramprakash Raja — final-year engineering student headed to the MDSAI program at University of Waterloo, top 10 Google Student Ambassador (India), and Microsoft Student Ambassador.",
+  keywords: [
+    "Ramprakash Raja",
+    "Software Developer",
+    "AIML Professional",
+    "Google Student Ambassador",
+    "Microsoft Student Ambassador",
+    "University of Waterloo",
+    "India Impact Summit",
+  ],
+  authors: [{ name: "Ramprakash Raja" }],
+  creator: "Ramprakash Raja",
+  metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Ramprakash Raja - Portfolio",
+    description: "Ramprakash Raja — final-year engineering student headed to the MDSAI program at University of Waterloo, top 10 Google Student Ambassador (India), and Microsoft Student Ambassador.",
+    url: siteUrl,
+    siteName: "Ramprakash Raja Portfolio",
+    images: [
+      {
+        url: "/profile-pic.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Ramprakash Raja",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ramprakash Raja - Portfolio",
+    description: "Ramprakash Raja — final-year engineering student headed to the MDSAI program at University of Waterloo, top 10 Google Student Ambassador (India), and Microsoft Student Ambassador.",
+    images: ["/profile-pic.jpeg"],
+  },
   icons: {
     icon: "/rp-logo.png",
+    apple: "/rp-logo.png",
   },
 };
 

@@ -8,7 +8,7 @@ const projectsData: Record<string, any> = {
   neuroscript: {
     title: 'NeuroScript: Digital to Organic Handwriting',
     description: 'A sophisticated full-stack application that transforms digital text into highly realistic, organic handwriting. It features multi-page PDF compilation, exact physical paper dimensions (A4, Classmate Long, Short), cloud storage integration, and a custom physics engine for natural character jitter, dynamic kerning, and line drift.',
-    liveUrl: '#',
+    liveUrl: 'https://neuro-script.vercel.app/',
     client: 'Personal Project',
     service: 'Fullstack Development',
     info: {
@@ -44,7 +44,7 @@ const projectsData: Record<string, any> = {
   entracker: {
     title: 'Entracker – Media Tracking System',
     description: "Entracker is a full-stack media tracking system designed to help users manage their watchlist of TV series, movies, anime series, and anime movies. It uses AI (Perplexity API) to automatically fetch media details and stores standardized data in Google Sheets. The frontend features a modern React UI with glassmorphism design and dynamic form handling. Users can add or update entries, view suggestions, and filter media types. Entracker simplifies media tracking with automation, intelligent prompts, and a clean user experience.",
-    liveUrl: '#',
+    liveUrl: 'https://entracker.vercel.app/',
     client: 'Self',
     service: 'Web Design',
     info: {
@@ -56,7 +56,7 @@ const projectsData: Record<string, any> = {
   'srm-gpa-calculator': {
     title: 'SRM GPA Calculator Web App',
     description: "SRM GPA Calculator is a web-based tool designed for SRM students to calculate SGPA and CGPA easily. It features a dynamic table with editable inputs and dropdowns for grades. Users can add or remove courses, and switch between SGPA and CGPA modes. The app includes real-time GPA calculation, reset, and edit options. Built with HTML, CSS, and JavaScript, it’s hosted on GitHub Pages for public access.",
-    liveUrl: '#',
+    liveUrl: 'https://ramprakashrp.github.io/SRM-GPA-Calculator/',
     client: 'Self',
     service: 'Web Design',
     info: {
