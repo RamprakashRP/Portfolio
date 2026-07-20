@@ -62,7 +62,7 @@ export default function RecentProjects() {
         {/* PROJECTS BENTO GRID (3 Cols) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
           
-          {projectsList.slice(0, 4).map((project, idx) => {
+          {[...projectsList].sort((a, b) => (a.rpRank || 0) - (b.rpRank || 0)).slice(0, 4).map((project, idx) => {
             const spans = bentoSpans[idx];
             return (
               <Link

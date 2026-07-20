@@ -54,7 +54,7 @@ export default function ProjectsPage() {
 
     filtered.sort((a, b) => {
       if (sortOption === 'rpRank') {
-        return (b.rpRank || 0) - (a.rpRank || 0);
+        return (a.rpRank || 0) - (b.rpRank || 0);
       } else if (sortOption === 'newest') {
         return (b.sortDate || 0) - (a.sortDate || 0);
       } else if (sortOption === 'oldest') {
