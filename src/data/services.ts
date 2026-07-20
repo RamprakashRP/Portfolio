@@ -51,6 +51,11 @@ export const rightCards: ServiceData[] = [
     title: 'Ambassador Roles',
     iconName: 'Award',
     description: 'We take pride in representing brands and platforms, fostering community growth, organizing outreach, and promoting innovation.',
-    images: ['/Microsoft Logo.png', '/google.png']
+    images: [
+      '/achievements/7434085093301956608_3.jpg',
+      '/achievements/7434085093301956608_0.jpg',
+      '/achievements/7480108347644436480_5.jpg',
+      '/experience/microsoft/beta-ambassador/Dean Appreciation.jpg'
+    ]
   }
 ];
