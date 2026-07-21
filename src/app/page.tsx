@@ -15,12 +15,20 @@ export default function Home() {
     name: "Ramprakash Raja",
     url: process.env.NEXT_PUBLIC_SITE_URL || "https://your-future-domain.com",
     image: `${process.env.NEXT_PUBLIC_SITE_URL || "https://your-future-domain.com"}/profile-pic.jpeg`,
-    jobTitle: "Software Developer & Student Ambassador",
+    jobTitle: "AI & Machine Learning Developer",
     description: "Final-year engineering student headed to the MDSAI program at University of Waterloo, top 10 Google Student Ambassador (India), and Microsoft Student Ambassador.",
+    alumniOf: {
+      "@type": "CollegeOrUniversity",
+      name: "SRM Institute of Science and Technology"
+    },
+    memberOf: {
+      "@type": "Organization",
+      name: "Google Student Ambassador"
+    },
     sameAs: [
-      "https://linkedin.com/in/YOUR_LINKEDIN", // TODO: Replace with actual URL
-      "https://github.com/YOUR_GITHUB",       // TODO: Replace with actual URL
-      "https://instagram.com/YOUR_INSTAGRAM"  // TODO: Replace with actual URL
+      "https://www.linkedin.com/in/ramprakashraja",
+      "https://github.com/RamprakashRP",
+      "https://www.instagram.com/ramprakash.raja_2004"
     ]
   };
 

@@ -80,8 +80,8 @@ export default function Profile() {
 
             {/* Text Wrapper */}
             <div className="px-4 pb-4">
-              <h3 className="text-2xl font-semibold mb-1">Hello I am Ramprakash Raja</h3>
-              <p className="text-sm text-neutral-400 mb-6">Final Year Student / Freelancer</p>
+              <h3 className="text-2xl font-semibold mb-1">Ramprakash Raja</h3>
+              <p className="text-sm text-neutral-400 mb-6">AI Developer & Data Scientist</p>
 
               {/* Social Media Row (3D Buttons) */}
               <div className="flex items-center justify-start gap-4 mb-6">
@@ -114,13 +114,7 @@ export default function Profile() {
             {/* About */}
             <div className="mb-10">
               <p className="text-sm md:text-base text-neutral-300 leading-loose font-light">
-                Hello, I am <strong className="text-white font-medium">Ramprakash Raja</strong>, a dedicated student pursuing education at
-                SRM IST Vadapalani Campus, specializing in Software Development.
-                Based in Chennai, Tamil Nadu, I am passionate about technology and
-                innovation, consistently working towards building my expertise in the
-                field. With a strong foundation in emerging technologies and a
-                commitment to excellence, I aspire to make a meaningful impact in the
-                software development industry.
+                <strong className="text-white font-medium">Ramprakash Raja</strong> is an AI Developer and Data Scientist based in Chennai, Tamil Nadu. Specializing in building scalable applications with Python, FastAPI, and TypeScript, he is passionate about technology and innovation. Currently an active <Link href="/achievements" className="text-white underline decoration-white/30 underline-offset-4 hover:decoration-white transition-colors">Google Student Ambassador</Link> and <Link href="/achievements" className="text-white underline decoration-white/30 underline-offset-4 hover:decoration-white transition-colors">Microsoft Student Ambassador</Link>, Ramprakash is dedicated to creating a meaningful impact in the software development industry. He is preparing for his upcoming transition to the University of Waterloo for the MDSAI Co-op program.
               </p>
             </div>
 

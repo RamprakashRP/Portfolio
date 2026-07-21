@@ -80,6 +80,7 @@ export default function Hero() {
             >
               Raja
             </motion.span>
+            <span className="sr-only"> - AI Developer & Data Scientist</span>
           </motion.h1>
 
           <motion.p 
@@ -89,14 +90,7 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-sm md:text-base text-neutral-200 leading-relaxed font-light mt-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] max-w-[95%]"
           >
-            Hello, I am <strong className="text-white font-medium drop-shadow-md">Ramprakash Raja</strong>, a dedicated student pursuing
-            education at SRM IST Vadapalani Campus, specializing in
-            Software Development. Based in Chennai, Tamil Nadu, I am
-            passionate about technology and innovation, consistently
-            working towards building my expertise in the field. With a strong
-            foundation in emerging technologies and a commitment to
-            excellence, I aspire to make a meaningful impact in the software
-            development industry.
+            <strong className="text-white font-medium drop-shadow-md">Ramprakash Raja</strong> is an AI Developer and Data Scientist based in Chennai, Tamil Nadu. Specializing in building scalable applications with Python, FastAPI, and TypeScript, he is an active Google Student Ambassador and Microsoft Student Ambassador. Ramprakash is currently preparing for his upcoming transition to the University of Waterloo for the MDSAI Co-op program.
           </motion.p>
 
           {/* Buttons - Elevated z-index to be above Lanyard */}
