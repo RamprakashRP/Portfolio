@@ -1,4 +1,7 @@
 import Hero from '@/components/Hero';
+import { supabase } from '@/lib/supabase';
+
+export const revalidate = 0;
 import Profile from '@/components/Profile';
 import Experience from '@/components/Experience';
 import Stats from '@/components/Stats';
@@ -8,7 +11,23 @@ import Benefits from '@/components/Benefits';
 import Reviews from '@/components/Reviews';
 import FAQ from '@/components/FAQ';
 
-export default function Home() {
+export default async function Home() {
+  const { data: achievements } = await supabase
+    .from('achievements')
+    .select('*')
+    .lte('rpRank', 4)
+    .gte('rpRank', 1)
+    .order('rpRank', { ascending: true });
+
+  const { data: projects } = await supabase
+    .from('projects')
+    .select('*')
+    .lte('rpRank', 4)
+    .gte('rpRank', 1)
+    .order('rpRank', { ascending: true });
+
+  const topAchievements = achievements || [];
+  const topProjects = projects || [];
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -38,12 +57,12 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Hero />
+      <Hero topAchievements={topAchievements} />
       <Profile />
       <Experience />
       <Stats />
       <Services />
-      <RecentProjects />
+      <RecentProjects topProjects={topProjects} />
       <Benefits />
       <Reviews />
       <FAQ />

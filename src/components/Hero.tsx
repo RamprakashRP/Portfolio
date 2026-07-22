@@ -8,8 +8,13 @@ import { ArrowUpRight, MousePointer2, Bell } from 'lucide-react';
 import Image from 'next/image';
 import { useLoaderStore } from '@/store/loaderStore';
 
-export default function Hero() {
+export default function Hero({ topAchievements = [] }: { topAchievements?: any[] }) {
   const { isLoading } = useLoaderStore();
+
+  const rank1 = topAchievements.find(a => a.rpRank === 1);
+  const rank2 = topAchievements.find(a => a.rpRank === 2);
+  const rank3 = topAchievements.find(a => a.rpRank === 3);
+  const rank4 = topAchievements.find(a => a.rpRank === 4);
 
   return (
     <section className="min-h-[150vh] text-white relative flex flex-col items-center pt-32 pb-24 px-6 font-sans">
@@ -163,52 +168,60 @@ export default function Hero() {
       <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10 mt-12">
 
         {/* Rank 1 (Col Span 2) */}
-        <Link href="/achievements" className="col-span-1 md:col-span-2 row-span-2 bg-[#09090a] border border-white/10 rounded-3xl p-6 h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
-          <Image src="/achievements/sundar-pichai/1.jpg" alt="Meeting Sundar Pichai" fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
-          <div className="relative z-20 flex justify-between items-end h-full">
-            <h3 className="text-2xl font-semibold text-white max-w-sm">Meeting Sundar Pichai as Top 6 Google Student Ambassador</h3>
-            <div className="w-12 h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-2 ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
-              <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />
+        {rank1 && (
+          <Link href="/achievements" className="col-span-1 md:col-span-2 row-span-2 bg-[#09090a] border border-white/10 rounded-3xl p-6 h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
+            <Image src={rank1.homeCover || rank1.media?.[0] || '/placeholder.jpg'} alt={rank1.title} fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
+            <div className="relative z-20 flex justify-between items-end h-full">
+              <h3 className="text-2xl font-semibold text-white max-w-sm">{rank1.title}</h3>
+              <div className="w-12 h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-2 ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
+                <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />
+              </div>
             </div>
-          </div>
-        </Link>
+          </Link>
+        )}
 
         {/* Rank 3 (Col Span 1) */}
-        <Link href="/achievements" className="col-span-1 md:col-span-1 row-span-2 bg-[#09090a] border border-white/10 rounded-3xl p-6 h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
-          <Image src="/achievements/overall-champions/1.jpg" alt="Overall Men's Trophy" fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
-          <div className="relative z-20 flex justify-between items-end h-full">
-            <h3 className="text-xl font-semibold text-white">Overall Men's Trophy - Sports Leadership</h3>
-            <div className="w-12 h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-2 ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
-              <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />
+        {rank3 && (
+          <Link href="/achievements" className="col-span-1 md:col-span-1 row-span-2 bg-[#09090a] border border-white/10 rounded-3xl p-6 h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
+            <Image src={rank3.previewCover || rank3.media?.[0] || '/placeholder.jpg'} alt={rank3.title} fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
+            <div className="relative z-20 flex justify-between items-end h-full">
+              <h3 className="text-xl font-semibold text-white">{rank3.title}</h3>
+              <div className="w-12 h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-2 ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
+                <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />
+              </div>
             </div>
-          </div>
-        </Link>
+          </Link>
+        )}
 
         {/* Rank 4 (Col Span 1) */}
-        <Link href="/achievements" className="col-span-1 md:col-span-1 row-span-2 bg-[#09090a] border border-white/10 rounded-3xl p-6 h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
-          <Image src="/achievements/dubai-ai-film-festival/1.jpg" alt="AI Film Festival Dubai" fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
-          <div className="relative z-20 flex justify-between items-end h-full">
-            <h3 className="text-xl font-semibold text-white">AI Film Festival Dubai - Winning Candidate</h3>
-            <div className="w-12 h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-2 ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
-              <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />
+        {rank4 && (
+          <Link href="/achievements" className="col-span-1 md:col-span-1 row-span-2 bg-[#09090a] border border-white/10 rounded-3xl p-6 h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
+            <Image src={rank4.previewCover || rank4.media?.[0] || '/placeholder.jpg'} alt={rank4.title} fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
+            <div className="relative z-20 flex justify-between items-end h-full">
+              <h3 className="text-xl font-semibold text-white">{rank4.title}</h3>
+              <div className="w-12 h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-2 ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
+                <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />
+              </div>
             </div>
-          </div>
-        </Link>
+          </Link>
+        )}
 
         {/* Rank 2 (Col Span 2) */}
-        <Link href="/achievements" className="col-span-1 md:col-span-2 row-span-2 bg-[#09090a] border border-white/10 rounded-3xl p-6 h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
-          <Image src="/achievements/best-outgoing-student/1.jpg" alt="Best Outgoing Student" fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
-          <div className="relative z-20 flex justify-between items-end h-full">
-            <h3 className="text-2xl font-semibold text-white max-w-sm">Best Outgoing Student (2022-2026) at SRM IST</h3>
-            <div className="w-12 h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-2 ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
-              <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />
+        {rank2 && (
+          <Link href="/achievements" className="col-span-1 md:col-span-2 row-span-2 bg-[#09090a] border border-white/10 rounded-3xl p-6 h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
+            <Image src={rank2.homeCover || rank2.media?.[0] || '/placeholder.jpg'} alt={rank2.title} fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
+            <div className="relative z-20 flex justify-between items-end h-full">
+              <h3 className="text-2xl font-semibold text-white max-w-sm">{rank2.title}</h3>
+              <div className="w-12 h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-2 ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
+                <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />
+              </div>
             </div>
-          </div>
-        </Link>
+          </Link>
+        )}
 
       </div>
     </section>

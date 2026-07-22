@@ -50,7 +50,7 @@ export async function GET() {
     if (aErr) console.error('Achievements Error:', aErr);
 
     // 3. Seed Experiences
-    const experiencesData = experiences.map(e => ({
+    const experiencesData = experiences.map((e: any) => ({
       company: e.company,
       logo: e.logo,
       location: e.location,

@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 
 import Image from 'next/image';
-import { projectsList } from '@/data/projects';
 
 const bentoSpans = [
   { colSpan: 'md:col-span-2', rowSpan: 'row-span-2' },
@@ -13,7 +12,7 @@ const bentoSpans = [
   { colSpan: 'md:col-span-2', rowSpan: 'row-span-2' }
 ];
 
-export default function RecentProjects() {
+export default function RecentProjects({ topProjects = [] }: { topProjects?: any[] }) {
   return (
     <section 
       id="recent-projects" 
@@ -62,7 +61,7 @@ export default function RecentProjects() {
         {/* PROJECTS BENTO GRID (3 Cols) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
           
-          {[...projectsList].sort((a, b) => (a.rpRank || 0) - (b.rpRank || 0)).slice(0, 4).map((project, idx) => {
+          {topProjects.slice(0, 4).map((project, idx) => {
             const spans = bentoSpans[idx];
             return (
               <Link
@@ -72,9 +71,9 @@ export default function RecentProjects() {
               >
                 <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-[#000000]/20 to-transparent z-10 opacity-90 group-hover:opacity-100 transition-opacity" />
                 <div className="absolute inset-0 w-full h-full opacity-100 group-hover:opacity-40 transition-opacity flex items-center justify-center p-6 pb-20">
-                  {project.media && project.media.length > 0 ? (
+                  {project.previewCover || (project.media && project.media.length > 0) ? (
                     <div className="w-full h-full rounded-2xl border border-white/5 overflow-hidden relative">
-                      <Image src={project.media[0]} alt={project.name} fill className="object-cover" />
+                      <Image src={project.previewCover || project.media?.[0]} alt={project.name || project.title} fill className="object-cover" />
                     </div>
                   ) : (
                     <div className="w-full h-full bg-neutral-900/50 rounded-2xl border border-white/5 flex items-center justify-center text-neutral-600 font-medium text-center">

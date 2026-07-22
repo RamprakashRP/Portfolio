@@ -13,6 +13,7 @@ export default function AdminPage() {
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingData, setEditingData] = useState<any>(null);
+  const [isSortOpen, setIsSortOpen] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -40,11 +41,20 @@ export default function AdminPage() {
   };
 
   const handleDelete = async (item: any) => {
-    if (confirm(`Are you sure you want to delete this ${activeTab.slice(0, -1)}?`)) {
-      const matchField = activeTab === 'experience' ? 'id' : 'id';
-      await supabase.from(activeTab).delete().eq(matchField, item[matchField]);
-      fetchData();
+    const matchField = activeTab === 'experience' ? 'id' : 'id';
+    await supabase.from(activeTab).delete().eq(matchField, item[matchField]);
+    
+    // Rank Cascading Logic for Deletion
+    if (typeof item.rpRank === 'number') {
+      const { data } = await supabase.from(activeTab).select('id, rpRank').gt('rpRank', item.rpRank);
+      if (data) {
+        for (const subsequentItem of data) {
+          await supabase.from(activeTab).update({ rpRank: subsequentItem.rpRank - 1 }).eq('id', subsequentItem.id);
+        }
+      }
     }
+
+    fetchData();
   };
 
   const filteredItems = useMemo(() => {
@@ -67,11 +77,21 @@ export default function AdminPage() {
       });
   }, [items, searchQuery, sortOrder]);
 
+  const allTags = useMemo(() => {
+    const tagsSet = new Set<string>();
+    items.forEach(item => {
+      if (item.tags && Array.isArray(item.tags)) {
+        item.tags.forEach((tag: string) => tagsSet.add(tag));
+      }
+    });
+    return Array.from(tagsSet).sort();
+  }, [items]);
+
   return (
-    <div className="min-h-screen bg-[#09090a] text-white p-8 pt-32 selection:bg-purple-500/30 relative overflow-hidden">
+    <div className="min-h-screen bg-[#09090a] text-white p-8 pt-32 selection:bg-red-500/30 relative overflow-hidden">
       {/* Background Glows */}
-      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-red-500/10 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-red-500/10 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto flex flex-col h-full relative z-10">
         
@@ -100,7 +120,7 @@ export default function AdminPage() {
                     : 'text-neutral-500 hover:text-white hover:bg-white/5 border border-transparent'
                 }`}
               >
-                <tab.icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-purple-400' : ''}`} />
+                <tab.icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-red-400' : ''}`} />
                 {tab.label}
               </button>
             ))}
@@ -109,7 +129,7 @@ export default function AdminPage() {
           {/* Add New Button */}
           <button 
             onClick={handleAddNew}
-            className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 rounded-full text-sm font-bold flex items-center justify-center space-x-2 transition-all shadow-[0_0_20px_rgba(168,85,247,0.3)] hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transform hover:-translate-y-0.5"
+            className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-400 hover:to-red-500 rounded-full text-sm font-bold flex items-center justify-center space-x-2 transition-all shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:shadow-[0_0_30px_rgba(239,68,68,0.5)] transform hover:-translate-y-0.5"
           >
             <Plus className="w-5 h-5" />
             <span>Add New Entry</span>
@@ -121,7 +141,7 @@ export default function AdminPage() {
           
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-8 relative z-10 gap-6">
             <h2 className="text-2xl font-semibold capitalize flex items-center gap-3">
-              <span className="w-2 h-8 bg-purple-500 rounded-full"></span>
+              <span className="w-2 h-8 bg-red-500 rounded-full"></span>
               {activeTab} Database
             </h2>
             
@@ -133,21 +153,35 @@ export default function AdminPage() {
                   placeholder="Search entries..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 bg-[#0a0a0b] border border-white/5 rounded-2xl text-sm text-white focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all placeholder:text-neutral-600 shadow-inner"
+                  className="w-full pl-11 pr-4 py-3 bg-[#0a0a0b] border border-white/5 rounded-2xl text-sm text-white focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all placeholder:text-neutral-600 shadow-inner"
                 />
               </div>
               
               <div className="relative w-full sm:w-auto">
-                <select
-                  value={sortOrder}
-                  onChange={(e) => setSortOrder(e.target.value as any)}
-                  className="appearance-none w-full sm:w-auto pl-11 pr-10 py-3 bg-[#0a0a0b] border border-white/5 rounded-2xl text-sm text-white focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all cursor-pointer shadow-inner"
+                <button
+                  onClick={() => setIsSortOpen(!isSortOpen)}
+                  className="w-full sm:w-48 pl-11 pr-4 py-3 bg-[#0a0a0b] border border-white/5 rounded-2xl text-sm text-left text-white focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all cursor-pointer shadow-inner relative"
                 >
-                  <option value="newest">Newest First</option>
-                  <option value="oldest">Oldest First</option>
-                  <option value="a-z">Alphabetical (A-Z)</option>
-                </select>
-                <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500 pointer-events-none" />
+                  <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
+                  {sortOrder === 'newest' ? 'Newest First' : sortOrder === 'oldest' ? 'Oldest First' : 'Alphabetical (A-Z)'}
+                </button>
+                {isSortOpen && (
+                  <div className="absolute top-full mt-2 left-0 w-full bg-[#0a0a0b] border border-white/10 rounded-2xl shadow-xl overflow-hidden z-50">
+                    {[
+                      { id: 'newest', label: 'Newest First' },
+                      { id: 'oldest', label: 'Oldest First' },
+                      { id: 'a-z', label: 'Alphabetical (A-Z)' }
+                    ].map(opt => (
+                      <button
+                        key={opt.id}
+                        onClick={() => { setSortOrder(opt.id as any); setIsSortOpen(false); }}
+                        className={`w-full text-left px-4 py-3 text-sm transition-colors ${sortOrder === opt.id ? 'bg-red-500/20 text-red-400' : 'text-neutral-400 hover:bg-white/5 hover:text-white'}`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -165,27 +199,24 @@ export default function AdminPage() {
               </div>
             ) : (
               filteredItems.map((item, idx) => (
-                <div key={item.id || idx} className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-5 bg-gradient-to-r from-white/[0.02] to-transparent border border-white/5 rounded-2xl hover:bg-white/[0.04] hover:border-white/10 transition-all group gap-4 shadow-sm hover:shadow-lg">
+                <div 
+                  key={item.id || idx} 
+                  onClick={() => handleEdit(item)}
+                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-5 bg-gradient-to-r from-white/[0.02] to-transparent border border-white/5 rounded-2xl hover:bg-white/[0.04] hover:border-red-500/30 transition-all group gap-4 shadow-sm hover:shadow-lg cursor-pointer"
+                >
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white group-hover:text-purple-300 transition-colors">{item.title || item.name || item.company}</h3>
+                    <h3 className="text-xl font-bold text-white group-hover:text-red-400 transition-colors">{item.title || item.name || item.company}</h3>
                     <p className="text-sm text-neutral-500 mt-2 line-clamp-2 leading-relaxed">{item.description || item.date || item.location}</p>
                     
                     {/* Timestamp Tag */}
                     {item.updated_at && (
-                      <span className="inline-block mt-3 px-2 py-1 bg-white/5 rounded-md text-[10px] uppercase tracking-widest text-neutral-500 font-medium border border-white/5">
+                      <span className="inline-block mt-3 px-2 py-1 bg-white/5 rounded-md text-[10px] uppercase tracking-widest text-neutral-500 font-medium border border-white/5 group-hover:border-red-500/20 group-hover:text-red-400/80 transition-colors">
                         Updated {new Date(item.updated_at).toLocaleDateString()}
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center space-x-3 w-full sm:w-auto justify-end">
-                    <button onClick={() => handleEdit(item)} className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-blue-500/20 border border-transparent hover:border-blue-500/30 rounded-xl text-neutral-400 hover:text-blue-400 transition-all">
-                      <Edit2 className="w-4 h-4" />
-                      <span className="text-sm font-medium">Edit</span>
-                    </button>
-                    <button onClick={() => handleDelete(item)} className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-red-500/20 border border-transparent hover:border-red-500/30 rounded-xl text-neutral-400 hover:text-red-400 transition-all">
-                      <Trash2 className="w-4 h-4" />
-                      <span className="text-sm font-medium hidden sm:inline">Delete</span>
-                    </button>
+                  <div className="flex items-center space-x-3 w-full sm:w-auto justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="text-sm font-medium text-red-400/80 bg-red-500/10 px-3 py-1.5 rounded-lg border border-red-500/20">Click to Edit</span>
                   </div>
                 </div>
               ))
@@ -200,6 +231,9 @@ export default function AdminPage() {
         type={activeTab} 
         initialData={editingData} 
         onSuccess={fetchData} 
+        onDelete={handleDelete}
+        allTags={allTags}
+        items={items}
       />
     </div>
   );

@@ -2,19 +2,42 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { ArrowUpRight, Calendar, Tag } from 'lucide-react';
-import { achievements, Achievement } from '@/data/achievements';
+import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
 import AchievementsGallery from '@/components/AchievementsGallery';
 import AchievementModal from '@/components/AchievementModal';
 
-export default function AchievementsPage() {
-  const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null);
+export default function AchievementsPageWrapper() {
+  const [selectedAchievement, setSelectedAchievement] = useState<any | null>(null);
+  const [achievements, setAchievements] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  React.useEffect(() => {
+    const fetchAchievements = async () => {
+      const { data } = await supabase
+        .from('achievements')
+        .select('*')
+        .order('rpRank', { ascending: true, nullsFirst: false });
+      
+      setAchievements(data || []);
+      setLoading(false);
+    };
+    fetchAchievements();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#09090a] text-white">
+        <div className="animate-pulse">Loading achievements...</div>
+      </div>
+    );
+  }
 
   const highlight1 = achievements.find(a => a.rpRank === 1);
   const highlight2 = achievements.find(a => a.rpRank === 2);
   const highlight3 = achievements.find(a => a.rpRank === 3);
   
-  const highlights = [highlight1, highlight2, highlight3].filter(Boolean) as typeof achievements;
+  const highlights = [highlight1, highlight2, highlight3].filter(Boolean);
   const allAchievements = achievements;
 
   return (
@@ -51,10 +74,10 @@ export default function AchievementsPage() {
                       } ${achievement.rpRank === 4 ? 'hidden md:flex' : 'flex'}`}
                     >
                       {/* Background Image (Cover) */}
-                      {achievement.media[0] && (
+                      {(achievement.highlightCover || achievement.media?.[0]) && (
                         <div className="absolute inset-0 z-0">
                           <Image 
-                            src={achievement.media[0]} 
+                            src={isRank1 ? (achievement.highlightCover || achievement.media[0]) : (achievement.previewCover || achievement.media[0])} 
                             alt={achievement.title}
                             fill
                             className="object-cover opacity-30 group-hover:opacity-50 group-hover:scale-105 transition-all duration-700"
@@ -67,7 +90,7 @@ export default function AchievementsPage() {
                       <div className="relative z-10 flex flex-col">
                         <div className="flex flex-wrap items-center gap-3 mb-4">
                         <div className="flex flex-wrap gap-2">
-                          {achievement.tags.map(tag => (
+                          {(achievement.tags || []).map((tag: string) => (
                             <div key={tag} className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-[10px] sm:text-xs font-medium">
                               <Tag className="w-3 h-3" />
                               <span>{tag}</span>
