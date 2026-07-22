@@ -299,7 +299,7 @@ export default function Experience() {
                                     randomRotation={true}
                                     sensitivity={180}
                                     sendToBackOnClick={true}
-                                    cards={role.images.map((src, i) => {
+                                    cards={role.images.map((src: string, i: number) => {
                                       const isPdf = src.toLowerCase().endsWith('.pdf');
                                       const isCertificate = src.toLowerCase().includes('certificate');
                                       const pdfViewParam = isCertificate ? 'FitV' : 'FitH';
