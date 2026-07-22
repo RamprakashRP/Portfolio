@@ -45,7 +45,7 @@ export async function getNotifications(): Promise<NotificationItem[]> {
         description: project.description || 'Check out my latest project.',
         type: 'project',
         dateStr: project.period || project.date || '',
-        timestamp: project.sortDate || parseDateString(project.period || project.date || ''),
+        timestamp: project.created_at ? Date.parse(project.created_at) : project.sortDate || parseDateString(project.period || project.date || ''),
         link: `/projects/${project.id || project.slug || project.name?.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
       });
     });
@@ -59,7 +59,7 @@ export async function getNotifications(): Promise<NotificationItem[]> {
         description: ach.description ? ach.description.substring(0, 100) + '...' : '',
         type: 'achievement',
         dateStr: ach.date || '',
-        timestamp: parseDateString(ach.date || ''),
+        timestamp: ach.created_at ? Date.parse(ach.created_at) : parseDateString(ach.date || ''),
         link: `/achievements`
       });
     });
@@ -75,7 +75,7 @@ export async function getNotifications(): Promise<NotificationItem[]> {
             description: role.position,
             type: 'role',
             dateStr: role.duration || '',
-            timestamp: parseDateString(role.duration || ''),
+            timestamp: company.created_at ? Date.parse(company.created_at) : parseDateString(role.duration || ''),
             link: `/#experience`
           });
         });
