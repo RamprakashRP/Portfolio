@@ -60,7 +60,7 @@ export async function getNotifications(): Promise<NotificationItem[]> {
         type: 'achievement',
         dateStr: ach.date || '',
         timestamp: ach.created_at ? Date.parse(ach.created_at) : parseDateString(ach.date || ''),
-        link: `/achievements`
+        link: `/achievements/${ach.id || ach.title?.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
       });
     });
   }
