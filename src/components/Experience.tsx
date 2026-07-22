@@ -68,7 +68,7 @@ export default function Experience() {
 
   const stackCards = React.useMemo(() => {
     if (!activeImages) return [];
-    return activeImages.map((src, i) => {
+    return activeImages.map((src: string, i: number) => {
       const isPdf = src.toLowerCase().endsWith('.pdf');
       return (
         <div key={i} className="relative w-full h-full rounded-2xl overflow-hidden bg-white/5 flex items-center justify-center">

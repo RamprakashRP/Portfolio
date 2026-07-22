@@ -16,7 +16,7 @@ export default function NotificationsPanel({ isOpen, onClose }: Props) {
 
   useEffect(() => {
     if (isOpen) {
-      setNotifications(getNotifications());
+      getNotifications().then(setNotifications);
     }
   }, [isOpen]);
 

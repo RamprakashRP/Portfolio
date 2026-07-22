@@ -1,6 +1,4 @@
-import { projectsList } from '@/data/projects';
-import { achievements } from '@/data/achievements';
-import { experiences } from '@/data/experience';
+import { supabase } from '@/lib/supabase';
 
 export type NotificationType = 'project' | 'achievement' | 'role';
 
@@ -30,51 +28,62 @@ function parseDateString(dateStr: string): number {
   return isNaN(parsed) ? 0 : parsed;
 }
 
-export function getNotifications(): NotificationItem[] {
+export async function getNotifications(): Promise<NotificationItem[]> {
   const notifications: NotificationItem[] = [];
 
-  // 1. Projects
-  projectsList.forEach(project => {
-    notifications.push({
-      id: `proj-${project.id}`,
-      title: `New Project: ${project.name}`,
-      description: project.description || 'Check out my latest project.',
-      type: 'project',
-      dateStr: project.period || project.date || '',
-      timestamp: project.sortDate || parseDateString(project.period || project.date || ''),
-      link: `/projects/${project.id}`
-    });
-  });
+  const [ { data: projects }, { data: achievements }, { data: experiences } ] = await Promise.all([
+    supabase.from('projects').select('*'),
+    supabase.from('achievements').select('*'),
+    supabase.from('experiences').select('*')
+  ]);
 
-  // 2. Achievements
-  achievements.forEach(ach => {
-    notifications.push({
-      id: `ach-${ach.id}`,
-      title: `Achievement Unlocked: ${ach.title}`,
-      description: ach.description.substring(0, 100) + '...',
-      type: 'achievement',
-      dateStr: ach.date,
-      timestamp: parseDateString(ach.date),
-      link: `/achievements`
-    });
-  });
-
-  // 3. Experiences (Roles)
-  experiences.forEach((company, cIdx) => {
-    company.roles.forEach((role, rIdx) => {
+  if (projects) {
+    projects.forEach(project => {
       notifications.push({
-        id: `role-${cIdx}-${rIdx}`,
-        title: `New Role at ${company.company}`,
-        description: role.position,
-        type: 'role',
-        dateStr: role.duration,
-        timestamp: parseDateString(role.duration),
-        link: `/#experience`
+        id: `proj-${project.id}`,
+        title: `New Project: ${project.name || project.title}`,
+        description: project.description || 'Check out my latest project.',
+        type: 'project',
+        dateStr: project.period || project.date || '',
+        timestamp: project.sortDate || parseDateString(project.period || project.date || ''),
+        link: `/projects/${project.id || project.slug || project.name?.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
       });
     });
-  });
+  }
 
-  // Sort descending by timestamp
+  if (achievements) {
+    achievements.forEach(ach => {
+      notifications.push({
+        id: `ach-${ach.id}`,
+        title: `Achievement Unlocked: ${ach.title}`,
+        description: ach.description ? ach.description.substring(0, 100) + '...' : '',
+        type: 'achievement',
+        dateStr: ach.date || '',
+        timestamp: parseDateString(ach.date || ''),
+        link: `/achievements`
+      });
+    });
+  }
+
+  if (experiences) {
+    experiences.forEach((company) => {
+      if (company.roles && Array.isArray(company.roles)) {
+        company.roles.forEach((role: any, rIdx: number) => {
+          notifications.push({
+            id: `role-${company.id}-${rIdx}`,
+            title: `New Role at ${company.company}`,
+            description: role.position,
+            type: 'role',
+            dateStr: role.duration || '',
+            timestamp: parseDateString(role.duration || ''),
+            link: `/#experience`
+          });
+        });
+      }
+    });
+  }
+
+  // Sort descending by timestamp (newest first)
   notifications.sort((a, b) => b.timestamp - a.timestamp);
 
   // Return the top 10 most recent
