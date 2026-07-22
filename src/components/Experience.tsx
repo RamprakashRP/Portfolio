@@ -2,8 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-
-import { experiences } from '@/data/experience';
+import { supabase } from '@/lib/supabase';
 import Stack from './Stack';
 import dynamic from 'next/dynamic';
 
@@ -17,10 +16,19 @@ const PdfPreview = dynamic(() => import('./PdfPreview'), {
 });
 
 export default function Experience() {
+  const [experiences, setExperiences] = useState<any[]>([]);
   const [visibleCount, setVisibleCount] = useState(4);
   const [hoveredRoleId, setHoveredRoleId] = useState<string | null>(null);
   const [lockedRoleId, setLockedRoleId] = useState<string | null>(null);
   const [topCardIndex, setTopCardIndex] = useState(0);
+
+  useEffect(() => {
+    const fetchExperiences = async () => {
+      const { data } = await supabase.from('experiences').select('*').order('rpRank', { ascending: true });
+      if (data) setExperiences(data);
+    };
+    fetchExperiences();
+  }, []);
 
   // Reset top card index when active role changes
   useEffect(() => {
@@ -217,19 +225,21 @@ export default function Experience() {
                   key={cIdx} 
                   className="relative group"
                 >
-                  {/* Card Header */}
-                  <div className="flex justify-between items-center mb-8 sticky top-[120px] bg-[#000000]/90 backdrop-blur-md z-30 py-4 border-b border-white/10">
-                    <h3 className="text-3xl font-black uppercase tracking-tight max-w-[70%]">
+                  {/* Card Header - Clean Sticky Design */}
+                  <div className="flex justify-between items-center mb-8 sticky top-[100px] z-30 py-6 before:absolute before:inset-0 before:bg-gradient-to-b before:from-[#09090a] before:via-[#09090a]/90 before:to-transparent before:-z-10 before:backdrop-blur-md">
+                    <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight max-w-[70%] bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">
                       {exp.company}
                     </h3>
-                    <div className="relative w-24 h-10 shrink-0">
-                      <Image 
-                        src={exp.logo} 
-                        alt={`${exp.company} logo`} 
-                        fill
-                        className="object-contain object-right"
-                      />
-                    </div>
+                    {exp.logo && (
+                      <div className="relative w-20 h-8 sm:w-28 sm:h-12 shrink-0">
+                        <Image 
+                          src={exp.logo} 
+                          alt={`${exp.company} logo`} 
+                          fill
+                          className="object-contain object-right drop-shadow-lg"
+                        />
+                      </div>
+                    )}
                   </div>
 
                   {/* Sub-Cards for Roles */}
