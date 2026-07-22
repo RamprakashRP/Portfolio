@@ -244,7 +244,7 @@ export default function Experience() {
 
                   {/* Sub-Cards for Roles */}
                   <div className="flex flex-col space-y-4">
-                    {exp.roles.map((role, rIdx) => {
+                    {exp.roles.map((role: any, rIdx: number) => {
                       const roleId = `${cIdx}-${rIdx}`;
                       const isHovered = hoveredRoleId === roleId;
                       const isLocked = lockedRoleId === roleId;
