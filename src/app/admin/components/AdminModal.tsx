@@ -342,24 +342,90 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
             </h4>
             
             <MediaPathField 
-              label="Upload Images (Comma separated)" 
-              value={formData.media || []} 
-              onChange={(v: any) => handleChange('media', v)} 
+              label="Cover Image (Media 1)" 
+              value={formData.media?.[0] ? [formData.media[0]] : []} 
+              onChange={(v: any) => {
+                const newMedia = [...(formData.media || [])];
+                newMedia[0] = v[0] || '';
+                handleChange('media', newMedia);
+              }}
               onUploadComplete={(urls: string[]) => {
                 const isTopRanked = typeof formData.rpRank === 'number' && formData.rpRank >= 1 && formData.rpRank <= 4;
-                if (isTopRanked && urls.length > 0) {
-                  if (urls.length === 1) {
+                if (urls.length > 0) {
+                  const newMedia = [...(formData.media || [])];
+                  newMedia[0] = urls[0];
+                  handleChange('media', newMedia);
+                  if (isTopRanked) {
                     setMasterImage(urls[0]);
                     setIsCropperOpen(true);
-                  } else {
-                    setSelectorUrls(urls);
                   }
                 }
               }}
               basePath="/projects/" 
               itemId={formData.id || (formData.name || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')} 
             />
-            {getMediaPreview()}
+            {formData.media?.[0] && <div className="w-32 h-20 relative rounded-xl overflow-hidden border border-white/10 mb-4"><img src={formData.media[0]} className="object-cover w-full h-full" /></div>}
+
+            <MediaPathField 
+              label="Goal Image (Media 2)" 
+              value={formData.media?.[1] ? [formData.media[1]] : []} 
+              onChange={(v: any) => {
+                const newMedia = [...(formData.media || [])];
+                newMedia[1] = v[0] || '';
+                handleChange('media', newMedia);
+              }}
+              onUploadComplete={(urls: string[]) => {
+                if (urls.length > 0) {
+                  const newMedia = [...(formData.media || [])];
+                  newMedia[1] = urls[0];
+                  handleChange('media', newMedia);
+                }
+              }}
+              basePath="/projects/" 
+              itemId={formData.id || (formData.name || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')} 
+            />
+            {formData.media?.[1] && <div className="w-32 h-20 relative rounded-xl overflow-hidden border border-white/10 mb-4"><img src={formData.media[1]} className="object-cover w-full h-full" /></div>}
+
+            <MediaPathField 
+              label="Challenge Image (Media 3)" 
+              value={formData.media?.[2] ? [formData.media[2]] : []} 
+              onChange={(v: any) => {
+                const newMedia = [...(formData.media || [])];
+                newMedia[2] = v[0] || '';
+                handleChange('media', newMedia);
+              }}
+              onUploadComplete={(urls: string[]) => {
+                if (urls.length > 0) {
+                  const newMedia = [...(formData.media || [])];
+                  newMedia[2] = urls[0];
+                  handleChange('media', newMedia);
+                }
+              }}
+              basePath="/projects/" 
+              itemId={formData.id || (formData.name || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')} 
+            />
+            {formData.media?.[2] && <div className="w-32 h-20 relative rounded-xl overflow-hidden border border-white/10 mb-4"><img src={formData.media[2]} className="object-cover w-full h-full" /></div>}
+
+            <MediaPathField 
+              label="Result Image (Media 4)" 
+              value={formData.media?.[3] ? [formData.media[3]] : []} 
+              onChange={(v: any) => {
+                const newMedia = [...(formData.media || [])];
+                newMedia[3] = v[0] || '';
+                handleChange('media', newMedia);
+              }}
+              onUploadComplete={(urls: string[]) => {
+                if (urls.length > 0) {
+                  const newMedia = [...(formData.media || [])];
+                  newMedia[3] = urls[0];
+                  handleChange('media', newMedia);
+                }
+              }}
+              basePath="/projects/" 
+              itemId={formData.id || (formData.name || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')} 
+            />
+            {formData.media?.[3] && <div className="w-32 h-20 relative rounded-xl overflow-hidden border border-white/10 mb-4"><img src={formData.media[3]} className="object-cover w-full h-full" /></div>}
+
             {getCoversPreview()}
           </div>
         </div>
