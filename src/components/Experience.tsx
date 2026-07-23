@@ -266,8 +266,8 @@ export default function Experience() {
                       return (
                         <div 
                           key={rIdx}
-                          onMouseEnter={() => setHoveredRoleId(roleId)}
-                          onMouseLeave={() => setHoveredRoleId(null)}
+                          onPointerEnter={(e) => { if (e.pointerType === 'mouse') setHoveredRoleId(roleId); }}
+                          onPointerLeave={(e) => { if (e.pointerType === 'mouse') setHoveredRoleId(null); }}
                           onClick={() => setLockedRoleId(isLocked ? null : roleId)}
                           className={`
                             relative p-6 rounded-2xl border transition-all duration-300 cursor-pointer overflow-hidden group/role
