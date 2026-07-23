@@ -193,9 +193,20 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
       if (!formData.homeCover && !formData.previewCover && !formData.highlightCover) return null;
       return (
         <div className="space-y-4 pt-4 border-t border-white/5">
-          <h4 className="text-sm font-semibold text-neutral-400 uppercase tracking-wider flex items-center gap-2">
-            <Crop className="w-4 h-4" /> Configured Covers
-          </h4>
+          <div className="flex items-center justify-between">
+            <h4 className="text-sm font-semibold text-neutral-400 uppercase tracking-wider flex items-center gap-2">
+              <Crop className="w-4 h-4" /> Configured Covers
+            </h4>
+            {typeof formData.rpRank === 'number' && formData.rpRank >= 1 && formData.rpRank <= 4 && (
+              <button
+                type="button"
+                onClick={handleConfigureCovers}
+                className="px-3 py-1.5 bg-white/10 hover:bg-white/20 border border-white/10 rounded-lg text-xs font-medium transition-all flex items-center gap-2"
+              >
+                <Crop className="w-3 h-3" /> Re-Configure Covers
+              </button>
+            )}
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-white/[0.02] p-4 rounded-2xl border border-white/5">
             {formData.homeCover && (
               <div className="flex flex-col space-y-2">
@@ -234,15 +245,6 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
             <h4 className="text-sm font-semibold text-neutral-400 uppercase tracking-wider flex items-center gap-2">
               <ImageIcon className="w-4 h-4" /> Uploaded Media Gallery
             </h4>
-            {typeof formData.rpRank === 'number' && formData.rpRank >= 1 && formData.rpRank <= 4 && (
-              <button
-                type="button"
-                onClick={handleConfigureCovers}
-                className="px-3 py-1.5 bg-white/10 hover:bg-white/20 border border-white/10 rounded-lg text-xs font-medium transition-all flex items-center gap-2"
-              >
-                <Crop className="w-3 h-3" /> Re-Configure Covers
-              </button>
-            )}
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-white/[0.02] p-4 rounded-2xl border border-white/5">
             {formData.media.map((url: string, idx: number) => (

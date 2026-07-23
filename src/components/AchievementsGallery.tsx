@@ -36,7 +36,9 @@ function HighlightedText({ text, query }: { text: string; query: string }) {
 }
 
 export default function AchievementsGallery({ achievements, onViewDetails }: Props) {
-  const [activeId, setActiveId] = useState<string>(achievements[0]?.id);
+  const [lockedId, setLockedId] = useState<string>(achievements[0]?.id);
+  const [hoverId, setHoverId] = useState<string | null>(null);
+  const activeId = hoverId || lockedId;
   const [searchQuery, setSearchQuery] = useState('');
   
   // Tag Filter State
@@ -286,9 +288,9 @@ export default function AchievementsGallery({ achievements, onViewDetails }: Pro
                   transition={{ duration: 0.4, ease: "easeInOut" }}
                   className="absolute inset-0 z-0"
                 >
-                  {activeAchievement.media[0] ? (
+                  {activeAchievement.highlightCover || activeAchievement.previewCover || activeAchievement.media[0] ? (
                     <Image 
-                      src={activeAchievement.media[0]} 
+                      src={activeAchievement.highlightCover || activeAchievement.previewCover || activeAchievement.media[0]} 
                       alt={activeAchievement.title}
                       fill
                       className="object-cover opacity-80"
@@ -367,15 +369,19 @@ export default function AchievementsGallery({ achievements, onViewDetails }: Pro
         </div>
 
         {/* RIGHT: Interactive Scrollable List */}
-        <div className="w-full lg:w-1/2 flex flex-col space-y-3 custom-scrollbar">
+        <div 
+          className="w-full lg:w-1/2 flex flex-col space-y-3 custom-scrollbar pb-10"
+          onMouseLeave={() => setHoverId(null)}
+        >
           {processedAchievements.map((achievement) => {
             const isActive = activeId === achievement.id;
+            const isLocked = lockedId === achievement.id;
             return (
               <div 
                 key={achievement.id}
-                onMouseEnter={() => setActiveId(achievement.id)}
+                onMouseEnter={() => setHoverId(achievement.id)}
                 onClick={() => {
-                  setActiveId(achievement.id);
+                  setLockedId(achievement.id);
                   if (window.innerWidth < 1024 && onViewDetails) {
                     onViewDetails(achievement);
                   }
@@ -384,7 +390,7 @@ export default function AchievementsGallery({ achievements, onViewDetails }: Pro
                   isActive 
                     ? 'bg-white/10 border-white/20 shadow-lg lg:scale-[1.02] z-10' 
                     : 'bg-transparent border-white/5 lg:border-transparent hover:bg-white/5'
-                }`}
+                } ${isLocked && !isActive ? 'ring-1 ring-white/10' : ''}`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1 pr-4">
@@ -418,9 +424,9 @@ export default function AchievementsGallery({ achievements, onViewDetails }: Pro
                   <div className={`w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 transition-all duration-500 ${
                     isActive ? 'opacity-40 grayscale' : 'opacity-100 grayscale-0 shadow-md ring-1 ring-white/10'
                   }`}>
-                    {achievement.media[0] ? (
+                    {achievement.highlightCover || achievement.previewCover || achievement.media[0] ? (
                       <Image 
-                        src={achievement.media[0]} 
+                        src={achievement.highlightCover || achievement.previewCover || achievement.media[0]} 
                         alt="" 
                         width={64} 
                         height={64} 
