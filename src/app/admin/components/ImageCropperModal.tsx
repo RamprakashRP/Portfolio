@@ -249,6 +249,8 @@ export default function ImageCropperModal({ isOpen, onClose, imageUrl, itemId, b
             {isUploading ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
+                <span>Processing & Uploading...</span>
+              </>
             ) : currentStepIndex < stepsToRender.length - 1 ? (
               <>
                 <span>Next</span>
