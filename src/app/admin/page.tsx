@@ -34,7 +34,7 @@ const ListItem = ({ item, activeTab, onClick, dragControls }: { item: any, activ
   return (
     <div 
       onClick={onClick}
-      className="flex flex-col p-5 bg-gradient-to-r from-white/[0.02] to-transparent border border-white/5 rounded-2xl hover:bg-white/[0.04] hover:border-red-500/30 transition-all group shadow-sm hover:shadow-lg cursor-pointer relative"
+      className="flex flex-col p-4 sm:p-5 bg-gradient-to-r from-white/[0.02] to-transparent border border-white/5 rounded-2xl hover:bg-white/[0.04] hover:border-red-500/30 transition-all group shadow-sm hover:shadow-lg cursor-pointer relative"
     >
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full">
         {dragControls && (
@@ -61,7 +61,7 @@ const ListItem = ({ item, activeTab, onClick, dragControls }: { item: any, activ
                   <Briefcase className="w-4 h-4 text-neutral-600" />
                   <span className="font-semibold text-neutral-300">{latestRole.position}</span>
                   <span className="text-neutral-500">•</span>
-                  <span>{latestRole.isCurrent !== false ? 'Currently Working Here' : (latestRole.endDate || 'Ended')}</span>
+                  <span>{latestRole.isCurrent !== false ? 'Current' : (latestRole.endDate || 'Ended')}</span>
                 </div>
               ) : (
                 <p>No roles defined.</p>
@@ -74,7 +74,7 @@ const ListItem = ({ item, activeTab, onClick, dragControls }: { item: any, activ
           )}
           
           {item.updated_at && (
-            <span className="inline-block mt-3 px-2 py-1 bg-white/5 rounded-md text-[10px] uppercase tracking-widest text-neutral-500 font-medium border border-white/5 group-hover:border-red-500/20 group-hover:text-red-400/80 transition-colors">
+            <span className="hidden sm:inline-block mt-3 px-2 py-1 bg-white/5 rounded-md text-[10px] uppercase tracking-widest text-neutral-500 font-medium border border-white/5 group-hover:border-red-500/20 group-hover:text-red-400/80 transition-colors">
               Updated {new Date(item.updated_at).toLocaleDateString()}
             </span>
           )}
@@ -84,7 +84,7 @@ const ListItem = ({ item, activeTab, onClick, dragControls }: { item: any, activ
           {isExperience && item.roles && item.roles.length > 1 && (
             <button 
               onClick={handleExpandClick}
-              className="p-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 text-neutral-400 transition-colors flex items-center gap-2"
+              className="px-3 py-1.5 sm:p-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 text-neutral-400 transition-colors flex items-center gap-2"
             >
               <span className="text-xs font-semibold">{item.roles.length} Roles</span>
               {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -296,10 +296,10 @@ export default function AdminPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-all capitalize ${
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-all capitalize whitespace-nowrap ${
                   activeTab === tab.id
-                    ? 'bg-gradient-to-b from-white/10 to-transparent border border-white/10 text-white shadow-lg'
-                    : 'text-neutral-500 hover:text-white hover:bg-white/5 border border-transparent'
+                    ? 'bg-white/10 text-white shadow-md'
+                    : 'text-neutral-500 hover:text-white hover:bg-white/5'
                 }`}
               >
                 <tab.icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-red-400' : ''}`} />
