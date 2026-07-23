@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '@/lib/supabase';
 import Stack from './Stack';
 import dynamic from 'next/dynamic';
+import { Briefcase } from 'lucide-react';
 
 const PdfPreview = dynamic(() => import('./PdfPreview'), {
   ssr: false,
@@ -219,9 +220,20 @@ export default function Experience() {
           </div>
 
           {/* Right Column: Experience Cards */}
-          <div className="flex flex-col">
-            <div className="flex flex-col space-y-16">
-              {experiences.slice(0, visibleCount).map((exp, cIdx) => (
+          <div className="flex flex-col w-full">
+            {experiences.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-32 px-4 border border-dashed border-white/10 rounded-3xl bg-white/[0.02] w-full mt-8 lg:mt-0">
+                <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-6">
+                  <Briefcase className="w-6 h-6 text-neutral-500" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-2">No Experiences Yet</h3>
+                <p className="text-neutral-500 text-center max-w-sm">
+                  Greatness is brewing! Check back soon to see the latest roles and adventures.
+                </p>
+              </div>
+            ) : (
+              <div className="flex flex-col space-y-16">
+                {experiences.slice(0, visibleCount).map((exp, cIdx) => (
                 <div 
                   key={cIdx} 
                   className="relative group"
@@ -375,6 +387,7 @@ export default function Experience() {
                 </div>
               ))}
             </div>
+            )}
 
             {/* Load More Button */}
             {visibleCount < experiences.length && (

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import Lanyard from './Lanyard';
-import { ArrowUpRight, MousePointer2, Bell } from 'lucide-react';
+import { ArrowUpRight, MousePointer2, Bell, Download } from 'lucide-react';
 import Image from 'next/image';
 import { useLoaderStore } from '@/store/loaderStore';
 
@@ -109,6 +109,9 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
             <Link href="/projects" className="px-6 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-sm font-medium transition-colors">
               See All Projects
             </Link>
+            <a href="/resume.pdf" download className="px-6 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-sm font-medium transition-colors flex items-center gap-2 group">
+              Resume <Download className="w-3.5 h-3.5 text-neutral-400 group-hover:text-white transition-colors" />
+            </a>
             <Link href="/contact" className="px-6 py-2.5 rounded-full bg-gradient-to-b from-white to-neutral-200 text-black text-sm font-semibold hover:opacity-90 transition-opacity shadow-[0_0_30px_rgba(255,255,255,0.4)]">
               Contact Now
             </Link>

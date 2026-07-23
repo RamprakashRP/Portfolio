@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, Search, ChevronDown, Check } from 'lucide-react';
+import { ArrowUpRight, Search, ChevronDown, Check, FolderOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import Image from 'next/image';
@@ -193,8 +193,19 @@ export default function ProjectsPage() {
         </div>
 
         {/* Masonry / Grid */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
-          <AnimatePresence mode="popLayout">
+        {filteredAndSortedProjects.length === 0 ? (
+          <div className="w-full flex flex-col items-center justify-center py-32 px-4 border border-dashed border-white/10 rounded-3xl bg-white/[0.02] mb-20">
+            <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-6">
+              <FolderOpen className="w-6 h-6 text-neutral-500" />
+            </div>
+            <h3 className="text-2xl font-bold text-white mb-2">No Projects Found</h3>
+            <p className="text-neutral-500 text-center max-w-sm">
+              Try adjusting your search or filters. Greatness is brewing!
+            </p>
+          </div>
+        ) : (
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+            <AnimatePresence mode="popLayout">
             {filteredAndSortedProjects.map((project, idx) => (
               <motion.div
                 key={project.id}
@@ -259,20 +270,8 @@ export default function ProjectsPage() {
               </motion.div>
             ))}
           </AnimatePresence>
-          
-          {filteredAndSortedProjects.length === 0 && (
-            <div className="col-span-full py-20 flex flex-col items-center justify-center text-neutral-500">
-              <Search className="w-12 h-12 mb-4 opacity-20" />
-              <p>No projects match your current filters.</p>
-              <button 
-                onClick={() => { setSearchQuery(''); setActiveTags([]); }}
-                className="mt-4 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-xs text-white hover:bg-white/10 transition-colors"
-              >
-                Clear Filters
-              </button>
-            </div>
-          )}
         </div>
+        )}
 
       </div>
     </main>
