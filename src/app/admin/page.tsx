@@ -344,19 +344,19 @@ export default function AdminPage() {
                   className="w-auto sm:w-48 pl-9 sm:pl-11 pr-3 sm:pr-4 py-2.5 sm:py-3 bg-[#0a0a0b] border border-white/5 rounded-xl sm:rounded-2xl text-xs sm:text-sm text-left text-white focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all cursor-pointer shadow-inner relative flex items-center gap-2"
                 >
                   <Filter className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
-                  <span className="hidden sm:inline">{sortOrder === 'newest' ? 'Newest First' : sortOrder === 'oldest' ? 'Oldest First' : sortOrder === 'rprank' ? 'RP Rank' : sortOrder === 'recently-edited' ? 'Recently Edited' : 'Alphabetical (A-Z)'}</span>
+                  <span className="hidden sm:inline">{sortOrder === 'newest' ? 'New' : sortOrder === 'oldest' ? 'Old' : sortOrder === 'rprank' ? 'RP' : sortOrder === 'recently-edited' ? 'Recent' : 'A-Z'}</span>
                   <span className="sm:hidden">Sort</span>
                 </button>
                 {isSortOpen && (
                   <div className="absolute top-full mt-2 left-0 w-full bg-[#0a0a0b] border border-white/10 rounded-2xl shadow-xl overflow-hidden z-50">
                     {(activeTab === 'experience'
-                      ? [{ id: 'rprank', label: 'RP Rank' }]
+                      ? [{ id: 'rprank', label: 'RP' }]
                       : [
-                          { id: 'newest', label: 'Newest First' },
-                          { id: 'oldest', label: 'Oldest First' },
-                          { id: 'recently-edited', label: 'Recently Edited' },
-                          { id: 'a-z', label: 'Alphabetical (A-Z)' },
-                          { id: 'rprank', label: 'RP Rank' }
+                          { id: 'newest', label: 'New' },
+                          { id: 'oldest', label: 'Old' },
+                          { id: 'recently-edited', label: 'Recent' },
+                          { id: 'a-z', label: 'A-Z' },
+                          { id: 'rprank', label: 'RP' }
                         ]
                     ).map(opt => (
                       <button
