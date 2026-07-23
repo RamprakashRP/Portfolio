@@ -36,10 +36,10 @@ const ListItem = ({ item, activeTab, onClick, dragControls }: { item: any, activ
       onClick={onClick}
       className="flex flex-col p-4 sm:p-5 bg-gradient-to-r from-white/[0.02] to-transparent border border-white/5 rounded-2xl hover:bg-white/[0.04] hover:border-red-500/30 transition-all group shadow-sm hover:shadow-lg cursor-pointer relative"
     >
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full">
+      className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 w-full">
         {dragControls && (
           <div 
-            className="flex items-center justify-center p-2 -ml-2 cursor-grab active:cursor-grabbing text-neutral-600 hover:text-white transition-colors"
+            className="flex items-center justify-center p-1 sm:p-2 -ml-2 sm:-ml-2 cursor-grab active:cursor-grabbing text-neutral-600 hover:text-white transition-colors"
             onPointerDown={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -50,18 +50,18 @@ const ListItem = ({ item, activeTab, onClick, dragControls }: { item: any, activ
           </div>
         )}
         <div className="flex-1 w-full overflow-hidden">
-          <h3 className="text-xl font-bold text-white group-hover:text-red-400 transition-colors">
+          <h3 className="text-base sm:text-xl font-bold text-white group-hover:text-red-400 transition-colors truncate">
             {item.title || item.name || item.company}
           </h3>
           
           {isExperience ? (
-            <div className="mt-2 text-sm text-neutral-500">
+            <div className="mt-1 sm:mt-2 text-xs sm:text-sm text-neutral-500">
               {latestRole ? (
-                <div className="flex items-center gap-2">
-                  <Briefcase className="w-4 h-4 text-neutral-600" />
-                  <span className="font-semibold text-neutral-300">{latestRole.position}</span>
-                  <span className="text-neutral-500">•</span>
-                  <span>{latestRole.isCurrent !== false ? 'Current' : (latestRole.endDate || 'Ended')}</span>
+                <div className="flex items-center gap-2 truncate">
+                  <Briefcase className="w-3 h-3 sm:w-4 sm:h-4 text-neutral-600 shrink-0" />
+                  <span className="font-semibold text-neutral-300 truncate">{latestRole.position}</span>
+                  <span className="text-neutral-500 shrink-0">•</span>
+                  <span className="shrink-0">{latestRole.isCurrent !== false ? 'Current' : (latestRole.endDate || 'Ended')}</span>
                 </div>
               ) : (
                 <p>No roles defined.</p>
@@ -278,14 +278,14 @@ export default function AdminPage() {
       <div className="max-w-6xl mx-auto flex flex-col h-full relative z-10">
         
         {/* Header Section */}
-        <div className="mb-10 text-center sm:text-left">
+        <div className="hidden sm:block mb-10 text-left">
           <h1 className="text-4xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/50 mb-4">
             Command Center
           </h1>
           <p className="text-neutral-400 text-lg">Manage your portfolio data dynamically without touching code.</p>
         </div>
 
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-6">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 sm:mb-8 gap-4 sm:gap-6">
           {/* Nav Tabs */}
           <div className="flex w-full md:w-auto overflow-x-auto hide-scrollbar bg-[#111113]/80 backdrop-blur-xl border border-white/5 rounded-full p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
             {[
@@ -327,25 +327,26 @@ export default function AdminPage() {
               {activeTab} Database
             </h2>
             
-            <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
-              <div className="relative w-full sm:w-72">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
+            <div className="flex flex-row items-center gap-2 sm:gap-4 w-full lg:w-auto">
+              <div className="relative flex-1 sm:w-72">
+                <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
                 <input 
                   type="text"
                   placeholder="Search entries..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 bg-[#0a0a0b] border border-white/5 rounded-2xl text-sm text-white focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all placeholder:text-neutral-600 shadow-inner"
+                  className="w-full pl-9 sm:pl-11 pr-3 sm:pr-4 py-2.5 sm:py-3 bg-[#0a0a0b] border border-white/5 rounded-xl sm:rounded-2xl text-xs sm:text-sm text-white focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all placeholder:text-neutral-600 shadow-inner"
                 />
               </div>
               
-              <div className="relative w-full sm:w-auto">
+              <div className="relative w-auto">
                 <button
                   onClick={() => setIsSortOpen(!isSortOpen)}
-                  className="w-full sm:w-48 pl-11 pr-4 py-3 bg-[#0a0a0b] border border-white/5 rounded-2xl text-sm text-left text-white focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all cursor-pointer shadow-inner relative"
+                  className="w-auto sm:w-48 pl-9 sm:pl-11 pr-3 sm:pr-4 py-2.5 sm:py-3 bg-[#0a0a0b] border border-white/5 rounded-xl sm:rounded-2xl text-xs sm:text-sm text-left text-white focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all cursor-pointer shadow-inner relative flex items-center gap-2"
                 >
-                  <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
-                  {sortOrder === 'newest' ? 'Newest First' : sortOrder === 'oldest' ? 'Oldest First' : sortOrder === 'rprank' ? 'RP Rank' : sortOrder === 'recently-edited' ? 'Recently Edited' : 'Alphabetical (A-Z)'}
+                  <Filter className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
+                  <span className="hidden sm:inline">{sortOrder === 'newest' ? 'Newest First' : sortOrder === 'oldest' ? 'Oldest First' : sortOrder === 'rprank' ? 'RP Rank' : sortOrder === 'recently-edited' ? 'Recently Edited' : 'Alphabetical (A-Z)'}</span>
+                  <span className="sm:hidden">Sort</span>
                 </button>
                 {isSortOpen && (
                   <div className="absolute top-full mt-2 left-0 w-full bg-[#0a0a0b] border border-white/10 rounded-2xl shadow-xl overflow-hidden z-50">
