@@ -242,7 +242,7 @@ export default function ImageCropperModal({ isOpen, onClose, imageUrl, itemId, b
           </div>
 
           <button
-            onClick={handleNextOrSave}
+            onClick={handleNext}
             disabled={isUploading}
             className="w-full sm:w-auto px-8 py-3.5 bg-red-500 hover:bg-red-600 text-white rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(239,68,68,0.3)] flex items-center justify-center gap-2 disabled:opacity-50"
           >
