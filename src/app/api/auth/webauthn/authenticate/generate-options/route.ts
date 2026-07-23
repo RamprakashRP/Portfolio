@@ -1,10 +1,13 @@
 import { NextResponse } from 'next/server';
 import { generateAuthenticationOptions } from '@simplewebauthn/server';
 import { cookies } from 'next/headers';
-import { rpID, ADMIN_USER_ID } from '@/lib/webauthn';
+import { ADMIN_USER_ID } from '@/lib/webauthn';
 import { supabase } from '@/lib/supabase';
 
-export async function GET() {
+export async function GET(req: Request) {
+  const url = new URL(req.url);
+  const rpID = url.hostname;
+
   try {
     const { data: credentials } = await supabase
       .from('passkey_credentials')

@@ -1,10 +1,13 @@
 import { NextResponse } from 'next/server';
 import { generateRegistrationOptions } from '@simplewebauthn/server';
 import { cookies } from 'next/headers';
-import { rpName, rpID, ADMIN_USER_ID, ADMIN_USERNAME } from '@/lib/webauthn';
+import { rpName, ADMIN_USER_ID, ADMIN_USERNAME } from '@/lib/webauthn';
 import { supabase } from '@/lib/supabase';
 
-export async function GET() {
+export async function GET(req: Request) {
+  const url = new URL(req.url);
+  const rpID = url.hostname;
+
   try {
     // 1. Fetch existing credentials for the admin user so we don't re-register the same device
     const { data: credentials } = await supabase

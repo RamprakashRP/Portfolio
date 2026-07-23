@@ -1,10 +1,14 @@
 import { NextResponse } from 'next/server';
 import { verifyRegistrationResponse } from '@simplewebauthn/server';
 import { cookies } from 'next/headers';
-import { rpID, origin, ADMIN_USER_ID } from '@/lib/webauthn';
+import { ADMIN_USER_ID } from '@/lib/webauthn';
 import { supabase } from '@/lib/supabase';
 
 export async function POST(req: Request) {
+  const url = new URL(req.url);
+  const rpID = url.hostname;
+  const origin = url.origin;
+
   try {
     const body = await req.json();
     

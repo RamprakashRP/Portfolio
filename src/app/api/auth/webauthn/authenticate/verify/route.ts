@@ -1,13 +1,16 @@
 import { NextResponse } from 'next/server';
 import { verifyAuthenticationResponse } from '@simplewebauthn/server';
 import { cookies } from 'next/headers';
-import { rpID, origin } from '@/lib/webauthn';
 import { supabase } from '@/lib/supabase';
 import { SignJWT } from 'jose';
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || 'fallback-secret-for-development-only-change-in-prod');
 
 export async function POST(req: Request) {
+  const url = new URL(req.url);
+  const rpID = url.hostname;
+  const origin = url.origin;
+
   try {
     const body = await req.json();
     const cookieStore = await cookies();
