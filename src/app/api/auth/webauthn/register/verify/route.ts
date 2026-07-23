@@ -34,7 +34,7 @@ export async function POST(req: Request) {
       const { id, publicKey, counter } = credential;
 
       // Base64Url encode buffer
-      const credentialIDBase64 = Buffer.from(id).toString('base64url');
+      const credentialIDBase64 = id; // id is already a base64url string in v13
       const publicKeyBase64 = Buffer.from(publicKey).toString('base64url');
 
       // Save to Supabase
