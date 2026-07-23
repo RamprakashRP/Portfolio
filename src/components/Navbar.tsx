@@ -207,6 +207,15 @@ export default function Navbar() {
                 transition={{ duration: 0.3 }}
                 className="flex flex-col items-start w-full px-2 pb-2"
               >
+                <Link
+                  href="/"
+                  onClick={(e) => handleNavClick(e, '/', 'RP')}
+                  className={`w-full py-3 px-3 text-lg font-medium transition-colors border-b border-white/5 ${
+                    activeItem === 'RP' ? 'text-white' : 'text-neutral-400'
+                  }`}
+                >
+                  Home
+                </Link>
                 {navItems.filter(item => !item.isLogo).map((item) => (
                   <Link
                     key={item.name}
