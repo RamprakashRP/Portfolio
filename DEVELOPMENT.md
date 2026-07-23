@@ -41,9 +41,15 @@ The Admin panel uses hardware-bound **Passkeys** (WebAuthn) instead of a passwor
 
 ### Registering New Devices
 Because passkeys are hardware-bound, you must register every physical device (Phone, iPad, PC) you want to use.
-- Navigate directly to `/admin/register-device`.
-- Enter the hardcoded developer secret (`ramprakash_secret_2026`).
-- Click the register button and provide your biometric. This saves the device's public key to the Supabase database.
+For security, the registration page is completely disabled in production by using a Next.js private folder (prefixing the folder name with an underscore: `_register-device`).
+
+When you want to add a new device in the future:
+1. In your code editor, rename `src/app/admin/_register-device` to `src/app/admin/register-device`.
+2. Run your local server (`npm run dev`) or push to a temporary Vercel preview.
+3. Navigate directly to `/admin/register-device`.
+4. Enter the hardcoded developer secret (`ramprakash_secret_2026`).
+5. Click the register button and provide your biometric. This saves the device's public key to your production Supabase database.
+6. **Important**: Rename the folder back to `_register-device` when you are done to secure your site again!
 
 ## 🖼️ Media & Image Uploads
 - **Cropping**: When adding images in the Admin Panel, we use `react-image-crop` to allow the user to crop images to standard aspect ratios (e.g., 4:3, 16:9) before uploading.
