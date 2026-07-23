@@ -34,9 +34,9 @@ export default function ImageCropperModal({ isOpen, onClose, imageUrl, itemId, b
   const stepsToRender = targetCrop ? STEPS.filter(s => s.id === targetCrop) : STEPS;
   
   const [skipCrop, setSkipCrop] = useState<Record<string, boolean>>(() => ({
-    preview: !!existingUrls?.preview,
-    home: !!existingUrls?.home,
-    highlight: !!existingUrls?.highlight
+    preview: targetCrop === 'preview' ? false : !!existingUrls?.preview,
+    home: targetCrop === 'home' ? false : !!existingUrls?.home,
+    highlight: targetCrop === 'highlight' ? false : !!existingUrls?.highlight
   }));
   
   // States per tab
