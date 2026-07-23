@@ -186,9 +186,17 @@ export default function AdminPage() {
 
         const getDateValue = (item: any) => {
           if (activeTab === 'experience' && item.roles && item.roles.length > 0) {
-            const latestRole = item.roles[item.roles.length - 1];
-            if (latestRole.startDate) {
-              return new Date(latestRole.startDate).getTime();
+            const activeRoles = item.roles.filter((r: any) => r.isCurrent !== false);
+            if (activeRoles.length > 0) {
+              const latestActive = activeRoles[activeRoles.length - 1];
+              const startTime = new Date(latestActive.startDate || 0).getTime();
+              // Add a massive constant so active roles always float above inactive ones
+              return 10000000000000 + startTime;
+            } else {
+              const sorted = [...item.roles].sort((a: any, b: any) => new Date(b.startDate || 0).getTime() - new Date(a.startDate || 0).getTime());
+              if (sorted[0] && sorted[0].startDate) {
+                return new Date(sorted[0].startDate).getTime();
+              }
             }
           }
           return new Date(item.created_at || item.updated_at || 0).getTime();
