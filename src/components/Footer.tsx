@@ -1,22 +1,41 @@
 'use client';
-import React from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Mail } from 'lucide-react';
 import { FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa';
 import Logo from '@/components/Logo';
 
 export default function Footer() {
+  const router = useRouter();
+  const clickCount = useRef(0);
+  const clickTimer = useRef<NodeJS.Timeout | null>(null);
+
+  const handleLogoClick = () => {
+    clickCount.current += 1;
+    if (clickTimer.current) clearTimeout(clickTimer.current);
+    
+    clickTimer.current = setTimeout(() => {
+      if (clickCount.current === 4) {
+        // Stall for 2 seconds to confuse others, then open Admin login
+        setTimeout(() => {
+          router.push('/admin/login');
+        }, 2000);
+      }
+      clickCount.current = 0;
+    }, 500);
+  };
+
   return (
     <footer className="w-full bg-[#000000]/50 text-white flex flex-col items-center pt-20 pb-10 px-6 border-t border-white/5 relative z-[70]">
       <div className="max-w-6xl w-full flex flex-col gap-16">
-        
 
         {/* Bottom Footer Section */}
         <div className="w-full flex flex-col gap-10">
           
           <div className="flex flex-row items-center justify-between gap-6 border-b border-white/10 pb-8 w-full">
             {/* Logo */}
-            <div className="flex items-center">
+            <div className="flex items-center cursor-pointer" onClick={handleLogoClick}>
               <Logo />
             </div>
             

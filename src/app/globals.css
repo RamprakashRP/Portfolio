@@ -74,25 +74,3 @@ body:hover::-webkit-scrollbar-thumb {
 .animation-delay-4000 {
   animation-delay: 4s;
 }
-
-/* Print Styles for CV/Resume format */
-@media print {
-  :root {
-    --background: #ffffff !important;
-    --foreground: #000000 !important;
-  }
-  body {
-    background: white !important;
-    color: black !important;
-  }
-  * {
-    color: black !important;
-    background: transparent !important;
-    border-color: #ddd !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
-  }
-  nav, footer, .animate-blob, video, .no-print, button {
-    display: none !important;
-  }
-}
