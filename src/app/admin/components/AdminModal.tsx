@@ -694,7 +694,7 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-[120px] pointer-events-none" />
 
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-6 sm:p-8 border-b border-white/5 relative z-10 gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-8 border-b border-white/5 relative z-10 gap-3 sm:gap-4">
           <div>
             <h2 className="text-2xl font-bold text-white mb-4 sm:mb-0">
               {initialData ? (
@@ -727,17 +727,17 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
               </div>
             )}
           </div>
-          <button onClick={onClose} className="p-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-full text-neutral-400 hover:text-white transition-all self-start sm:self-auto">
-            <X className="w-5 h-5" />
+          <button onClick={onClose} className="p-2 sm:p-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-full text-neutral-400 hover:text-white transition-all self-start sm:self-auto">
+            <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
         
-        <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-4 custom-scrollbar relative z-10">
-          {error && <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-2xl text-sm font-medium">{error}</div>}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-8 space-y-3 sm:space-y-4 custom-scrollbar relative z-10">
+          {error && <div className="p-3 sm:p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-medium">{error}</div>}
           {renderFields()}
         </div>
 
-        <div className="p-6 sm:p-8 border-t border-white/5 flex justify-between items-center bg-[#111113]/80 backdrop-blur-xl relative z-10">
+        <div className="p-4 sm:p-8 border-t border-white/5 flex justify-between items-center bg-[#111113]/80 backdrop-blur-xl relative z-10">
           <div>
             {initialData && (
               <button 
