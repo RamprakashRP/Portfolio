@@ -100,7 +100,7 @@ export default function AdminPage() {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest' | 'a-z' | 'rprank'>('newest');
+  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest' | 'a-z' | 'rprank' | 'recently-edited'>('newest');
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingData, setEditingData] = useState<any>(null);
@@ -167,9 +167,25 @@ export default function AdminPage() {
         if (sortOrder === 'rprank') {
           return (a.rpRank ?? Infinity) - (b.rpRank ?? Infinity);
         }
+        
+        if (sortOrder === 'recently-edited') {
+          const editA = new Date(a.updated_at || a.created_at || 0).getTime();
+          const editB = new Date(b.updated_at || b.created_at || 0).getTime();
+          return editB - editA;
+        }
 
-        const dateA = new Date(a.updated_at || a.created_at || 0).getTime();
-        const dateB = new Date(b.updated_at || b.created_at || 0).getTime();
+        const getDateValue = (item: any) => {
+          if (activeTab === 'experience' && item.roles && item.roles.length > 0) {
+            const latestRole = item.roles[item.roles.length - 1];
+            if (latestRole.startDate) {
+              return new Date(latestRole.startDate).getTime();
+            }
+          }
+          return new Date(item.created_at || item.updated_at || 0).getTime();
+        };
+
+        const dateA = getDateValue(a);
+        const dateB = getDateValue(b);
         
         if (sortOrder === 'oldest') {
           return dateA - dateB;
@@ -271,13 +287,14 @@ export default function AdminPage() {
                   className="w-full sm:w-48 pl-11 pr-4 py-3 bg-[#0a0a0b] border border-white/5 rounded-2xl text-sm text-left text-white focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all cursor-pointer shadow-inner relative"
                 >
                   <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
-                  {sortOrder === 'newest' ? 'Newest First' : sortOrder === 'oldest' ? 'Oldest First' : sortOrder === 'rprank' ? 'RP Rank' : 'Alphabetical (A-Z)'}
+                  {sortOrder === 'newest' ? 'Newest First' : sortOrder === 'oldest' ? 'Oldest First' : sortOrder === 'rprank' ? 'RP Rank' : sortOrder === 'recently-edited' ? 'Recently Edited' : 'Alphabetical (A-Z)'}
                 </button>
                 {isSortOpen && (
                   <div className="absolute top-full mt-2 left-0 w-full bg-[#0a0a0b] border border-white/10 rounded-2xl shadow-xl overflow-hidden z-50">
                     {[
                       { id: 'newest', label: 'Newest First' },
                       { id: 'oldest', label: 'Oldest First' },
+                      { id: 'recently-edited', label: 'Recently Edited' },
                       { id: 'a-z', label: 'Alphabetical (A-Z)' },
                       { id: 'rprank', label: 'RP Rank' }
                     ].map(opt => (
