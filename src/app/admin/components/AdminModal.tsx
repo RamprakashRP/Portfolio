@@ -663,7 +663,16 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
                         <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
                           {roles[activeRoleIndex].images.map((url: string, idx: number) => (
                             <div key={idx} className="relative group rounded-xl overflow-hidden aspect-video border border-white/10 bg-black">
-                              <img src={url} className="absolute inset-0 w-full h-full object-cover" />
+                              {url.toLowerCase().endsWith('.pdf') ? (
+                                <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/5 text-neutral-400 p-2">
+                                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mb-1"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                  <span className="text-[10px] truncate w-full text-center">{url.split('/').pop()}</span>
+                                </div>
+                              ) : url.toLowerCase().match(/\\.(mp4|webm|ogg)$/) ? (
+                                <video src={url} className="absolute inset-0 w-full h-full object-cover" muted loop playsInline />
+                              ) : (
+                                <img src={url} className="absolute inset-0 w-full h-full object-cover" />
+                              )}
                               <button type="button" onClick={() => updateRole(activeRoleIndex, 'images', roles[activeRoleIndex].images.filter((_: any, i: number) => i !== idx))} className="absolute top-2 right-2 p-1.5 bg-black/60 hover:bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all"><X className="w-3 h-3" /></button>
                             </div>
                           ))}

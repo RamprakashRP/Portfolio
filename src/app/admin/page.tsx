@@ -177,6 +177,13 @@ export default function AdminPage() {
       if (item.tags && Array.isArray(item.tags)) {
         item.tags.forEach((tag: string) => tagsSet.add(tag));
       }
+      if (item.roles && Array.isArray(item.roles)) {
+        item.roles.forEach((role: any) => {
+          if (role.skills && Array.isArray(role.skills)) {
+            role.skills.forEach((skill: string) => tagsSet.add(skill));
+          }
+        });
+      }
     });
     return Array.from(tagsSet).sort();
   }, [items]);
