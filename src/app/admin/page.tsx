@@ -139,6 +139,9 @@ export default function AdminPage() {
   const [isSortOpen, setIsSortOpen] = useState(false);
 
   useEffect(() => {
+    if (activeTab === 'experience') {
+      setSortOrder('rprank');
+    }
     fetchData();
   }, [activeTab]);
 
@@ -153,6 +156,21 @@ export default function AdminPage() {
       setItems(data || []);
     }
     setLoading(false);
+  };
+
+  const handleReorder = (newOrder: any[]) => {
+    setItems(newOrder);
+  };
+
+  const handleDragEnd = async () => {
+    const tableName = activeTab === 'experience' ? 'experiences' : activeTab;
+    for (let i = 0; i < items.length; i++) {
+      const expectedRank = i + 1;
+      if (items[i].rpRank !== expectedRank) {
+        supabase.from(tableName).update({ rpRank: expectedRank }).eq('id', items[i].id).then();
+        items[i].rpRank = expectedRank;
+      }
+    }
   };
 
   const handleAddNew = () => {
@@ -331,13 +349,16 @@ export default function AdminPage() {
                 </button>
                 {isSortOpen && (
                   <div className="absolute top-full mt-2 left-0 w-full bg-[#0a0a0b] border border-white/10 rounded-2xl shadow-xl overflow-hidden z-50">
-                    {[
-                      { id: 'newest', label: 'Newest First' },
-                      { id: 'oldest', label: 'Oldest First' },
-                      { id: 'recently-edited', label: 'Recently Edited' },
-                      { id: 'a-z', label: 'Alphabetical (A-Z)' },
-                      { id: 'rprank', label: 'RP Rank' }
-                    ].map(opt => (
+                    {(activeTab === 'experience'
+                      ? [{ id: 'rprank', label: 'RP Rank' }]
+                      : [
+                          { id: 'newest', label: 'Newest First' },
+                          { id: 'oldest', label: 'Oldest First' },
+                          { id: 'recently-edited', label: 'Recently Edited' },
+                          { id: 'a-z', label: 'Alphabetical (A-Z)' },
+                          { id: 'rprank', label: 'RP Rank' }
+                        ]
+                    ).map(opt => (
                       <button
                         key={opt.id}
                         onClick={(e) => { e.stopPropagation(); setSortOrder(opt.id as any); setIsSortOpen(false); }}
