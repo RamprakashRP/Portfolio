@@ -100,7 +100,7 @@ export default function AdminPage() {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest' | 'a-z'>('newest');
+  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest' | 'a-z' | 'rprank'>('newest');
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingData, setEditingData] = useState<any>(null);
@@ -164,10 +164,17 @@ export default function AdminPage() {
           const titleB = (b.title || b.name || b.company || '').toLowerCase();
           return titleA.localeCompare(titleB);
         }
-        if (sortOrder === 'oldest') {
-          return new Date(a.updated_at || 0).getTime() - new Date(b.updated_at || 0).getTime();
+        if (sortOrder === 'rprank') {
+          return (a.rpRank ?? Infinity) - (b.rpRank ?? Infinity);
         }
-        return new Date(b.updated_at || 0).getTime() - new Date(a.updated_at || 0).getTime();
+
+        const dateA = new Date(a.updated_at || a.created_at || 0).getTime();
+        const dateB = new Date(b.updated_at || b.created_at || 0).getTime();
+        
+        if (sortOrder === 'oldest') {
+          return dateA - dateB;
+        }
+        return dateB - dateA;
       });
   }, [items, searchQuery, sortOrder]);
 
@@ -240,7 +247,7 @@ export default function AdminPage() {
         {/* List Area */}
         <div className="flex-1 bg-[#111113]/60 backdrop-blur-2xl border border-white/5 rounded-3xl p-6 sm:p-8 shadow-2xl relative">
           
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-8 relative z-10 gap-6">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-8 relative z-20 gap-6">
             <h2 className="text-2xl font-semibold capitalize flex items-center gap-3">
               <span className="w-2 h-8 bg-red-500 rounded-full"></span>
               {activeTab} Database
@@ -264,18 +271,19 @@ export default function AdminPage() {
                   className="w-full sm:w-48 pl-11 pr-4 py-3 bg-[#0a0a0b] border border-white/5 rounded-2xl text-sm text-left text-white focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all cursor-pointer shadow-inner relative"
                 >
                   <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
-                  {sortOrder === 'newest' ? 'Newest First' : sortOrder === 'oldest' ? 'Oldest First' : 'Alphabetical (A-Z)'}
+                  {sortOrder === 'newest' ? 'Newest First' : sortOrder === 'oldest' ? 'Oldest First' : sortOrder === 'rprank' ? 'RP Rank' : 'Alphabetical (A-Z)'}
                 </button>
                 {isSortOpen && (
                   <div className="absolute top-full mt-2 left-0 w-full bg-[#0a0a0b] border border-white/10 rounded-2xl shadow-xl overflow-hidden z-50">
                     {[
                       { id: 'newest', label: 'Newest First' },
                       { id: 'oldest', label: 'Oldest First' },
-                      { id: 'a-z', label: 'Alphabetical (A-Z)' }
+                      { id: 'a-z', label: 'Alphabetical (A-Z)' },
+                      { id: 'rprank', label: 'RP Rank' }
                     ].map(opt => (
                       <button
                         key={opt.id}
-                        onClick={() => { setSortOrder(opt.id as any); setIsSortOpen(false); }}
+                        onClick={(e) => { e.stopPropagation(); setSortOrder(opt.id as any); setIsSortOpen(false); }}
                         className={`w-full text-left px-4 py-3 text-sm transition-colors ${sortOrder === opt.id ? 'bg-red-500/20 text-red-400' : 'text-neutral-400 hover:bg-white/5 hover:text-white'}`}
                       >
                         {opt.label}
