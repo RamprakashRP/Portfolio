@@ -10,7 +10,8 @@ interface Props {
   imageUrl: string;
   itemId: string;
   basePath: string; // e.g., "/achievements/"
-  onComplete: (urls: { preview: string; home: string; highlight: string }) => void;
+  existingUrls?: { preview?: string; home?: string; highlight?: string };
+  onComplete: (urls: { preview?: string; home?: string; highlight?: string }) => void;
 }
 
 type CropStep = {
@@ -26,8 +27,14 @@ const STEPS: CropStep[] = [
   { id: 'highlight', title: 'Desktop Cover (Wide)', ratio: 16 / 9, fileName: 'cover-desktop.jpg' },
 ];
 
-export default function ImageCropperModal({ isOpen, onClose, imageUrl, itemId, basePath, onComplete }: Props) {
+export default function ImageCropperModal({ isOpen, onClose, imageUrl, itemId, basePath, existingUrls, onComplete }: Props) {
   const [activeTab, setActiveTab] = useState<'preview' | 'home' | 'highlight'>('preview');
+  
+  const [skipCrop, setSkipCrop] = useState<Record<string, boolean>>(() => ({
+    preview: !!existingUrls?.preview,
+    home: !!existingUrls?.home,
+    highlight: !!existingUrls?.highlight
+  }));
   
   // States per tab
   const [crops, setCrops] = useState({
@@ -100,12 +107,13 @@ export default function ImageCropperModal({ isOpen, onClose, imageUrl, itemId, b
       const urls: Record<string, string> = {};
 
       for (const step of STEPS) {
-        // If they never clicked a tab, croppedAreaPixels might be null, but react-easy-crop 
-        // usually fires onCropComplete on initial render if the tab was active.
-        // We should ensure they visited all tabs or provide a default center crop.
-        // For safety, if a pixel crop is missing, it will throw an error, so users must view each tab.
+        if (skipCrop[step.id] && existingUrls?.[step.id]) {
+          urls[step.id] = existingUrls[step.id]!;
+          continue;
+        }
+
         if (!croppedAreaPixels[step.id]) {
-          alert(`Please view and adjust the ${step.title} tab before approving.`);
+          alert(`Please view and adjust the ${step.title} tab before approving, or check 'Keep existing'.`);
           setIsUploading(false);
           return;
         }
@@ -177,13 +185,28 @@ export default function ImageCropperModal({ isOpen, onClose, imageUrl, itemId, b
               }`}
             >
               {step.title}
-              {croppedAreaPixels[step.id] && <Check className="w-3 h-3 inline ml-2 text-green-400" />}
+              {(croppedAreaPixels[step.id] || skipCrop[step.id]) && <Check className="w-3 h-3 inline ml-2 text-green-400" />}
             </button>
           ))}
         </div>
 
+        {existingUrls?.[activeTab] && (
+          <div className="mb-4 flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/10 w-fit">
+            <input 
+              type="checkbox" 
+              id={`skip-${activeTab}`}
+              checked={skipCrop[activeTab]} 
+              onChange={(e) => setSkipCrop(prev => ({ ...prev, [activeTab]: e.target.checked }))}
+              className="w-4 h-4 rounded cursor-pointer accent-red-500"
+            />
+            <label htmlFor={`skip-${activeTab}`} className="text-sm text-white font-medium cursor-pointer">
+              Keep existing {currentStepInfo.title}
+            </label>
+          </div>
+        )}
+
         {/* Cropper Workspace */}
-        <div className="flex-1 relative bg-black border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
+        <div className={`flex-1 relative bg-black border border-white/10 rounded-3xl overflow-hidden shadow-2xl transition-opacity ${skipCrop[activeTab] ? 'opacity-30 pointer-events-none' : ''}`}>
           <Cropper
             image={imageUrl}
             crop={crops[activeTab]}

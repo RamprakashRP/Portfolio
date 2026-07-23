@@ -795,6 +795,11 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
           imageUrl={masterImage}
           itemId={formData.id || (formData.title || formData.name || formData.company || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')}
           basePath={`/${currentType}/`}
+          existingUrls={{
+            preview: formData.previewCover,
+            home: formData.homeCover,
+            highlight: formData.highlightCover
+          }}
           onComplete={(urls) => {
             handleChange('previewCover', urls.preview);
             handleChange('homeCover', urls.home);
