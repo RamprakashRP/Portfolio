@@ -23,22 +23,33 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
   const [currentType, setCurrentType] = useState(type);
   const [isCropperOpen, setIsCropperOpen] = useState(false);
   const [masterImage, setMasterImage] = useState<string | null>(null);
+  const [chosenMasterImage, setChosenMasterImage] = useState<string | null>(null);
   const [selectorUrls, setSelectorUrls] = useState<string[]>([]);
   const [activeCropTarget, setActiveCropTarget] = useState<'preview' | 'home' | 'highlight' | null>(null);
   const [activeRoleIndex, setActiveRoleIndex] = useState(0);
   const [currentTypeItems, setCurrentTypeItems] = useState<any[]>(items);
 
+  useEffect(() => {
+    if (formData.media && formData.media.length > 0 && !chosenMasterImage) {
+      setChosenMasterImage(formData.media[0]);
+    }
+  }, [formData.media]);
+
   const handleEditCover = (target: 'preview' | 'home' | 'highlight' | null = null) => {
-    if (formData.media && formData.media.length > 0) {
+    if (chosenMasterImage) {
       setActiveCropTarget(target);
-      if (formData.media.length === 1) {
-        setMasterImage(formData.media[0]);
-        setIsCropperOpen(true);
-      } else {
-        setSelectorUrls(formData.media);
-      }
+      setMasterImage(chosenMasterImage);
+      setIsCropperOpen(true);
     } else {
       alert('Please upload media first before configuring covers.');
+    }
+  };
+
+  const handleChangeMasterPhoto = () => {
+    if (formData.media && formData.media.length > 1) {
+      setSelectorUrls(formData.media);
+    } else {
+      alert('You only have one media item uploaded. Upload more to change the master cover photo.');
     }
   };
 
@@ -198,6 +209,15 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
             <h4 className="text-sm font-semibold text-neutral-400 uppercase tracking-wider flex items-center gap-2">
               <Crop className="w-4 h-4" /> Configured Covers
             </h4>
+            {formData.media && formData.media.length > 1 && (
+              <button
+                type="button"
+                onClick={handleChangeMasterPhoto}
+                className="px-3 py-1.5 bg-white/10 hover:bg-white/20 border border-white/10 rounded-lg text-xs font-medium transition-all flex items-center gap-2 text-white"
+              >
+                Change Master Photo
+              </button>
+            )}
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 bg-white/[0.02] p-4 rounded-2xl border border-white/5 items-start">
             
@@ -780,9 +800,9 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
           urls={selectorUrls} 
           onClose={() => setSelectorUrls([])} 
           onSelect={(url: string) => {
+            setChosenMasterImage(url);
             setMasterImage(url);
             setSelectorUrls([]);
-            setIsCropperOpen(true);
           }} 
         />
       )}
