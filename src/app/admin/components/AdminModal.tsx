@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X, Save, Image as ImageIcon, Link as LinkIcon, Folder, LayoutGrid, Award, Briefcase, Trash2, Crop } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import ImageCropperModal from './ImageCropperModal';
@@ -246,6 +246,13 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
             <InputField label="ID" value={formData.id} onChange={(v: any) => handleChange('id', v)} placeholder="(Leave blank to auto-generate)" />
             <InputField label="Title" value={formData.title} onChange={(v: any) => handleChange('title', v)} />
             <InputField label="Date" type="date" value={formData.date} onChange={(v: any) => handleChange('date', v)} placeholder="YYYY-MM-DD" uppercase />
+            <AutocompleteInputField 
+              label="Category" 
+              value={formData.category} 
+              onChange={(v: any) => handleChange('category', v)} 
+              suggestions={['Internship', 'Own Project', 'Fun Project', 'Everyday Help', 'Award', 'Certification', 'Hackathon']} 
+              placeholder="Select or type new..."
+            />
             <TagsInputField label="Tags" value={formData.tags || []} onChange={(v: any) => handleChange('tags', v)} allTags={allTags} />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -301,36 +308,34 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <InputField label="ID" value={formData.id} onChange={(v: any) => handleChange('id', v)} placeholder="(Leave blank to auto-generate)" />
             <InputField label="Name" value={formData.name} onChange={(v: any) => handleChange('name', v)} />
-            <InputField label="Category" value={formData.category} onChange={(v: any) => handleChange('category', v)} />
+            <AutocompleteInputField 
+              label="Category" 
+              value={formData.category} 
+              onChange={(v: any) => handleChange('category', v)} 
+              suggestions={['Internship', 'Own Project', 'Fun Project', 'Everyday Help', 'Freelance', 'Open Source']} 
+              placeholder="Select or type new..."
+            />
             <div className="flex flex-col space-y-2">
               <label className="text-sm font-medium text-neutral-400">Period (Month, Year)</label>
               <div className="flex gap-2">
-                <select 
-                  className="flex-1 bg-[#0a0a0b] border border-white/5 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-red-500/50 transition-all shadow-inner"
+                <CustomSelect 
+                  placeholder="Month"
                   value={formData.period?.split(' ')[0]?.replace(',', '') || ''}
-                  onChange={(e) => {
+                  options={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']}
+                  onChange={(val: string) => {
                     const year = formData.period?.split(' ')[1] || new Date().getFullYear().toString();
-                    handleChange('period', `${e.target.value}, ${year}`);
+                    handleChange('period', `${val}, ${year}`);
                   }}
-                >
-                  <option value="" disabled className="text-neutral-500">Month</option>
-                  {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map(m => (
-                    <option key={m} value={m} className="bg-[#111]">{m}</option>
-                  ))}
-                </select>
-                <select
-                  className="flex-1 bg-[#0a0a0b] border border-white/5 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-red-500/50 transition-all shadow-inner"
+                />
+                <CustomSelect 
+                  placeholder="Year"
                   value={formData.period?.split(' ')[1] || ''}
-                  onChange={(e) => {
+                  options={Array.from({ length: 27 }, (_, i) => (2004 + i).toString())}
+                  onChange={(val: string) => {
                     const month = formData.period?.split(' ')[0]?.replace(',', '') || 'Jan';
-                    handleChange('period', `${month}, ${e.target.value}`);
+                    handleChange('period', `${month}, ${val}`);
                   }}
-                >
-                  <option value="" disabled className="text-neutral-500">Year</option>
-                  {Array.from({ length: 27 }, (_, i) => 2004 + i).map(y => (
-                    <option key={y} value={y} className="bg-[#111]">{y}</option>
-                  ))}
-                </select>
+                />
               </div>
             </div>
           </div>
@@ -632,6 +637,99 @@ const ImageSelectorModal = ({ isOpen, urls, onSelect, onClose }: any) => {
         </div>
         <button onClick={onClose} className="mt-6 w-full py-3 bg-white/5 hover:bg-white/10 text-white rounded-xl transition-all font-medium">Cancel</button>
       </div>
+    </div>
+  );
+};
+
+const CustomSelect = ({ value, onChange, options, placeholder }: any) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative flex-1" ref={dropdownRef}>
+      <div 
+        className="flex items-center justify-between w-full bg-[#0a0a0b] border border-white/5 rounded-xl px-4 py-2.5 text-sm text-white cursor-pointer hover:border-red-500/50 transition-all shadow-inner"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span className={value ? "text-white" : "text-neutral-500"}>{value || placeholder}</span>
+        <svg className={`w-4 h-4 text-neutral-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+      </div>
+      {isOpen && (
+        <div className="absolute top-full mt-2 w-full bg-[#111113] border border-white/10 rounded-2xl shadow-xl z-50 max-h-48 overflow-y-auto custom-scrollbar">
+          {options.map((opt: string) => (
+            <div 
+              key={opt}
+              className={`px-4 py-2 text-sm cursor-pointer hover:bg-white/5 transition-colors ${value === opt ? 'bg-red-500/10 text-red-400' : 'text-neutral-300'}`}
+              onClick={() => {
+                onChange(opt);
+                setIsOpen(false);
+              }}
+            >
+              {opt}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const AutocompleteInputField = ({ label, value, onChange, suggestions = [], placeholder = '' }: any) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const filtered = suggestions.filter((s: string) => s.toLowerCase().includes((value || '').toLowerCase()) && s.toLowerCase() !== (value || '').toLowerCase());
+
+  return (
+    <div className="flex flex-col space-y-2 relative" ref={containerRef}>
+      <label className="text-sm font-medium text-neutral-400">{label}</label>
+      <input 
+        type="text"
+        value={value || ''}
+        onChange={(e) => {
+          onChange(e.target.value);
+          setIsOpen(true);
+        }}
+        onFocus={() => setIsOpen(true)}
+        placeholder={placeholder}
+        className="w-full px-4 py-3 bg-[#0a0a0b] border border-white/5 rounded-2xl text-sm text-white focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all placeholder:text-neutral-600 shadow-inner"
+      />
+      {isOpen && filtered.length > 0 && (
+        <div className="absolute top-full mt-2 w-full bg-[#111113] border border-white/10 rounded-2xl shadow-xl z-50 max-h-48 overflow-y-auto custom-scrollbar">
+          {filtered.map((opt: string) => (
+            <div 
+              key={opt}
+              className="px-4 py-2 text-sm cursor-pointer hover:bg-white/5 text-neutral-300 transition-colors border-b border-white/5 last:border-0"
+              onClick={() => {
+                onChange(opt);
+                setIsOpen(false);
+              }}
+            >
+              {opt}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
