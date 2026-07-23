@@ -90,13 +90,17 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
 
   const handleSave = async () => {
     const isTopRanked = typeof formData.rpRank === 'number' && formData.rpRank >= 1 && formData.rpRank <= 4;
-    const hasMedia = formData.media && formData.media.length > 0;
-    const hasCovers = formData.homeCover || formData.previewCover || formData.highlightCover;
     
-    if (isTopRanked && hasMedia && !hasCovers) {
-      alert("Top ranked items require cover images. Please configure them now.");
-      handleConfigureCovers();
-      return;
+    if (isTopRanked) {
+      if (!formData.media || formData.media.length === 0) {
+        alert("Top ranked items require media uploads.");
+        return;
+      }
+      if (!formData.homeCover || !formData.previewCover || !formData.highlightCover) {
+        alert("Top ranked items require all 3 cover images to be configured. Please configure them now.");
+        handleConfigureCovers();
+        return;
+      }
     }
 
     setLoading(true);
@@ -197,37 +201,37 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
             <h4 className="text-sm font-semibold text-neutral-400 uppercase tracking-wider flex items-center gap-2">
               <Crop className="w-4 h-4" /> Configured Covers
             </h4>
-            {typeof formData.rpRank === 'number' && formData.rpRank >= 1 && formData.rpRank <= 4 && (
+            {formData.media && formData.media.length > 0 && (
               <button
                 type="button"
                 onClick={handleConfigureCovers}
                 className="px-3 py-1.5 bg-white/10 hover:bg-white/20 border border-white/10 rounded-lg text-xs font-medium transition-all flex items-center gap-2"
               >
-                <Crop className="w-3 h-3" /> Re-Configure Covers
+                <Crop className="w-3 h-3" /> {formData.homeCover ? 'Re-Configure Covers' : 'Configure Covers'}
               </button>
             )}
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-white/[0.02] p-4 rounded-2xl border border-white/5">
-            {formData.homeCover && (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 bg-white/[0.02] p-4 rounded-2xl border border-white/5 items-start">
+            {formData.previewCover && (
               <div className="flex flex-col space-y-2">
-                <span className="text-xs font-medium text-neutral-500">Home Cover (16:9)</span>
-                <div className="w-full aspect-video rounded-xl overflow-hidden border border-white/10 relative bg-black shadow-inner">
-                  <img src={formData.homeCover} alt="Home" className="absolute inset-0 w-full h-full object-cover" />
+                <span className="text-xs font-medium text-neutral-500">Square Cover (1:1)</span>
+                <div className="w-full aspect-square rounded-xl overflow-hidden border border-white/10 relative bg-black shadow-inner">
+                  <img src={formData.previewCover} alt="Preview" className="absolute inset-0 w-full h-full object-cover" />
                 </div>
               </div>
             )}
-            {formData.previewCover && (
+            {formData.homeCover && (
               <div className="flex flex-col space-y-2">
-                <span className="text-xs font-medium text-neutral-500">Preview Cover (9:16)</span>
-                <div className="w-full aspect-[9/16] max-w-[120px] rounded-xl overflow-hidden border border-white/10 relative bg-black shadow-inner">
-                  <img src={formData.previewCover} alt="Preview" className="absolute inset-0 w-full h-full object-cover" />
+                <span className="text-xs font-medium text-neutral-500">Standard Cover (4:3)</span>
+                <div className="w-full aspect-[4/3] rounded-xl overflow-hidden border border-white/10 relative bg-black shadow-inner">
+                  <img src={formData.homeCover} alt="Home" className="absolute inset-0 w-full h-full object-cover" />
                 </div>
               </div>
             )}
             {formData.highlightCover && (
               <div className="flex flex-col space-y-2">
-                <span className="text-xs font-medium text-neutral-500">Highlight Cover (1:1)</span>
-                <div className="w-full aspect-square max-w-[120px] rounded-xl overflow-hidden border border-white/10 relative bg-black shadow-inner">
+                <span className="text-xs font-medium text-neutral-500">Wide Cover (16:9)</span>
+                <div className="w-full aspect-video rounded-xl overflow-hidden border border-white/10 relative bg-black shadow-inner">
                   <img src={formData.highlightCover} alt="Highlight" className="absolute inset-0 w-full h-full object-cover" />
                 </div>
               </div>
