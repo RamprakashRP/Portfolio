@@ -9,7 +9,8 @@ export async function POST(req: Request) {
     const body = await req.json();
     
     // Retrieve challenge from cookie
-    const expectedChallenge = cookies().get('registration_challenge')?.value;
+    const cookieStore = await cookies();
+    const expectedChallenge = cookieStore.get('registration_challenge')?.value;
     
     if (!expectedChallenge) {
       return NextResponse.json({ error: 'Challenge not found or expired' }, { status: 400 });
@@ -25,11 +26,12 @@ export async function POST(req: Request) {
     const { verified, registrationInfo } = verification;
 
     if (verified && registrationInfo) {
-      const { credentialID, credentialPublicKey, counter, credentialDeviceType, credentialBackedUp } = registrationInfo;
+      const { credential, credentialDeviceType, credentialBackedUp } = registrationInfo;
+      const { id, publicKey, counter } = credential;
 
       // Base64Url encode buffer
-      const credentialIDBase64 = Buffer.from(credentialID).toString('base64url');
-      const publicKeyBase64 = Buffer.from(credentialPublicKey).toString('base64url');
+      const credentialIDBase64 = Buffer.from(id).toString('base64url');
+      const publicKeyBase64 = Buffer.from(publicKey).toString('base64url');
 
       // Save to Supabase
       const { error } = await supabase.from('passkey_credentials').insert({
@@ -48,7 +50,7 @@ export async function POST(req: Request) {
       }
 
       // Clear challenge cookie
-      cookies().delete('registration_challenge');
+      cookieStore.delete('registration_challenge');
       return NextResponse.json({ verified: true });
     }
 

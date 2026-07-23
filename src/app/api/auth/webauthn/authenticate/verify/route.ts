@@ -10,7 +10,8 @@ const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || 'fallback-
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const expectedChallenge = cookies().get('authentication_challenge')?.value;
+    const cookieStore = await cookies();
+    const expectedChallenge = cookieStore.get('authentication_challenge')?.value;
 
     if (!expectedChallenge) {
       return NextResponse.json({ error: 'Challenge expired' }, { status: 400 });
@@ -32,9 +33,9 @@ export async function POST(req: Request) {
       expectedChallenge,
       expectedOrigin: origin,
       expectedRPID: rpID,
-      authenticator: {
-        credentialID: Buffer.from(credential.id, 'base64url'),
-        credentialPublicKey: Buffer.from(credential.public_key, 'base64url'),
+      credential: {
+        id: credential.id,
+        publicKey: new Uint8Array(Buffer.from(credential.public_key, 'base64url')),
         counter: Number(credential.sign_count),
         transports: credential.transports,
       },
@@ -57,7 +58,7 @@ export async function POST(req: Request) {
         .sign(JWT_SECRET);
 
       // Set cookie
-      cookies().set('admin_token', token, {
+      cookieStore.set('admin_token', token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
@@ -65,7 +66,7 @@ export async function POST(req: Request) {
         path: '/'
       });
       
-      cookies().delete('authentication_challenge');
+      cookieStore.delete('authentication_challenge');
 
       return NextResponse.json({ verified: true });
     }

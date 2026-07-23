@@ -27,7 +27,8 @@ export async function GET() {
       userVerification: 'preferred',
     });
 
-    cookies().set('authentication_challenge', options.challenge, {
+    const cookieStore = await cookies();
+    cookieStore.set('authentication_challenge', options.challenge, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',

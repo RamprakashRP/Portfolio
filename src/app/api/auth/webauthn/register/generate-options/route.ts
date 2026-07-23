@@ -36,7 +36,8 @@ export async function GET() {
     });
 
     // 3. Store challenge in an httpOnly cookie
-    cookies().set('registration_challenge', options.challenge, {
+    const cookieStore = await cookies();
+    cookieStore.set('registration_challenge', options.challenge, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
