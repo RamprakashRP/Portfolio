@@ -302,7 +302,37 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
             <InputField label="ID" value={formData.id} onChange={(v: any) => handleChange('id', v)} placeholder="(Leave blank to auto-generate)" />
             <InputField label="Name" value={formData.name} onChange={(v: any) => handleChange('name', v)} />
             <InputField label="Category" value={formData.category} onChange={(v: any) => handleChange('category', v)} />
-            <InputField label="Period" value={formData.period} onChange={(v: any) => handleChange('period', v)} />
+            <div className="flex flex-col space-y-2">
+              <label className="text-sm font-medium text-neutral-400">Period (Month, Year)</label>
+              <div className="flex gap-2">
+                <select 
+                  className="flex-1 bg-[#0a0a0b] border border-white/5 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-red-500/50 transition-all shadow-inner"
+                  value={formData.period?.split(' ')[0]?.replace(',', '') || ''}
+                  onChange={(e) => {
+                    const year = formData.period?.split(' ')[1] || new Date().getFullYear().toString();
+                    handleChange('period', `${e.target.value}, ${year}`);
+                  }}
+                >
+                  <option value="" disabled className="text-neutral-500">Month</option>
+                  {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map(m => (
+                    <option key={m} value={m} className="bg-[#111]">{m}</option>
+                  ))}
+                </select>
+                <select
+                  className="flex-1 bg-[#0a0a0b] border border-white/5 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-red-500/50 transition-all shadow-inner"
+                  value={formData.period?.split(' ')[1] || ''}
+                  onChange={(e) => {
+                    const month = formData.period?.split(' ')[0]?.replace(',', '') || 'Jan';
+                    handleChange('period', `${month}, ${e.target.value}`);
+                  }}
+                >
+                  <option value="" disabled className="text-neutral-500">Year</option>
+                  {Array.from({ length: 27 }, (_, i) => 2004 + i).map(y => (
+                    <option key={y} value={y} className="bg-[#111]">{y}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
           </div>
           <TagsInputField label="Tags" value={formData.tags || []} onChange={(v: any) => handleChange('tags', v)} allTags={allTags} />
 
