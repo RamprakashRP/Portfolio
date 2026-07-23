@@ -688,7 +688,7 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center sm:p-6 bg-black/80 backdrop-blur-xl">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center sm:p-6 bg-black/80 backdrop-blur-xl">
       <div className="bg-[#0a0a0b] border-0 sm:border border-white/10 w-full h-full sm:h-auto max-w-4xl sm:max-h-[90vh] rounded-none sm:rounded-[2rem] shadow-2xl flex flex-col overflow-hidden relative">
         {/* Glow Effects */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-[120px] pointer-events-none" />
