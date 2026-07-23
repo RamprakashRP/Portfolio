@@ -25,6 +25,19 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
   const [masterImage, setMasterImage] = useState<string | null>(null);
   const [selectorUrls, setSelectorUrls] = useState<string[]>([]);
   const [activeRoleIndex, setActiveRoleIndex] = useState(0);
+  const [currentTypeItems, setCurrentTypeItems] = useState<any[]>(items);
+
+  useEffect(() => {
+    if (currentType === type) {
+      setCurrentTypeItems(items);
+    } else {
+      const fetchTypeItems = async () => {
+        const { data } = await supabase.from(currentType).select('*').order('updated_at', { ascending: false });
+        setCurrentTypeItems(data || []);
+      };
+      fetchTypeItems();
+    }
+  }, [currentType, type, items]);
 
   useEffect(() => {
     if (isOpen) {
@@ -146,8 +159,7 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
 
   const renderFields = () => {
     const getTopRanks = () => {
-      if (!items || items.length === 0) return null;
-      const sorted = [...items]
+      const sorted = [...currentTypeItems]
         .filter(item => typeof item.rpRank === 'number')
         .sort((a, b) => a.rpRank - b.rpRank)
         .slice(0, 4);
@@ -496,7 +508,7 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
 
       const handleCompanyChange = (val: string) => {
         handleChange('company', val);
-        const existing = items.find(i => i.company?.toLowerCase() === val.toLowerCase());
+        const existing = currentTypeItems.find(i => i.company?.toLowerCase() === val.toLowerCase());
         if (existing && !formData.id) {
           if (window.confirm(`Company '${val}' already exists. Edit the existing entry instead of creating a duplicate?`)) {
             handleChange('id', existing.id);
@@ -527,7 +539,7 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
               label="Company Name" 
               value={formData.company} 
               onChange={handleCompanyChange} 
-              suggestions={items.map(i => i.company).filter(Boolean)}
+              suggestions={currentTypeItems.map(i => i.company).filter(Boolean)}
               placeholder="e.g. Google"
             />
             <MediaPathField label="Company Logo" value={formData.logo ? [formData.logo] : []} onChange={(v: any) => handleChange('logo', v[0] || '')} onUploadComplete={(urls: string[]) => { if(urls[0]) handleChange('logo', urls[0]); }} basePath="/experience/" itemId={formData.id || (formData.company || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')} />
