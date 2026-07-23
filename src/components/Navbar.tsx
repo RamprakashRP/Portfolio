@@ -13,12 +13,34 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   
   useEffect(() => {
     const handleOpenNotifs = () => setIsNotificationsOpen(true);
     window.addEventListener('open-notifications', handleOpenNotifs);
     return () => window.removeEventListener('open-notifications', handleOpenNotifs);
   }, []);
+
+  useEffect(() => {
+    const controlNavbar = () => {
+      if (typeof window !== 'undefined') {
+        if (window.scrollY > lastScrollY && window.scrollY > 100) {
+          // if scroll down and past 100px, hide the navbar
+          setIsVisible(false);
+        } else {
+          // if scroll up or near top, show the navbar
+          setIsVisible(true);
+        }
+        setLastScrollY(window.scrollY);
+      }
+    };
+
+    window.addEventListener('scroll', controlNavbar);
+    return () => {
+      window.removeEventListener('scroll', controlNavbar);
+    };
+  }, [lastScrollY]);
 
   const [activeItem, setActiveItem] = useState(() => {
     if (pathname === '/projects') return 'Projects';
@@ -141,7 +163,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-full max-w-[760px] px-4">
+    <div className={`fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-full max-w-[760px] px-4 transition-all duration-500 ease-in-out ${isVisible ? 'translate-y-0 opacity-100' : '-translate-y-32 opacity-0 pointer-events-none'}`}>
       {/* 
         To achieve the "Liquid Glass" iOS effect:
         - Heavy blur: backdrop-blur-3xl (or custom px)
