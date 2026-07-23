@@ -11,6 +11,7 @@ interface Props {
   itemId: string;
   basePath: string; // e.g., "/achievements/"
   existingUrls?: { preview?: string; home?: string; highlight?: string };
+  targetCrop?: 'preview' | 'home' | 'highlight' | null;
   onComplete: (urls: { preview?: string; home?: string; highlight?: string }) => void;
 }
 
@@ -27,8 +28,10 @@ const STEPS: CropStep[] = [
   { id: 'highlight', title: 'Desktop Cover (Wide)', ratio: 16 / 9, fileName: 'cover-desktop.jpg' },
 ];
 
-export default function ImageCropperModal({ isOpen, onClose, imageUrl, itemId, basePath, existingUrls, onComplete }: Props) {
-  const [activeTab, setActiveTab] = useState<'preview' | 'home' | 'highlight'>('preview');
+export default function ImageCropperModal({ isOpen, onClose, imageUrl, itemId, basePath, existingUrls, targetCrop, onComplete }: Props) {
+  const [activeTab, setActiveTab] = useState<'preview' | 'home' | 'highlight'>(targetCrop || 'preview');
+  
+  const stepsToRender = targetCrop ? STEPS.filter(s => s.id === targetCrop) : STEPS;
   
   const [skipCrop, setSkipCrop] = useState<Record<string, boolean>>(() => ({
     preview: !!existingUrls?.preview,
@@ -106,8 +109,8 @@ export default function ImageCropperModal({ isOpen, onClose, imageUrl, itemId, b
       const categoryFolder = basePath.replace(/\//g, '');
       const urls: Record<string, string> = {};
 
-      for (const step of STEPS) {
-        if (skipCrop[step.id] && existingUrls?.[step.id]) {
+      for (const step of stepsToRender) {
+        if (skipCrop[step.id] && existingUrls?.[step.id] && !targetCrop) {
           urls[step.id] = existingUrls[step.id]!;
           continue;
         }
@@ -147,12 +150,12 @@ export default function ImageCropperModal({ isOpen, onClose, imageUrl, itemId, b
 
   if (!isOpen) return null;
 
-  const currentStepIndex = STEPS.findIndex(s => s.id === activeTab);
-  const currentStepInfo = STEPS[currentStepIndex]!;
+  const currentStepIndex = stepsToRender.findIndex(s => s.id === activeTab);
+  const currentStepInfo = stepsToRender[currentStepIndex]!;
 
   const handleNext = () => {
-    if (currentStepIndex < STEPS.length - 1) {
-      setActiveTab(STEPS[currentStepIndex + 1].id);
+    if (currentStepIndex < stepsToRender.length - 1) {
+      setActiveTab(stepsToRender[currentStepIndex + 1].id);
     } else {
       handleApproveAll();
     }
@@ -174,7 +177,7 @@ export default function ImageCropperModal({ isOpen, onClose, imageUrl, itemId, b
         </div>
 
         <div className="flex bg-white/5 p-1 rounded-xl w-fit mb-4 border border-white/10">
-          {STEPS.map((step) => (
+          {stepsToRender.map((step) => (
             <button
               key={step.id}
               onClick={() => setActiveTab(step.id)}
@@ -190,7 +193,7 @@ export default function ImageCropperModal({ isOpen, onClose, imageUrl, itemId, b
           ))}
         </div>
 
-        {existingUrls?.[activeTab] && (
+        {existingUrls?.[activeTab] && !targetCrop && (
           <div className="mb-4 flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/10 w-fit">
             <input 
               type="checkbox" 
@@ -248,7 +251,7 @@ export default function ImageCropperModal({ isOpen, onClose, imageUrl, itemId, b
                 <Loader2 className="w-5 h-5 animate-spin" />
                 <span>Processing & Uploading...</span>
               </>
-            ) : currentStepIndex < STEPS.length - 1 ? (
+            ) : currentStepIndex < stepsToRender.length - 1 ? (
               <>
                 <span>Next</span>
                 <ChevronRight className="w-5 h-5" />

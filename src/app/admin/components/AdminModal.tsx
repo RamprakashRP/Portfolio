@@ -24,8 +24,23 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
   const [isCropperOpen, setIsCropperOpen] = useState(false);
   const [masterImage, setMasterImage] = useState<string | null>(null);
   const [selectorUrls, setSelectorUrls] = useState<string[]>([]);
+  const [activeCropTarget, setActiveCropTarget] = useState<'preview' | 'home' | 'highlight' | null>(null);
   const [activeRoleIndex, setActiveRoleIndex] = useState(0);
   const [currentTypeItems, setCurrentTypeItems] = useState<any[]>(items);
+
+  const handleEditCover = (target: 'preview' | 'home' | 'highlight' | null = null) => {
+    if (formData.media && formData.media.length > 0) {
+      setActiveCropTarget(target);
+      if (formData.media.length === 1) {
+        setMasterImage(formData.media[0]);
+        setIsCropperOpen(true);
+      } else {
+        setSelectorUrls(formData.media);
+      }
+    } else {
+      alert('Please upload media first before configuring covers.');
+    }
+  };
 
   useEffect(() => {
     if (currentType === type) {
@@ -70,24 +85,6 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
     setFormData((prev: any) => ({ ...prev, [field]: value }));
   };
 
-  const handleArrayChange = (field: string, value: string) => {
-    const arr = value.split(',').map(s => s.trim()).filter(Boolean);
-    setFormData((prev: any) => ({ ...prev, [field]: arr }));
-  };
-
-  const handleConfigureCovers = () => {
-    if (formData.media && formData.media.length > 0) {
-      if (formData.media.length === 1) {
-        setMasterImage(formData.media[0]);
-        setIsCropperOpen(true);
-      } else {
-        setSelectorUrls(formData.media);
-      }
-    } else {
-      alert('Please upload media first before configuring covers.');
-    }
-  };
-
   const handleSave = async () => {
     const isTopRanked = typeof formData.rpRank === 'number' && formData.rpRank >= 1 && formData.rpRank <= 4;
     
@@ -98,7 +95,7 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
       }
       if (!formData.homeCover || !formData.previewCover || !formData.highlightCover) {
         alert("Top ranked items require all 3 cover images to be configured. Please configure them now.");
-        handleConfigureCovers();
+        handleEditCover(null);
         return;
       }
     }
@@ -194,48 +191,73 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
     };
 
     const getCoversPreview = () => {
-      if (!formData.homeCover && !formData.previewCover && !formData.highlightCover) return null;
+      if (!formData.media || formData.media.length === 0) return null;
       return (
         <div className="space-y-4 pt-4 border-t border-white/5">
           <div className="flex items-center justify-between">
             <h4 className="text-sm font-semibold text-neutral-400 uppercase tracking-wider flex items-center gap-2">
               <Crop className="w-4 h-4" /> Configured Covers
             </h4>
-            {formData.media && formData.media.length > 0 && (
-              <button
-                type="button"
-                onClick={handleConfigureCovers}
-                className="px-3 py-1.5 bg-white/10 hover:bg-white/20 border border-white/10 rounded-lg text-xs font-medium transition-all flex items-center gap-2"
-              >
-                <Crop className="w-3 h-3" /> {formData.homeCover ? 'Re-Configure Covers' : 'Configure Covers'}
-              </button>
-            )}
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 bg-white/[0.02] p-4 rounded-2xl border border-white/5 items-start">
-            {formData.previewCover && (
-              <div className="flex flex-col space-y-2">
+            
+            <div className="flex flex-col space-y-2">
+              <div className="flex justify-between items-center">
                 <span className="text-xs font-medium text-neutral-500">Square Cover (1:1)</span>
-                <div className="w-full aspect-square rounded-xl overflow-hidden border border-white/10 relative bg-black shadow-inner">
+                <button type="button" onClick={() => handleEditCover('preview')} className="text-xs text-red-400 hover:text-red-300">
+                  {formData.previewCover ? 'Change' : 'Set Cover'}
+                </button>
+              </div>
+              <div className="w-full aspect-square rounded-xl overflow-hidden border border-white/10 relative bg-black shadow-inner">
+                {formData.previewCover ? (
                   <img src={formData.previewCover} alt="Preview" className="absolute inset-0 w-full h-full object-cover" />
-                </div>
+                ) : (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-neutral-600">
+                    <Crop className="w-6 h-6 mb-2 opacity-30" />
+                    <span className="text-[10px] uppercase font-bold tracking-widest opacity-50">Not Set</span>
+                  </div>
+                )}
               </div>
-            )}
-            {formData.homeCover && (
-              <div className="flex flex-col space-y-2">
+            </div>
+
+            <div className="flex flex-col space-y-2">
+              <div className="flex justify-between items-center">
                 <span className="text-xs font-medium text-neutral-500">Standard Cover (4:3)</span>
-                <div className="w-full aspect-[4/3] rounded-xl overflow-hidden border border-white/10 relative bg-black shadow-inner">
+                <button type="button" onClick={() => handleEditCover('home')} className="text-xs text-red-400 hover:text-red-300">
+                  {formData.homeCover ? 'Change' : 'Set Cover'}
+                </button>
+              </div>
+              <div className="w-full aspect-[4/3] rounded-xl overflow-hidden border border-white/10 relative bg-black shadow-inner">
+                {formData.homeCover ? (
                   <img src={formData.homeCover} alt="Home" className="absolute inset-0 w-full h-full object-cover" />
-                </div>
+                ) : (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-neutral-600">
+                    <Crop className="w-6 h-6 mb-2 opacity-30" />
+                    <span className="text-[10px] uppercase font-bold tracking-widest opacity-50">Not Set</span>
+                  </div>
+                )}
               </div>
-            )}
-            {formData.highlightCover && (
-              <div className="flex flex-col space-y-2">
+            </div>
+
+            <div className="flex flex-col space-y-2">
+              <div className="flex justify-between items-center">
                 <span className="text-xs font-medium text-neutral-500">Wide Cover (16:9)</span>
-                <div className="w-full aspect-video rounded-xl overflow-hidden border border-white/10 relative bg-black shadow-inner">
-                  <img src={formData.highlightCover} alt="Highlight" className="absolute inset-0 w-full h-full object-cover" />
-                </div>
+                <button type="button" onClick={() => handleEditCover('highlight')} className="text-xs text-red-400 hover:text-red-300">
+                  {formData.highlightCover ? 'Change' : 'Set Cover'}
+                </button>
               </div>
-            )}
+              <div className="w-full aspect-video rounded-xl overflow-hidden border border-white/10 relative bg-black shadow-inner">
+                {formData.highlightCover ? (
+                  <img src={formData.highlightCover} alt="Highlight" className="absolute inset-0 w-full h-full object-cover" />
+                ) : (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-neutral-600">
+                    <Crop className="w-6 h-6 mb-2 opacity-30" />
+                    <span className="text-[10px] uppercase font-bold tracking-widest opacity-50">Not Set</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
           </div>
         </div>
       );
@@ -292,15 +314,6 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="flex flex-col space-y-2">
               <InputField label="RP Rank" type="number" value={formData.rpRank} onChange={(v: any) => handleChange('rpRank', parseInt(v))} />
-              {typeof formData.rpRank === 'number' && formData.rpRank >= 1 && formData.rpRank <= 4 && formData.media && formData.media.length > 0 && (
-                <button
-                  type="button"
-                  onClick={handleConfigureCovers}
-                  className="mt-1 w-full px-4 py-2 bg-gradient-to-r from-red-500/20 to-red-500/10 hover:from-red-500/30 hover:to-red-500/20 border border-red-500/30 rounded-xl text-red-100 text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-inner"
-                >
-                  <Crop className="w-4 h-4" /> Configure Covers
-                </button>
-              )}
             </div>
             {getTopRanks()}
           </div>
@@ -315,17 +328,7 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
               label="Upload Images (Comma separated)" 
               value={formData.media || []} 
               onChange={(v: any) => handleChange('media', v)} 
-              onUploadComplete={(urls: string[]) => {
-                const isTopRanked = typeof formData.rpRank === 'number' && formData.rpRank >= 1 && formData.rpRank <= 4;
-                if (isTopRanked && urls.length > 0) {
-                  if (urls.length === 1) {
-                    setMasterImage(urls[0]);
-                    setIsCropperOpen(true);
-                  } else {
-                    setSelectorUrls(urls);
-                  }
-                }
-              }}
+              onUploadComplete={(urls: string[]) => {}}
               basePath="/achievements/" 
               itemId={formData.id || (formData.title || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')} 
             />
@@ -397,18 +400,7 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
                 newMedia[0] = v[0] || '';
                 handleChange('media', newMedia);
               }}
-              onUploadComplete={(urls: string[]) => {
-                const isTopRanked = typeof formData.rpRank === 'number' && formData.rpRank >= 1 && formData.rpRank <= 4;
-                if (urls.length > 0) {
-                  const newMedia = [...(formData.media || [])];
-                  newMedia[0] = urls[0];
-                  handleChange('media', newMedia);
-                  if (isTopRanked) {
-                    setMasterImage(urls[0]);
-                    setIsCropperOpen(true);
-                  }
-                }
-              }}
+              onUploadComplete={(urls: string[]) => {}}
               basePath="/projects/" 
               itemId={formData.id || (formData.name || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')} 
             />
@@ -424,13 +416,7 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
                 newMedia[1] = v[0] || '';
                 handleChange('media', newMedia);
               }}
-              onUploadComplete={(urls: string[]) => {
-                if (urls.length > 0) {
-                  const newMedia = [...(formData.media || [])];
-                  newMedia[1] = urls[0];
-                  handleChange('media', newMedia);
-                }
-              }}
+              onUploadComplete={(urls: string[]) => {}}
               basePath="/projects/" 
               itemId={formData.id || (formData.name || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')} 
             />
@@ -446,13 +432,7 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
                 newMedia[2] = v[0] || '';
                 handleChange('media', newMedia);
               }}
-              onUploadComplete={(urls: string[]) => {
-                if (urls.length > 0) {
-                  const newMedia = [...(formData.media || [])];
-                  newMedia[2] = urls[0];
-                  handleChange('media', newMedia);
-                }
-              }}
+              onUploadComplete={(urls: string[]) => {}}
               basePath="/projects/" 
               itemId={formData.id || (formData.name || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')} 
             />
@@ -468,13 +448,7 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
                 newMedia[3] = v[0] || '';
                 handleChange('media', newMedia);
               }}
-              onUploadComplete={(urls: string[]) => {
-                if (urls.length > 0) {
-                  const newMedia = [...(formData.media || [])];
-                  newMedia[3] = urls[0];
-                  handleChange('media', newMedia);
-                }
-              }}
+              onUploadComplete={(urls: string[]) => {}}
               basePath="/projects/" 
               itemId={formData.id || (formData.name || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')} 
             />
@@ -488,15 +462,6 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex flex-col space-y-2">
                 <InputField label="RP Rank" type="number" value={formData.rpRank} onChange={(v: any) => handleChange('rpRank', parseInt(v))} />
-                {typeof formData.rpRank === 'number' && formData.rpRank >= 1 && formData.rpRank <= 4 && formData.media && formData.media.length > 0 && (
-                  <button
-                    type="button"
-                    onClick={handleConfigureCovers}
-                    className="mt-1 w-full px-4 py-2 bg-gradient-to-r from-red-500/20 to-red-500/10 hover:from-red-500/30 hover:to-red-500/20 border border-red-500/30 rounded-xl text-red-100 text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-inner"
-                  >
-                    <Crop className="w-4 h-4" /> Configure Covers
-                  </button>
-                )}
               </div>
               {getTopRanks()}
             </div>
@@ -794,16 +759,17 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
           onClose={() => setIsCropperOpen(false)}
           imageUrl={masterImage}
           itemId={formData.id || (formData.title || formData.name || formData.company || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')}
-          basePath={`/${currentType}/`}
+          basePath={`/${currentType}s/`}
+          targetCrop={activeCropTarget}
           existingUrls={{
             preview: formData.previewCover,
             home: formData.homeCover,
             highlight: formData.highlightCover
           }}
           onComplete={(urls) => {
-            handleChange('previewCover', urls.preview);
-            handleChange('homeCover', urls.home);
-            handleChange('highlightCover', urls.highlight);
+            if (urls.preview) handleChange('previewCover', urls.preview);
+            if (urls.home) handleChange('homeCover', urls.home);
+            if (urls.highlight) handleChange('highlightCover', urls.highlight);
           }}
         />
       )}
