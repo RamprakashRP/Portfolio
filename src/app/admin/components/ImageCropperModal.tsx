@@ -176,12 +176,12 @@ export default function ImageCropperModal({ isOpen, onClose, imageUrl, itemId, b
           </button>
         </div>
 
-        <div className="flex bg-white/5 p-1 rounded-xl w-fit mb-4 border border-white/10">
+        <div className="flex bg-white/5 p-1 rounded-xl w-full sm:w-fit mb-4 border border-white/10 overflow-x-auto hide-scrollbar">
           {stepsToRender.map((step) => (
             <button
               key={step.id}
               onClick={() => setActiveTab(step.id)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap ${
                 activeTab === step.id
                   ? 'bg-red-500/20 text-red-400 shadow-[0_0_15px_rgba(239,68,68,0.2)] border border-red-500/30'
                   : 'text-neutral-400 hover:text-white hover:bg-white/5'
@@ -226,7 +226,7 @@ export default function ImageCropperModal({ isOpen, onClose, imageUrl, itemId, b
         </div>
 
         {/* Controls */}
-        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-6 bg-white/5 p-6 rounded-3xl border border-white/10">
+        <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 sm:gap-6 bg-white/5 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-white/10">
           <div className="flex items-center gap-4 w-full sm:w-1/3">
             <span className="text-sm font-medium text-neutral-400">Zoom</span>
             <input
@@ -237,20 +237,18 @@ export default function ImageCropperModal({ isOpen, onClose, imageUrl, itemId, b
               step={0.1}
               aria-labelledby="Zoom"
               onChange={(e) => setZooms(prev => ({ ...prev, [activeTab]: Number(e.target.value) }))}
-              className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-red-500 [&::-webkit-slider-thumb]:rounded-full"
+              className="w-full h-2 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-red-500"
             />
           </div>
 
           <button
-            onClick={handleNext}
+            onClick={handleNextOrSave}
             disabled={isUploading}
-            className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-400 hover:to-red-500 rounded-2xl text-sm font-bold flex items-center justify-center gap-3 transition-all disabled:opacity-50 shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:shadow-[0_0_30px_rgba(239,68,68,0.5)]"
+            className="w-full sm:w-auto px-8 py-3.5 bg-red-500 hover:bg-red-600 text-white rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(239,68,68,0.3)] flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {isUploading ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                <span>Processing & Uploading...</span>
-              </>
             ) : currentStepIndex < stepsToRender.length - 1 ? (
               <>
                 <span>Next</span>

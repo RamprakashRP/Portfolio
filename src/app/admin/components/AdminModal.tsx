@@ -688,8 +688,8 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8 bg-black/80 backdrop-blur-md">
-      <div className="bg-[#111113] border border-white/10 rounded-3xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl relative overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center sm:p-6 bg-black/80 backdrop-blur-xl">
+      <div className="bg-[#0a0a0b] border-0 sm:border border-white/10 w-full h-full sm:h-auto max-w-4xl sm:max-h-[90vh] rounded-none sm:rounded-[2rem] shadow-2xl flex flex-col overflow-hidden relative">
         {/* Glow Effects */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-[120px] pointer-events-none" />
@@ -705,7 +705,7 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
             </h2>
             
             {!initialData && (
-              <div className="flex bg-white/5 border border-white/10 p-1 rounded-xl mt-4 w-fit">
+              <div className="flex bg-white/5 p-1 rounded-xl w-full sm:w-fit mb-6 overflow-x-auto hide-scrollbar">
                 {[
                   { id: 'achievements', label: 'Achievement', icon: Award },
                   { id: 'projects', label: 'Project', icon: LayoutGrid },

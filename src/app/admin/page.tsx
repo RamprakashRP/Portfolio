@@ -39,7 +39,7 @@ const ListItem = ({ item, activeTab, onClick, dragControls }: { item: any, activ
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full">
         {dragControls && (
           <div 
-            className="hidden sm:flex items-center justify-center p-2 -ml-2 cursor-grab active:cursor-grabbing text-neutral-600 hover:text-white transition-colors"
+            className="flex items-center justify-center p-2 -ml-2 cursor-grab active:cursor-grabbing text-neutral-600 hover:text-white transition-colors"
             onPointerDown={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -49,7 +49,7 @@ const ListItem = ({ item, activeTab, onClick, dragControls }: { item: any, activ
             <GripVertical className="w-5 h-5" />
           </div>
         )}
-        <div className="flex-1">
+        <div className="flex-1 w-full overflow-hidden">
           <h3 className="text-xl font-bold text-white group-hover:text-red-400 transition-colors">
             {item.title || item.name || item.company}
           </h3>
@@ -287,7 +287,7 @@ export default function AdminPage() {
 
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-6">
           {/* Nav Tabs */}
-          <div className="flex bg-[#111113]/80 backdrop-blur-xl border border-white/5 rounded-full p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+          <div className="flex w-full md:w-auto overflow-x-auto hide-scrollbar bg-[#111113]/80 backdrop-blur-xl border border-white/5 rounded-full p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
             {[
               { id: 'achievements', label: 'Achievements', icon: Award },
               { id: 'projects', label: 'Projects', icon: LayoutGrid },
