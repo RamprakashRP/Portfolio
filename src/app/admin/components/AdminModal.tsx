@@ -305,23 +305,7 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
             <InputField label="Period" value={formData.period} onChange={(v: any) => handleChange('period', v)} />
           </div>
           <TagsInputField label="Tags" value={formData.tags || []} onChange={(v: any) => handleChange('tags', v)} allTags={allTags} />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="flex flex-col space-y-2">
-              <InputField label="RP Rank" type="number" value={formData.rpRank} onChange={(v: any) => handleChange('rpRank', parseInt(v))} />
-              {typeof formData.rpRank === 'number' && formData.rpRank >= 1 && formData.rpRank <= 4 && formData.media && formData.media.length > 0 && (
-                <button
-                  type="button"
-                  onClick={handleConfigureCovers}
-                  className="mt-1 w-full px-4 py-2 bg-gradient-to-r from-red-500/20 to-red-500/10 hover:from-red-500/30 hover:to-red-500/20 border border-red-500/30 rounded-xl text-red-100 text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-inner"
-                >
-                  <Crop className="w-4 h-4" /> Configure Covers
-                </button>
-              )}
-            </div>
-            {getTopRanks()}
-          </div>
-          <TextAreaField label="Description" value={formData.description} onChange={(v: any) => handleChange('description', v)} />
-          
+
           <div className="space-y-4 pt-4 border-t border-white/5">
             <h4 className="text-sm font-semibold text-neutral-400 uppercase tracking-wider flex items-center gap-2">
               <LinkIcon className="w-4 h-4" /> Additional Info
@@ -331,15 +315,10 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
               <InputField label="Service" value={formData.service} onChange={(v: any) => handleChange('service', v)} />
               <InputField label="Live URL" value={formData.liveUrl} onChange={(v: any) => handleChange('liveUrl', v)} />
             </div>
-            <TextAreaField label="Info: Goal" value={formData.infoGoal} onChange={(v: any) => handleChange('infoGoal', v)} />
-            <TextAreaField label="Info: Challenge" value={formData.infoChallenge} onChange={(v: any) => handleChange('infoChallenge', v)} />
-            <TextAreaField label="Info: Result" value={formData.infoResult} onChange={(v: any) => handleChange('infoResult', v)} />
           </div>
-          
-          <div className="space-y-4 pt-4 border-t border-white/5">
-            <h4 className="text-sm font-semibold text-neutral-400 uppercase tracking-wider flex items-center gap-2">
-              <ImageIcon className="w-4 h-4" /> Media URLs
-            </h4>
+
+          <div className="space-y-6 pt-4 border-t border-white/5">
+            <TextAreaField label="Description" value={formData.description} onChange={(v: any) => handleChange('description', v)} />
             
             <MediaPathField 
               label="Cover Image (Media 1)" 
@@ -364,8 +343,10 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
               basePath="/projects/" 
               itemId={formData.id || (formData.name || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')} 
             />
-            {formData.media?.[0] && <div className="w-32 h-20 relative rounded-xl overflow-hidden border border-white/10 mb-4"><img src={formData.media[0]} className="object-cover w-full h-full" /></div>}
+            {formData.media?.[0] && <div className="w-32 h-20 relative rounded-xl overflow-hidden border border-white/10 -mt-2"><img src={formData.media[0]} className="object-cover w-full h-full" /></div>}
 
+            <TextAreaField label="Info: Goal" value={formData.infoGoal} onChange={(v: any) => handleChange('infoGoal', v)} />
+            
             <MediaPathField 
               label="Goal Image (Media 2)" 
               value={formData.media?.[1] ? [formData.media[1]] : []} 
@@ -384,8 +365,10 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
               basePath="/projects/" 
               itemId={formData.id || (formData.name || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')} 
             />
-            {formData.media?.[1] && <div className="w-32 h-20 relative rounded-xl overflow-hidden border border-white/10 mb-4"><img src={formData.media[1]} className="object-cover w-full h-full" /></div>}
+            {formData.media?.[1] && <div className="w-32 h-20 relative rounded-xl overflow-hidden border border-white/10 -mt-2"><img src={formData.media[1]} className="object-cover w-full h-full" /></div>}
 
+            <TextAreaField label="Info: Challenge" value={formData.infoChallenge} onChange={(v: any) => handleChange('infoChallenge', v)} />
+            
             <MediaPathField 
               label="Challenge Image (Media 3)" 
               value={formData.media?.[2] ? [formData.media[2]] : []} 
@@ -404,8 +387,10 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
               basePath="/projects/" 
               itemId={formData.id || (formData.name || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')} 
             />
-            {formData.media?.[2] && <div className="w-32 h-20 relative rounded-xl overflow-hidden border border-white/10 mb-4"><img src={formData.media[2]} className="object-cover w-full h-full" /></div>}
+            {formData.media?.[2] && <div className="w-32 h-20 relative rounded-xl overflow-hidden border border-white/10 -mt-2"><img src={formData.media[2]} className="object-cover w-full h-full" /></div>}
 
+            <TextAreaField label="Info: Result" value={formData.infoResult} onChange={(v: any) => handleChange('infoResult', v)} />
+            
             <MediaPathField 
               label="Result Image (Media 4)" 
               value={formData.media?.[3] ? [formData.media[3]] : []} 
@@ -424,8 +409,28 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
               basePath="/projects/" 
               itemId={formData.id || (formData.name || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')} 
             />
-            {formData.media?.[3] && <div className="w-32 h-20 relative rounded-xl overflow-hidden border border-white/10 mb-4"><img src={formData.media[3]} className="object-cover w-full h-full" /></div>}
+            {formData.media?.[3] && <div className="w-32 h-20 relative rounded-xl overflow-hidden border border-white/10 -mt-2"><img src={formData.media[3]} className="object-cover w-full h-full" /></div>}
+          </div>
 
+          <div className="space-y-4 pt-4 border-t border-white/5">
+            <h4 className="text-sm font-semibold text-neutral-400 uppercase tracking-wider flex items-center gap-2">
+              <Award className="w-4 h-4" /> Ranking & Covers
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex flex-col space-y-2">
+                <InputField label="RP Rank" type="number" value={formData.rpRank} onChange={(v: any) => handleChange('rpRank', parseInt(v))} />
+                {typeof formData.rpRank === 'number' && formData.rpRank >= 1 && formData.rpRank <= 4 && formData.media && formData.media.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleConfigureCovers}
+                    className="mt-1 w-full px-4 py-2 bg-gradient-to-r from-red-500/20 to-red-500/10 hover:from-red-500/30 hover:to-red-500/20 border border-red-500/30 rounded-xl text-red-100 text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-inner"
+                  >
+                    <Crop className="w-4 h-4" /> Configure Covers
+                  </button>
+                )}
+              </div>
+              {getTopRanks()}
+            </div>
             {getCoversPreview()}
           </div>
         </div>
