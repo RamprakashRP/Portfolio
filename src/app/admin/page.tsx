@@ -1,10 +1,11 @@
 'use client';
 import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Plus, Edit2, Trash2, Search, Filter, Award, LayoutGrid, Briefcase, ChevronDown, ChevronUp } from 'lucide-react';
+import { Plus, Edit2, Trash2, Search, Filter, Award, LayoutGrid, Briefcase, ChevronDown, ChevronUp, GripVertical } from 'lucide-react';
+import { Reorder, useDragControls } from 'framer-motion';
 import AdminModal from './components/AdminModal';
 
-const ListItem = ({ item, activeTab, onClick }: { item: any, activeTab: string, onClick: () => void }) => {
+const ListItem = ({ item, activeTab, onClick, dragControls }: { item: any, activeTab: string, onClick: () => void, dragControls?: any }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const isExperience = activeTab === 'experience';
   
@@ -36,6 +37,18 @@ const ListItem = ({ item, activeTab, onClick }: { item: any, activeTab: string, 
       className="flex flex-col p-5 bg-gradient-to-r from-white/[0.02] to-transparent border border-white/5 rounded-2xl hover:bg-white/[0.04] hover:border-red-500/30 transition-all group shadow-sm hover:shadow-lg cursor-pointer relative"
     >
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full">
+        {dragControls && (
+          <div 
+            className="hidden sm:flex items-center justify-center p-2 -ml-2 cursor-grab active:cursor-grabbing text-neutral-600 hover:text-white transition-colors"
+            onPointerDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              dragControls.start(e);
+            }}
+          >
+            <GripVertical className="w-5 h-5" />
+          </div>
+        )}
         <div className="flex-1">
           <h3 className="text-xl font-bold text-white group-hover:text-red-400 transition-colors">
             {item.title || item.name || item.company}
@@ -105,6 +118,15 @@ const ListItem = ({ item, activeTab, onClick }: { item: any, activeTab: string, 
   );
 };
 
+const DraggableWrapper = ({ item, activeTab, onClick, onDragEnd }: { item: any, activeTab: string, onClick: () => void, onDragEnd: () => void }) => {
+  const controls = useDragControls();
+  return (
+    <Reorder.Item value={item} dragListener={false} dragControls={controls} onDragEnd={onDragEnd} className="relative">
+      <ListItem item={item} activeTab={activeTab} onClick={onClick} dragControls={controls} />
+    </Reorder.Item>
+  );
+};
+
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<'achievements' | 'projects' | 'experience'>('achievements');
   const [items, setItems] = useState<any[]>([]);
@@ -123,7 +145,7 @@ export default function AdminPage() {
   const fetchData = async () => {
     setLoading(true);
     const tableName = activeTab === 'experience' ? 'experiences' : activeTab;
-    let { data, error } = await supabase.from(tableName).select('*').order('updated_at', { ascending: false });
+    const { data, error } = await supabase.from(tableName).select('*').order('rpRank', { ascending: true });
     if (error) {
       console.error(error);
       setItems([]);
@@ -341,10 +363,21 @@ export default function AdminPage() {
                 <p className="font-medium text-lg text-neutral-400">No matching entries found.</p>
                 <p className="text-sm mt-1">Try a different search or add a new entry.</p>
               </div>
+            ) : sortOrder === 'rprank' && !searchQuery ? (
+              <Reorder.Group axis="y" values={filteredItems} onReorder={handleReorder} className="space-y-4">
+                {filteredItems.map((item) => {
+                  // We need to use a small wrapper component inside map to avoid useDragControls hook inside map block natively
+                  // Wait, Reorder.Item allows dragControls but it expects it to be created via useDragControls
+                  // Let's create an inline component or use a wrapper.
+                  return <DraggableWrapper key={item.id} item={item} activeTab={activeTab} onClick={() => handleEdit(item)} onDragEnd={handleDragEnd} />
+                })}
+              </Reorder.Group>
             ) : (
-              filteredItems.map((item, idx) => (
-                <ListItem key={item.id || idx} item={item} activeTab={activeTab} onClick={() => handleEdit(item)} />
-              ))
+              <div className="space-y-4">
+                {filteredItems.map((item, idx) => (
+                  <ListItem key={item.id || idx} item={item} activeTab={activeTab} onClick={() => handleEdit(item)} />
+                ))}
+              </div>
             )}
           </div>
         </div>
