@@ -24,6 +24,7 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
   const [isCropperOpen, setIsCropperOpen] = useState(false);
   const [masterImage, setMasterImage] = useState<string | null>(null);
   const [selectorUrls, setSelectorUrls] = useState<string[]>([]);
+  const [activeRoleIndex, setActiveRoleIndex] = useState(0);
 
   useEffect(() => {
     if (isOpen) {
@@ -32,8 +33,10 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
       setMasterImage(null);
       setIsCropperOpen(false);
       setSelectorUrls([]);
+      setSelectorUrls([]);
       setConfirmDelete(false);
       setCurrentType(type);
+      setActiveRoleIndex(0);
     }
   }, [isOpen, initialData, type]);
 
@@ -473,27 +476,165 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
     }
 
     if (currentType === 'experience') {
+      const roles = formData.roles || [];
+      const addRole = () => {
+        handleChange('roles', [...roles, { position: '', isCurrent: true, startDate: '', endDate: '', location: '', locationType: '', skills: [], points: [], images: [] }]);
+        setActiveRoleIndex(roles.length);
+      };
+      const updateRole = (index: number, field: string, value: any) => {
+        const newRoles = [...roles];
+        newRoles[index] = { ...newRoles[index], [field]: value };
+        handleChange('roles', newRoles);
+      };
+      const removeRole = (index: number) => {
+        if (window.confirm('Are you sure you want to remove this role?')) {
+          const newRoles = roles.filter((_: any, i: number) => i !== index);
+          handleChange('roles', newRoles);
+          setActiveRoleIndex(Math.max(0, index - 1));
+        }
+      };
+
+      const handleCompanyChange = (val: string) => {
+        handleChange('company', val);
+        const existing = items.find(i => i.company?.toLowerCase() === val.toLowerCase());
+        if (existing && !formData.id) {
+          if (window.confirm(`Company '${val}' already exists. Edit the existing entry instead of creating a duplicate?`)) {
+            handleChange('id', existing.id);
+            handleChange('logo', existing.logo);
+            handleChange('location', existing.location);
+            handleChange('rpRank', existing.rpRank);
+            
+            const existingRoles = existing.roles || [];
+            if (existingRoles.length > 0) {
+              const lastRole = existingRoles[existingRoles.length - 1];
+              if (lastRole.isCurrent !== false) {
+                if (window.confirm('The last role is marked as currently active. Do you want to end it automatically?')) {
+                  existingRoles[existingRoles.length - 1].isCurrent = false;
+                  existingRoles[existingRoles.length - 1].endDate = `Dec, ${new Date().getFullYear()}`;
+                }
+              }
+            }
+            handleChange('roles', existingRoles);
+            setActiveRoleIndex(existingRoles.length); // prepare for new role
+          }
+        }
+      };
+
       return (
         <div className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <InputField label="Company" value={formData.company} onChange={(v: any) => handleChange('company', v)} />
-            <InputField label="Location" value={formData.location} onChange={(v: any) => handleChange('location', v)} />
+            <AutocompleteInputField 
+              label="Company Name" 
+              value={formData.company} 
+              onChange={handleCompanyChange} 
+              suggestions={items.map(i => i.company).filter(Boolean)}
+              placeholder="e.g. Google"
+            />
+            <MediaPathField label="Company Logo" value={formData.logo ? [formData.logo] : []} onChange={(v: any) => handleChange('logo', v[0] || '')} onUploadComplete={(urls: string[]) => { if(urls[0]) handleChange('logo', urls[0]); }} basePath="/experience/" itemId={formData.id || (formData.company || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')} />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <InputField label="RP Rank" type="number" value={formData.rpRank} onChange={(v: any) => handleChange('rpRank', parseInt(v))} />
-            {getTopRanks()}
-          </div>
-          <MediaPathField label="Logo URL" value={formData.logo} onChange={(v: any) => handleChange('logo', v)} basePath="/experience/" itemId={formData.id || (formData.company || 'new').toLowerCase().replace(/[^a-z0-9]+/g, '-')} />
           
           <div className="space-y-4 pt-4 border-t border-white/5">
-            <h4 className="text-sm font-semibold text-neutral-400 uppercase tracking-wider">Roles</h4>
-            <TextAreaField label="Roles (JSON Array)" value={JSON.stringify(formData.roles || [], null, 2)} onChange={(v: any) => {
-              try {
-                const parsed = JSON.parse(v);
-                handleChange('roles', parsed);
-              } catch(e) {}
-            }} />
-            <p className="text-xs text-neutral-500 mt-1">Must be valid JSON. Example: [{`{"position":"CEO", "duration":"Jan 2026", "points":["Point 1"]}`}]</p>
+            <div className="flex items-center justify-between">
+              <h4 className="text-sm font-semibold text-neutral-400 uppercase tracking-wider">Roles at Company</h4>
+              <button onClick={addRole} type="button" className="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-semibold rounded-lg transition-all border border-red-500/20">
+                + Add Role
+              </button>
+            </div>
+            
+            {roles.length > 0 ? (
+              <div className="flex flex-col space-y-4">
+                <div className="flex gap-2 overflow-x-auto custom-scrollbar pb-2">
+                  {roles.map((r: any, idx: number) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setActiveRoleIndex(idx)}
+                      className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${activeRoleIndex === idx ? 'bg-red-500 text-white' : 'bg-white/5 text-neutral-400 hover:bg-white/10'}`}
+                    >
+                      {r.position || `Role ${idx + 1}`}
+                    </button>
+                  ))}
+                </div>
+
+                {roles[activeRoleIndex] && (
+                  <div className="bg-white/[0.02] border border-white/5 p-5 rounded-2xl space-y-5 relative">
+                    <button type="button" onClick={() => removeRole(activeRoleIndex)} className="absolute top-4 right-4 p-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg transition-all">
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <InputField label="Role Title (Position)" value={roles[activeRoleIndex].position} onChange={(v: any) => updateRole(activeRoleIndex, 'position', v)} />
+                      <div className="flex flex-col space-y-2 justify-center pt-6">
+                        <label className="flex items-center gap-3 cursor-pointer group">
+                          <div className={`w-5 h-5 rounded border flex items-center justify-center transition-all ${roles[activeRoleIndex].isCurrent !== false ? 'bg-red-500 border-red-500' : 'border-white/20 bg-transparent group-hover:border-red-500/50'}`}>
+                            {roles[activeRoleIndex].isCurrent !== false && <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
+                          </div>
+                          <input type="checkbox" className="hidden" checked={roles[activeRoleIndex].isCurrent !== false} onChange={(e) => updateRole(activeRoleIndex, 'isCurrent', e.target.checked)} />
+                          <span className="text-sm font-medium text-white group-hover:text-red-300 transition-colors">Currently Working Here</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="flex flex-col space-y-2">
+                        <label className="text-sm font-medium text-neutral-400">Start Date</label>
+                        <div className="flex gap-2">
+                          <CustomSelect placeholder="Month" value={roles[activeRoleIndex].startDate?.split(', ')[0] || ''} options={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']} onChange={(v: string) => { const year = roles[activeRoleIndex].startDate?.split(', ')[1] || new Date().getFullYear().toString(); updateRole(activeRoleIndex, 'startDate', `${v}, ${year}`); }} />
+                          <CustomSelect placeholder="Year" value={roles[activeRoleIndex].startDate?.split(', ')[1] || ''} options={Array.from({ length: 27 }, (_, i) => (2004 + i).toString())} onChange={(v: string) => { const month = roles[activeRoleIndex].startDate?.split(', ')[0] || 'Jan'; updateRole(activeRoleIndex, 'startDate', `${month}, ${v}`); }} />
+                        </div>
+                      </div>
+                      
+                      {roles[activeRoleIndex].isCurrent === false && (
+                        <div className="flex flex-col space-y-2">
+                          <label className="text-sm font-medium text-neutral-400">End Date</label>
+                          <div className="flex gap-2">
+                            <CustomSelect placeholder="Month" value={roles[activeRoleIndex].endDate?.split(', ')[0] || ''} options={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']} onChange={(v: string) => { const year = roles[activeRoleIndex].endDate?.split(', ')[1] || new Date().getFullYear().toString(); updateRole(activeRoleIndex, 'endDate', `${v}, ${year}`); }} />
+                            <CustomSelect placeholder="Year" value={roles[activeRoleIndex].endDate?.split(', ')[1] || ''} options={Array.from({ length: 27 }, (_, i) => (2004 + i).toString())} onChange={(v: string) => { const month = roles[activeRoleIndex].endDate?.split(', ')[0] || 'Jan'; updateRole(activeRoleIndex, 'endDate', `${month}, ${v}`); }} />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <InputField label="Location (City, Country)" value={roles[activeRoleIndex].location} onChange={(v: any) => updateRole(activeRoleIndex, 'location', v)} />
+                      <div className="flex flex-col space-y-2">
+                        <label className="text-sm font-medium text-neutral-400">Location Type</label>
+                        <CustomSelect placeholder="Select Type" value={roles[activeRoleIndex].locationType || ''} options={['On-site', 'Remote', 'Hybrid']} onChange={(v: string) => updateRole(activeRoleIndex, 'locationType', v)} />
+                      </div>
+                    </div>
+
+                    <TagsInputField label="Skills" value={roles[activeRoleIndex].skills || []} onChange={(v: any) => updateRole(activeRoleIndex, 'skills', v)} allTags={allTags} />
+                    
+                    <TextAreaField label="Description / Bullet Points (One per line)" value={(roles[activeRoleIndex].points || []).join('\n')} onChange={(v: string) => updateRole(activeRoleIndex, 'points', v.split('\n').filter(Boolean))} />
+
+                    <div className="pt-2">
+                      <MediaPathField 
+                        label="Media for this Role" 
+                        value={roles[activeRoleIndex].images || []} 
+                        onChange={(v: any) => updateRole(activeRoleIndex, 'images', v)} 
+                        onUploadComplete={(urls: string[]) => updateRole(activeRoleIndex, 'images', [...(roles[activeRoleIndex].images || []), ...urls])} 
+                        basePath="/experience/" 
+                        itemId={`${formData.id || 'new'}-role-${activeRoleIndex}`} 
+                      />
+                      {roles[activeRoleIndex].images?.length > 0 && (
+                        <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                          {roles[activeRoleIndex].images.map((url: string, idx: number) => (
+                            <div key={idx} className="relative group rounded-xl overflow-hidden aspect-video border border-white/10 bg-black">
+                              <img src={url} className="absolute inset-0 w-full h-full object-cover" />
+                              <button type="button" onClick={() => updateRole(activeRoleIndex, 'images', roles[activeRoleIndex].images.filter((_: any, i: number) => i !== idx))} className="absolute top-2 right-2 p-1.5 bg-black/60 hover:bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all"><X className="w-3 h-3" /></button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="text-center py-8 bg-white/[0.02] border border-white/5 rounded-2xl">
+                <p className="text-neutral-500 text-sm">No roles added yet.</p>
+              </div>
+            )}
           </div>
         </div>
       );

@@ -31,6 +31,7 @@ export default function Experience() {
   }, []);
 
   // Reset top card index when active role changes
+  // eslint-disable-next-line
   useEffect(() => {
     setTopCardIndex(0);
   }, [hoveredRoleId, lockedRoleId]);
@@ -112,7 +113,7 @@ export default function Experience() {
         {/* Top Header Row */}
         <div className="flex justify-between items-center text-[10px] font-bold tracking-widest text-neutral-500 uppercase mb-20">
           <span>07</span>
-          <span>//EXPERIENCE</span>
+          <span>{'//EXPERIENCE'}</span>
           <span>2013 - PRESENT</span>
         </div>
 
@@ -279,18 +280,44 @@ export default function Experience() {
                           <div className={`absolute top-4 right-4 w-2 h-2 rounded-full transition-all duration-300 ${isLocked ? 'bg-white shadow-[0_0_10px_white] opacity-100' : 'opacity-0'}`} />
 
                           <div className="relative z-10">
+
                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-xs font-bold tracking-wider text-neutral-400 uppercase mb-4 space-y-2 sm:space-y-0 pr-6">
                               <span className={`transition-colors duration-300 ${isActive ? 'text-white' : 'text-neutral-300'}`}>
                                 {role.position}
                               </span>
                               <span className={`px-3 py-1 rounded-full border text-[10px] ${isActive ? 'bg-white/10 border-white/20 text-white' : 'bg-transparent border-white/10 text-neutral-500'}`}>
-                                {role.duration}
+                                {role.startDate ? (role.startDate + ' - ' + (role.isCurrent !== false ? 'Present' : role.endDate)) : role.duration}
                               </span>
                             </div>
 
-                            <p className={`text-sm md:text-base leading-relaxed font-light transition-colors duration-300 ${isActive ? 'text-neutral-200' : 'text-neutral-400'}`}>
-                              {role.description}
-                            </p>
+                            {(role.location || role.locationType) && (
+                              <div className="flex items-center gap-2 text-xs font-medium text-neutral-500 mb-4">
+                                {role.locationType && <span className="bg-white/5 px-2 py-0.5 rounded-md border border-white/10">{role.locationType}</span>}
+                                {role.location && <span>{role.location}</span>}
+                              </div>
+                            )}
+
+                            {role.points && role.points.length > 0 ? (
+                              <ul className={`list-disc list-outside ml-4 text-sm md:text-base leading-relaxed font-light transition-colors duration-300 space-y-2 ${isActive ? 'text-neutral-200' : 'text-neutral-400'}`}>
+                                {role.points.map((pt: string, idx: number) => (
+                                  <li key={idx}>{pt}</li>
+                                ))}
+                              </ul>
+                            ) : role.description && (
+                              <p className={`text-sm md:text-base leading-relaxed font-light transition-colors duration-300 ${isActive ? 'text-neutral-200' : 'text-neutral-400'}`}>
+                                {role.description}
+                              </p>
+                            )}
+
+                            {role.skills && role.skills.length > 0 && (
+                              <div className="flex flex-wrap gap-2 mt-6">
+                                {role.skills.map((skill: string, idx: number) => (
+                                  <span key={idx} className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-medium text-neutral-300 shadow-inner hover:bg-white/10 transition-colors">
+                                    {skill}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
 
                             {/* Inline images for mobile */}
                             {role.images && role.images.length > 0 && isActive && (
