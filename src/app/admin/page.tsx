@@ -15,7 +15,17 @@ const ListItem = ({ item, activeTab, onClick }: { item: any, activeTab: string, 
 
   const getLatestRole = () => {
     if (!item.roles || item.roles.length === 0) return null;
-    return item.roles[item.roles.length - 1];
+    const activeRoles = item.roles.filter((r: any) => r.isCurrent !== false);
+    if (activeRoles.length > 0) {
+      return activeRoles[activeRoles.length - 1];
+    }
+    // If no active, return the role with the most recent start date
+    const sorted = [...item.roles].sort((a: any, b: any) => {
+      const timeA = new Date(a.startDate || 0).getTime();
+      const timeB = new Date(b.startDate || 0).getTime();
+      return timeB - timeA; // Descending
+    });
+    return sorted[0];
   };
 
   const latestRole = getLatestRole();
