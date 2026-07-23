@@ -9,7 +9,8 @@ export default function RegisterDevicePage() {
 
   const handleAuth = (e: React.FormEvent) => {
     e.preventDefault();
-    if (secret === 'ramprakash_secret_2026') {
+    const expectedSecret = process.env.NEXT_PUBLIC_REGISTER_SECRET || 'ramprakash_secret_2026';
+    if (secret === expectedSecret) {
       setIsAuthenticated(true);
     } else {
       setStatus('Invalid secret');
