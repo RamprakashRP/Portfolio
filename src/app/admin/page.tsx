@@ -90,9 +90,6 @@ const ListItem = ({ item, activeTab, onClick, dragControls }: { item: any, activ
               {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             </button>
           )}
-          <span className="text-sm font-medium text-red-400/80 bg-red-500/10 px-3 py-1.5 rounded-lg border border-red-500/20 opacity-0 group-hover:opacity-100 transition-opacity">
-            Click to Edit
-          </span>
         </div>
       </div>
       
