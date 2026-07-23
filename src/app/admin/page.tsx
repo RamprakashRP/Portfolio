@@ -21,9 +21,11 @@ export default function AdminPage() {
 
   const fetchData = async () => {
     setLoading(true);
-    let { data, error } = await supabase.from(activeTab).select('*').order('updated_at', { ascending: false });
+    const tableName = activeTab === 'experience' ? 'experiences' : activeTab;
+    let { data, error } = await supabase.from(tableName).select('*').order('updated_at', { ascending: false });
     if (error) {
       console.error(error);
+      setItems([]);
     } else {
       setItems(data || []);
     }
@@ -41,15 +43,16 @@ export default function AdminPage() {
   };
 
   const handleDelete = async (item: any) => {
-    const matchField = activeTab === 'experience' ? 'id' : 'id';
-    await supabase.from(activeTab).delete().eq(matchField, item[matchField]);
+    const tableName = activeTab === 'experience' ? 'experiences' : activeTab;
+    const matchField = 'id';
+    await supabase.from(tableName).delete().eq(matchField, item[matchField]);
     
     // Rank Cascading Logic for Deletion
     if (typeof item.rpRank === 'number') {
-      const { data } = await supabase.from(activeTab).select('id, rpRank').gt('rpRank', item.rpRank);
+      const { data } = await supabase.from(tableName).select('id, rpRank').gt('rpRank', item.rpRank);
       if (data) {
         for (const subsequentItem of data) {
-          await supabase.from(activeTab).update({ rpRank: subsequentItem.rpRank - 1 }).eq('id', subsequentItem.id);
+          await supabase.from(tableName).update({ rpRank: subsequentItem.rpRank - 1 }).eq('id', subsequentItem.id);
         }
       }
     }

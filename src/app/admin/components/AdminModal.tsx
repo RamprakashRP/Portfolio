@@ -32,7 +32,8 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
       setCurrentTypeItems(items);
     } else {
       const fetchTypeItems = async () => {
-        const { data } = await supabase.from(currentType).select('*').order('updated_at', { ascending: false });
+        const tableName = currentType === 'experience' ? 'experiences' : currentType;
+        const { data } = await supabase.from(tableName).select('*').order('updated_at', { ascending: false });
         setCurrentTypeItems(data || []);
       };
       fetchTypeItems();
@@ -41,17 +42,27 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
 
   useEffect(() => {
     if (isOpen) {
-      setFormData(initialData || { tags: [], media: [] });
+      const defaultData = initialData || { tags: [], media: [] };
+      if (type === 'experience' && !initialData) {
+        defaultData.roles = [{ position: '', isCurrent: true, startDate: '', endDate: '', location: '', locationType: '', skills: [], points: [], images: [] }];
+      }
+      setFormData(defaultData);
       setError(null);
       setMasterImage(null);
       setIsCropperOpen(false);
-      setSelectorUrls([]);
       setSelectorUrls([]);
       setConfirmDelete(false);
       setCurrentType(type);
       setActiveRoleIndex(0);
     }
   }, [isOpen, initialData, type]);
+
+  useEffect(() => {
+    if (currentType === 'experience' && (!formData.roles || formData.roles.length === 0)) {
+      setFormData((prev: any) => ({ ...prev, roles: [{ position: '', isCurrent: true, startDate: '', endDate: '', location: '', locationType: '', skills: [], points: [], images: [] }] }));
+      setActiveRoleIndex(0);
+    }
+  }, [currentType]);
 
   if (!isOpen) return null;
 
@@ -140,11 +151,13 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
       }
 
       if (initialData) {
-        const matchField = currentType === 'experience' ? 'id' : 'id';
-        const { error } = await supabase.from(currentType).update(dataToSave).eq(matchField, initialData[matchField]);
+        const tableName = currentType === 'experience' ? 'experiences' : currentType;
+        const matchField = 'id';
+        const { error } = await supabase.from(tableName).update(dataToSave).eq(matchField, initialData[matchField]);
         if (error) throw error;
       } else {
-        const { error } = await supabase.from(currentType).insert([dataToSave]);
+        const tableName = currentType === 'experience' ? 'experiences' : currentType;
+        const { error } = await supabase.from(tableName).insert([dataToSave]);
         if (error) throw error;
       }
       
@@ -517,17 +530,9 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
             handleChange('rpRank', existing.rpRank);
             
             const existingRoles = existing.roles || [];
-            if (existingRoles.length > 0) {
-              const lastRole = existingRoles[existingRoles.length - 1];
-              if (lastRole.isCurrent !== false) {
-                if (window.confirm('The last role is marked as currently active. Do you want to end it automatically?')) {
-                  existingRoles[existingRoles.length - 1].isCurrent = false;
-                  existingRoles[existingRoles.length - 1].endDate = `Dec, ${new Date().getFullYear()}`;
-                }
-              }
-            }
-            handleChange('roles', existingRoles);
-            setActiveRoleIndex(existingRoles.length); // prepare for new role
+            const newRole = { position: '', isCurrent: true, startDate: '', endDate: '', location: '', locationType: '', skills: [], points: [], images: [] };
+            handleChange('roles', [...existingRoles, newRole]);
+            setActiveRoleIndex(existingRoles.length); // auto open the new role
           }
         }
       };
@@ -574,6 +579,32 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
                       <Trash2 className="w-4 h-4" />
                     </button>
                     
+                    {activeRoleIndex > 0 && roles[activeRoleIndex - 1].isCurrent !== false && (
+                      <div className="bg-white/5 border border-white/10 p-4 rounded-xl mb-4">
+                        <label className="flex items-center gap-3 cursor-pointer group">
+                          <input type="checkbox" className="hidden" 
+                            onChange={(e) => {
+                              const checked = e.target.checked;
+                              const newRoles = [...roles];
+                              newRoles[activeRoleIndex - 1].isCurrent = !checked;
+                              if (checked) {
+                                newRoles[activeRoleIndex - 1].endDate = `Dec, ${new Date().getFullYear()}`;
+                              } else {
+                                newRoles[activeRoleIndex - 1].endDate = '';
+                              }
+                              handleChange('roles', newRoles);
+                            }}
+                            checked={roles[activeRoleIndex - 1].isCurrent === false}
+                          />
+                          <div className={`w-5 h-5 rounded border flex items-center justify-center transition-all ${roles[activeRoleIndex - 1].isCurrent === false ? 'bg-red-500 border-red-500' : 'border-white/20 bg-transparent group-hover:border-red-500/50'}`}>
+                            {roles[activeRoleIndex - 1].isCurrent === false && <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
+                          </div>
+                          <span className="text-sm font-medium text-white group-hover:text-red-300 transition-colors">
+                            End previous role as {roles[activeRoleIndex - 1].position || 'Unknown Role'}
+                          </span>
+                        </label>
+                      </div>
+                    )}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <InputField label="Role Title (Position)" value={roles[activeRoleIndex].position} onChange={(v: any) => updateRole(activeRoleIndex, 'position', v)} />
                       <div className="flex flex-col space-y-2 justify-center pt-6">
