@@ -36,7 +36,7 @@ const ListItem = ({ item, activeTab, onClick, dragControls }: { item: any, activ
       onClick={onClick}
       className="flex flex-col p-4 sm:p-5 bg-gradient-to-r from-white/[0.02] to-transparent border border-white/5 rounded-2xl hover:bg-white/[0.04] hover:border-red-500/30 transition-all group shadow-sm hover:shadow-lg cursor-pointer relative"
     >
-      className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 w-full">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 w-full">
         {dragControls && (
           <div 
             className="flex items-center justify-center p-1 sm:p-2 -ml-2 sm:-ml-2 cursor-grab active:cursor-grabbing text-neutral-600 hover:text-white transition-colors"
