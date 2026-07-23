@@ -1,8 +1,99 @@
 'use client';
 import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Plus, Edit2, Trash2, Search, Filter, Award, LayoutGrid, Briefcase } from 'lucide-react';
+import { Plus, Edit2, Trash2, Search, Filter, Award, LayoutGrid, Briefcase, ChevronDown, ChevronUp } from 'lucide-react';
 import AdminModal from './components/AdminModal';
+
+const ListItem = ({ item, activeTab, onClick }: { item: any, activeTab: string, onClick: () => void }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const isExperience = activeTab === 'experience';
+  
+  const handleExpandClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsExpanded(!isExpanded);
+  };
+
+  const getLatestRole = () => {
+    if (!item.roles || item.roles.length === 0) return null;
+    return item.roles[item.roles.length - 1];
+  };
+
+  const latestRole = getLatestRole();
+
+  return (
+    <div 
+      onClick={onClick}
+      className="flex flex-col p-5 bg-gradient-to-r from-white/[0.02] to-transparent border border-white/5 rounded-2xl hover:bg-white/[0.04] hover:border-red-500/30 transition-all group shadow-sm hover:shadow-lg cursor-pointer relative"
+    >
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full">
+        <div className="flex-1">
+          <h3 className="text-xl font-bold text-white group-hover:text-red-400 transition-colors">
+            {item.title || item.name || item.company}
+          </h3>
+          
+          {isExperience ? (
+            <div className="mt-2 text-sm text-neutral-500">
+              {latestRole ? (
+                <div className="flex items-center gap-2">
+                  <Briefcase className="w-4 h-4 text-neutral-600" />
+                  <span className="font-semibold text-neutral-300">{latestRole.position}</span>
+                  <span className="text-neutral-500">•</span>
+                  <span>{latestRole.isCurrent !== false ? 'Currently Working Here' : (latestRole.endDate || 'Ended')}</span>
+                </div>
+              ) : (
+                <p>No roles defined.</p>
+              )}
+            </div>
+          ) : (
+            <p className="text-sm text-neutral-500 mt-2 line-clamp-2 leading-relaxed">
+              {item.description || item.date || item.location}
+            </p>
+          )}
+          
+          {item.updated_at && (
+            <span className="inline-block mt-3 px-2 py-1 bg-white/5 rounded-md text-[10px] uppercase tracking-widest text-neutral-500 font-medium border border-white/5 group-hover:border-red-500/20 group-hover:text-red-400/80 transition-colors">
+              Updated {new Date(item.updated_at).toLocaleDateString()}
+            </span>
+          )}
+        </div>
+        
+        <div className="flex items-center space-x-3 w-full sm:w-auto justify-end">
+          {isExperience && item.roles && item.roles.length > 1 && (
+            <button 
+              onClick={handleExpandClick}
+              className="p-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 text-neutral-400 transition-colors flex items-center gap-2"
+            >
+              <span className="text-xs font-semibold">{item.roles.length} Roles</span>
+              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
+          )}
+          <span className="text-sm font-medium text-red-400/80 bg-red-500/10 px-3 py-1.5 rounded-lg border border-red-500/20 opacity-0 group-hover:opacity-100 transition-opacity">
+            Click to Edit
+          </span>
+        </div>
+      </div>
+      
+      {/* Expanded Roles View */}
+      {isExpanded && isExperience && item.roles && item.roles.length > 1 && (
+        <div className="mt-4 pt-4 border-t border-white/5 space-y-2">
+          {item.roles.map((role: any, rIdx: number) => (
+            <div key={rIdx} className="flex justify-between items-center bg-white/[0.02] border border-white/5 p-3 rounded-xl">
+              <div>
+                <h4 className="text-sm font-bold text-neutral-300">{role.position}</h4>
+                <p className="text-xs text-neutral-500">
+                  {role.startDate || 'Unknown'} - {role.isCurrent !== false ? 'Present' : (role.endDate || 'Unknown')}
+                </p>
+              </div>
+              {role.isCurrent !== false && (
+                <span className="px-2 py-1 bg-red-500/10 text-red-400 text-[10px] font-bold rounded-md">ACTIVE</span>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<'achievements' | 'projects' | 'experience'>('achievements');
@@ -202,26 +293,7 @@ export default function AdminPage() {
               </div>
             ) : (
               filteredItems.map((item, idx) => (
-                <div 
-                  key={item.id || idx} 
-                  onClick={() => handleEdit(item)}
-                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-5 bg-gradient-to-r from-white/[0.02] to-transparent border border-white/5 rounded-2xl hover:bg-white/[0.04] hover:border-red-500/30 transition-all group gap-4 shadow-sm hover:shadow-lg cursor-pointer"
-                >
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white group-hover:text-red-400 transition-colors">{item.title || item.name || item.company}</h3>
-                    <p className="text-sm text-neutral-500 mt-2 line-clamp-2 leading-relaxed">{item.description || item.date || item.location}</p>
-                    
-                    {/* Timestamp Tag */}
-                    {item.updated_at && (
-                      <span className="inline-block mt-3 px-2 py-1 bg-white/5 rounded-md text-[10px] uppercase tracking-widest text-neutral-500 font-medium border border-white/5 group-hover:border-red-500/20 group-hover:text-red-400/80 transition-colors">
-                        Updated {new Date(item.updated_at).toLocaleDateString()}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-center space-x-3 w-full sm:w-auto justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-sm font-medium text-red-400/80 bg-red-500/10 px-3 py-1.5 rounded-lg border border-red-500/20">Click to Edit</span>
-                  </div>
-                </div>
+                <ListItem key={item.id || idx} item={item} activeTab={activeTab} onClick={() => handleEdit(item)} />
               ))
             )}
           </div>
