@@ -163,7 +163,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className={`fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-full max-w-[760px] px-4 transition-all duration-500 ease-in-out ${isVisible ? 'translate-y-0 opacity-100' : '-translate-y-32 opacity-0 pointer-events-none'}`}>
+    <div className={`fixed top-6 left-1/2 -translate-x-1/2 z-[100] max-w-[760px] transition-all duration-500 ease-in-out ${isVisible ? 'translate-y-0 opacity-100' : '-translate-y-32 opacity-0 pointer-events-none'} ${isMobileMenuOpen ? 'w-[calc(100%-2rem)]' : 'w-max'} md:w-full md:px-4`}>
       {/* 
         To achieve the "Liquid Glass" iOS effect:
         - Heavy blur: backdrop-blur-3xl (or custom px)
@@ -177,7 +177,7 @@ export default function Navbar() {
         }}
         className="flex flex-col px-4 py-2 bg-[#111111]/30 backdrop-blur-[40px] backdrop-saturate-[180%] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] overflow-hidden"
       >
-        <div className="flex items-center justify-between w-full">
+        <div className="flex items-center justify-between w-full gap-4 md:gap-0">
         
         {/* Navigation Items including Logo */}
         <div className="flex items-center space-x-1 md:space-x-2 lg:space-x-3 relative z-10 w-full md:w-auto justify-between md:justify-start">
