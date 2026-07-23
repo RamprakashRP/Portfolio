@@ -68,7 +68,7 @@ const ListItem = ({ item, activeTab, onClick, dragControls }: { item: any, activ
               )}
             </div>
           ) : (
-            <p className="text-sm text-neutral-500 mt-2 line-clamp-2 leading-relaxed">
+            <p className="hidden sm:block text-sm text-neutral-500 mt-2 line-clamp-2 leading-relaxed">
               {item.description || item.date || item.location}
             </p>
           )}
@@ -286,8 +286,9 @@ export default function AdminPage() {
         </div>
 
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 sm:mb-8 gap-4 sm:gap-6">
-          {/* Nav Tabs */}
-          <div className="flex w-full md:w-auto overflow-x-auto hide-scrollbar bg-[#111113]/80 backdrop-blur-xl border border-white/5 rounded-full p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+          {/* Nav Tabs Wrapper to prevent cutoff */}
+          <div className="w-full md:w-auto overflow-x-auto hide-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
+            <div className="flex w-max md:w-auto bg-[#111113]/80 backdrop-blur-xl border border-white/5 rounded-full p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
             {[
               { id: 'achievements', label: 'Achievements', icon: Award },
               { id: 'projects', label: 'Projects', icon: LayoutGrid },
@@ -306,6 +307,7 @@ export default function AdminPage() {
                 {tab.label}
               </button>
             ))}
+            </div>
           </div>
 
           {/* Add New Button */}
@@ -319,7 +321,7 @@ export default function AdminPage() {
         </div>
 
         {/* List Area */}
-        <div className="flex-1 bg-[#111113]/60 backdrop-blur-2xl border border-white/5 rounded-3xl p-6 sm:p-8 shadow-2xl relative">
+        <div className="flex-1 bg-[#111113]/60 backdrop-blur-2xl border border-white/5 rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-2xl relative">
           
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-8 relative z-20 gap-6">
             <h2 className="text-2xl font-semibold capitalize flex items-center gap-3">
