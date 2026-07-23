@@ -8,6 +8,9 @@ export interface Achievement {
   date: string;
   media: string[];
   rpRank?: number;
+  previewCover?: string;
+  homeCover?: string;
+  highlightCover?: string;
 }
 
 const curatedAchievements: Achievement[] = [

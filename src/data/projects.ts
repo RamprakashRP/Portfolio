@@ -21,6 +21,9 @@ export interface Project {
   client?: string;
   service?: string;
   info?: ProjectInfo;
+  previewCover?: string;
+  homeCover?: string;
+  highlightCover?: string;
 }
 
 export const projectsList: Project[] = [
