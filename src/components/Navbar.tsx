@@ -1,8 +1,8 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Download, Menu, X, Bell } from 'lucide-react';
+import { Download, Bell, Home, Wrench, MessageSquare, Folder, Award, Mail } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from '@/components/Logo';
 import NotificationsPanel from './NotificationsPanel';
@@ -14,7 +14,27 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const startHideTimer = () => {
+    if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+    hideTimeoutRef.current = setTimeout(() => {
+      setIsVisible(false);
+    }, 5000);
+  };
+
+  useEffect(() => {
+    if (isVisible && !isHovered) {
+      startHideTimer();
+    } else if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+    }
+    return () => {
+      if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+    };
+  }, [isVisible, isHovered]);
   
   useEffect(() => {
     const handleOpenNotifs = () => setIsNotificationsOpen(true);
@@ -26,11 +46,10 @@ export default function Navbar() {
     const controlNavbar = () => {
       if (typeof window !== 'undefined') {
         if (window.scrollY > lastScrollY && window.scrollY > 100) {
-          // if scroll down and past 100px, hide the navbar
           setIsVisible(false);
         } else {
-          // if scroll up or near top, show the navbar
           setIsVisible(true);
+          if (!isHovered) startHideTimer();
         }
         setLastScrollY(window.scrollY);
       }
@@ -40,7 +59,7 @@ export default function Navbar() {
     return () => {
       window.removeEventListener('scroll', controlNavbar);
     };
-  }, [lastScrollY]);
+  }, [lastScrollY, isHovered]);
 
   const [activeItem, setActiveItem] = useState(() => {
     if (pathname === '/projects') return 'Projects';
@@ -50,12 +69,12 @@ export default function Navbar() {
   });
 
   const navItems = [
-    { name: 'Home', href: '/', isLogo: true },
-    { name: 'Services', href: '/#services' },
-    { name: 'Testimonials', href: '/#reviews' },
-    { name: 'Projects', href: '/projects' },
-    { name: 'Achievements', href: '/achievements' },
-    { name: 'Contact', href: '/contact' },
+    { name: 'Home', href: '/', icon: Home },
+    { name: 'Services', href: '/#services', icon: Wrench },
+    { name: 'Testimonials', href: '/#reviews', icon: MessageSquare },
+    { name: 'Projects', href: '/projects', icon: Folder },
+    { name: 'Achievements', href: '/achievements', icon: Award },
+    { name: 'Contact', href: '/contact', icon: Mail },
   ];
 
   // Sync active item with pathname on load and implement Scroll Spy
