@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import { useInView, animate } from 'framer-motion';
+import { useInView, animate, motion } from 'framer-motion';
 
 const statsData = [
   { value: 97, suffix: '%', label: 'ACADEMIC PERCENTAGE' },
