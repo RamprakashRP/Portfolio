@@ -192,7 +192,8 @@ export default function Navbar() {
             requestAnimationFrame(animation);
           } else {
             window.history.pushState(null, '', href);
-            setTimeout(() => { isProgrammaticScroll.current = false; }, 100);
+            setIsVisible(true);
+            setTimeout(() => { isProgrammaticScroll.current = false; }, 800);
           }
         };
 
