@@ -16,17 +16,25 @@ export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [hasScrolledOnce, setHasScrolledOnce] = useState(false);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isProgrammaticScroll = useRef(false);
 
   const startHideTimer = () => {
     if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+    if (!hasScrolledOnce) return;
+    
     hideTimeoutRef.current = setTimeout(() => {
-      setIsVisible(false);
+      if (document.hidden) {
+        startHideTimer(); // Try again later
+      } else {
+        setIsVisible(false);
+      }
     }, 5000);
   };
 
   useEffect(() => {
-    if (isVisible && !isHovered) {
+    if (isVisible && !isHovered && hasScrolledOnce) {
       startHideTimer();
     } else if (hideTimeoutRef.current) {
       clearTimeout(hideTimeoutRef.current);
@@ -34,7 +42,17 @@ export default function Navbar() {
     return () => {
       if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
     };
-  }, [isVisible, isHovered]);
+  }, [isVisible, isHovered, hasScrolledOnce]);
+  
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden && isVisible && !isHovered && hasScrolledOnce) {
+        startHideTimer();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, [isVisible, isHovered, hasScrolledOnce]);
 
   useEffect(() => {
     const handleOpenNotifs = () => setIsNotificationsOpen(true);
@@ -45,11 +63,18 @@ export default function Navbar() {
   useEffect(() => {
     const controlNavbar = () => {
       if (typeof window !== 'undefined') {
+        if (!hasScrolledOnce && window.scrollY > 50) {
+          setHasScrolledOnce(true);
+        }
+        if (isProgrammaticScroll.current) {
+          setLastScrollY(window.scrollY);
+          return;
+        }
         if (window.scrollY > lastScrollY && window.scrollY > 100) {
           setIsVisible(false);
         } else {
           setIsVisible(true);
-          if (!isHovered) startHideTimer();
+          if (!isHovered && hasScrolledOnce) startHideTimer();
         }
         setLastScrollY(window.scrollY);
       }
@@ -59,7 +84,7 @@ export default function Navbar() {
     return () => {
       window.removeEventListener('scroll', controlNavbar);
     };
-  }, [lastScrollY, isHovered]);
+  }, [lastScrollY, isHovered, hasScrolledOnce]);
 
   const [activeItem, setActiveItem] = useState(() => {
     if (pathname === '/projects') return 'Projects';
@@ -122,6 +147,7 @@ export default function Navbar() {
     // If it's a hash link and we are on the Home page, intercept for custom smooth scroll
     if (href.startsWith('/#') && pathname === '/') {
       e.preventDefault();
+      isProgrammaticScroll.current = true;
       const targetId = href.replace('/#', '');
       const element = document.getElementById(targetId);
       
@@ -148,6 +174,7 @@ export default function Navbar() {
             requestAnimationFrame(animation);
           } else {
             window.history.pushState(null, '', href);
+            setTimeout(() => { isProgrammaticScroll.current = false; }, 100);
           }
         };
 
@@ -191,6 +218,19 @@ export default function Navbar() {
         <Logo />
       </div>
 
+      {/* FIXED NOTIFICATIONS - Top Right */}
+      <button 
+        onClick={() => setIsNotificationsOpen(true)}
+        className="fixed top-6 right-6 z-[110] p-3 rounded-full bg-[#111111]/30 backdrop-blur-[40px] backdrop-saturate-[180%] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] text-neutral-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+        aria-label="Open notifications"
+      >
+        <Bell className="w-5 h-5" />
+        <span className="absolute top-2 right-2 flex h-2.5 w-2.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
+        </span>
+      </button>
+
       <div 
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -217,17 +257,7 @@ export default function Navbar() {
               </Link>
             );
           })}
-          <div className="w-px h-5 bg-white/10 mx-1"></div>
-          <button 
-            onClick={() => setIsNotificationsOpen(true)}
-            className="relative p-2.5 rounded-full text-neutral-400 hover:text-white hover:bg-white/5 transition-colors shrink-0"
-          >
-            <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span className="absolute top-2 right-2 flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-            </span>
-          </button>
+
         </motion.nav>
 
         {/* DESKTOP LAYOUT (Unified Pill) */}
@@ -279,18 +309,6 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-3 border-l border-white/10 pl-4">
-            <button 
-              onClick={() => setIsNotificationsOpen(true)}
-              className="relative p-2 rounded-full border border-white/20 text-white z-10 hover:bg-white/10 transition-colors flex items-center justify-center"
-              aria-label="Open notifications"
-            >
-              <Bell className="w-4 h-4" />
-              <span className="absolute top-1 right-1 flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-              </span>
-            </button>
-            
             <a 
               href="/resume.pdf" 
               target="_blank" 
