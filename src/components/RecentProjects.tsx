@@ -67,7 +67,7 @@ export default function RecentProjects({ topProjects = [] }: { topProjects?: any
               <Link
                 href={`/projects/${project.id}`}
                 key={idx}
-                className={`${spans.colSpan} ${spans.rowSpan} bg-[#09090a] border border-white/10 rounded-2xl md:rounded-3xl p-3 md:p-6 h-[180px] md:h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl`}
+                className={`${spans.colSpan} ${spans.rowSpan} bg-[#09090a] border border-white/10 rounded-2xl md:rounded-3xl p-3 md:p-6 h-[180px] md:h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-all duration-300 md:hover:scale-[1.01] shadow-2xl`}
               >
                 <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/20 to-transparent z-10 opacity-40 md:opacity-90 group-hover:opacity-100 transition-opacity" />
                 <div className="absolute inset-0 w-full h-full opacity-100 group-hover:opacity-40 transition-opacity flex items-center justify-center p-2 pb-10 md:p-6 md:pb-20">

@@ -93,7 +93,7 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
             animate={isLoading ? "hidden" : "visible"}
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-sm md:text-base text-neutral-200 leading-relaxed font-light mt-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] max-w-[95%]"
+            className="text-sm md:text-base text-neutral-100 md:text-neutral-200 leading-relaxed font-light mt-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] max-w-[95%]"
           >
             <strong className="text-white font-medium drop-shadow-md">Ramprakash Raja</strong> is an AI Developer and Data Scientist based in Chennai, Tamil Nadu. Specializing in building scalable applications with Python, FastAPI, and TypeScript, he is an active Google Student Ambassador and Microsoft Student Ambassador. Ramprakash is currently preparing for his upcoming transition to the University of Waterloo for the MDSAI Co-op program.
           </motion.p>

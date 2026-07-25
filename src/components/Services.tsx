@@ -20,7 +20,7 @@ const ServiceCard = ({ card }: { card: ServiceData }) => {
   const Icon = (LucideIcons as any)[card.iconName] || LucideIcons.Check;
 
   return (
-    <div className="bg-gradient-to-b from-[#151515] to-[#09090a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-8 flex flex-col gap-4 md:gap-6 shadow-[0_20px_40px_rgba(0,0,0,0.8),inset_0_1px_2px_rgba(255,255,255,0.15)] transform transition-transform hover:-translate-y-1 overflow-hidden">
+    <div className="bg-gradient-to-b from-[#151515] to-[#09090a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-8 flex flex-col gap-4 md:gap-6 shadow-[0_20px_40px_rgba(0,0,0,0.8),inset_0_1px_2px_rgba(255,255,255,0.15)] transform transition-transform hover:-translate-y-1 md:hover:scale-[1.02] overflow-hidden">
       <div className="flex items-center gap-3">
         <Icon className="w-5 h-5 text-neutral-300" />
         <h3 className="text-lg md:text-xl font-bold text-white leading-tight">{card.title}</h3>
