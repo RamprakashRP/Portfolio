@@ -105,7 +105,7 @@ export default function Navbar() {
   // Sync active item with pathname on load and implement Scroll Spy
   useEffect(() => {
     isProgrammaticScroll.current = true;
-    setTimeout(() => { isProgrammaticScroll.current = false; }, 800);
+    setTimeout(() => { isProgrammaticScroll.current = false; }, 2000);
     setHasScrolledOnce(false);
 
     if (pathname === '/projects') setActiveItem('Projects');
@@ -138,6 +138,20 @@ export default function Navbar() {
       window.addEventListener('scroll', handleScroll);
       // Run once on load
       handleScroll();
+
+      // If we just landed on Home with a hash, wait for layout to settle, then correct the scroll position
+      if (typeof window !== 'undefined' && window.location.hash) {
+        setTimeout(() => {
+          const targetId = window.location.hash.replace('#', '');
+          const element = document.getElementById(targetId);
+          if (element) {
+            isProgrammaticScroll.current = true;
+            const targetPosition = element.getBoundingClientRect().top + window.scrollY;
+            window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+            setTimeout(() => { isProgrammaticScroll.current = false; }, 1200);
+          }
+        }, 500);
+      }
 
       return () => {
         observer.disconnect();
