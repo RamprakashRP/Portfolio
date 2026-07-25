@@ -59,7 +59,7 @@ export default function Benefits() {
 
         {/* Stacking Cards Container */}
         {/* We add a large padding-bottom so you have room to scroll through the stickiness */}
-        <div className="w-full relative flex flex-col pb-20 md:pb-[30vh] [--card-top:190px] md:[--card-top:260px]">
+        <div className="w-full relative flex flex-col pb-20 md:pb-[30vh] [--card-top:190px] md:[--card-top:260px] [--card-gap:16px] md:[--card-gap:12px]">
           {benefitsData.map((benefit, idx) => {
             // By dynamically increasing the top offset by a small amount (20px),
             // the cards will stack like a deck, leaving the top edge of previous cards visible!
@@ -70,7 +70,7 @@ export default function Benefits() {
                 key={idx}
                 className="sticky w-full flex flex-col md:flex-row bg-gradient-to-br from-[#151515] to-[#09090a] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),_0_10px_30px_rgba(0,0,0,0.8)] border border-white/5 rounded-3xl overflow-hidden mb-8 md:mb-12"
                 style={{
-                  top: `calc(var(--card-top) + ${idx * 16}px)`,
+                  top: `calc(var(--card-top) + calc(var(--card-gap) * ${idx}))`,
                   zIndex: 10 + idx,
                 }}
               >
