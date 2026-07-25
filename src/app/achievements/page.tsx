@@ -80,7 +80,7 @@ export default function AchievementsPageWrapper() {
                             src={isRank1 ? (achievement.highlightCover || achievement.media[0]) : (achievement.previewCover || achievement.media[0])} 
                             alt={achievement.title}
                             fill
-                            className="object-cover opacity-30 group-hover:opacity-50 group-hover:scale-105 transition-all duration-700"
+                            className="object-cover opacity-80 md:opacity-50 group-hover:opacity-40 md:group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-[#000000]/60 to-transparent" />
                         </div>
@@ -89,7 +89,7 @@ export default function AchievementsPageWrapper() {
                       {/* Content */}
                       <div className="relative z-10 flex flex-col">
                         <div className="flex flex-wrap items-center gap-1.5 md:gap-3 mb-2 md:mb-4">
-                        <div className="flex flex-wrap gap-1 md:gap-2">
+                        <div className="hidden md:flex flex-wrap gap-1 md:gap-2">
                           {(achievement.tags || []).slice(0, isRank1 ? 4 : 1).map((tag: string) => (
                             <div key={tag} className="flex items-center space-x-1 md:space-x-1.5 px-2 md:px-3 py-0.5 md:py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-[9px] sm:text-[10px] md:text-xs font-medium">
                               <Tag className="w-3 h-3" />
