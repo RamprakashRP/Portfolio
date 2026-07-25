@@ -104,6 +104,10 @@ export default function Navbar() {
 
   // Sync active item with pathname on load and implement Scroll Spy
   useEffect(() => {
+    isProgrammaticScroll.current = true;
+    setTimeout(() => { isProgrammaticScroll.current = false; }, 800);
+    setHasScrolledOnce(false);
+
     if (pathname === '/projects') setActiveItem('Projects');
     else if (pathname === '/achievements') setActiveItem('Achievements');
     else if (pathname === '/contact') setActiveItem('Contact');
@@ -198,11 +202,8 @@ export default function Navbar() {
       requestAnimationFrame(animation);
     }
     
-    // Only set active item immediately for hash links or home. 
-    // For route changes, let the useEffect handle it to prevent race conditions that cause jumping.
-    if (href.startsWith('/#') || href === '/') {
-      setActiveItem(itemName);
-    }
+    // Always set active item immediately to prevent Framer Motion animation glitches across route changes
+    setActiveItem(itemName);
     
     // Close mobile menu on click
     setIsMobileMenuOpen(false);
