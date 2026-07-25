@@ -120,7 +120,7 @@ export default function FAQ() {
   return (
     <section 
       id="faq" 
-      className="relative w-full bg-[#000000]/50 text-white pt-32 pb-32 px-6 flex justify-center -mt-8 rounded-t-[3rem] border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] z-[60]"
+      className="relative w-full bg-[#000000]/50 text-white pt-10 md:pt-32 pb-10 md:pb-32 px-6 flex justify-center -mt-8 rounded-t-[3rem] border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] z-[60]"
     >
       <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-10 md:gap-20 items-start">
         

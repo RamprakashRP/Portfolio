@@ -75,7 +75,7 @@ export default function Reviews() {
   return (
     <section 
       id="reviews" 
-      className="relative w-full bg-[#000000]/50 text-white pt-20 md:pt-32 pb-20 md:pb-[30vh] px-4 md:px-6 flex justify-center -mt-8 rounded-t-[3rem] border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] z-50"
+      className="relative w-full bg-[#000000]/50 text-white pt-10 md:pt-32 pb-10 md:pb-[30vh] px-4 md:px-6 flex justify-center -mt-8 rounded-t-[3rem] border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] z-50"
     >
       <div className="max-w-6xl w-full flex flex-col md:grid md:grid-cols-2 gap-0 md:gap-20 relative items-start">
         
@@ -181,8 +181,15 @@ export default function Reviews() {
             </div>
           </div>
 
-          {/* Left Cards Stack */}
-          <div className="flex flex-col relative w-full">
+          {/* Mobile Single Stack */}
+          <div className="flex md:hidden flex-col relative w-full mt-4 order-2">
+            {[...leftReviews, ...rightReviews].map((review, idx) => (
+              <ReviewCard key={`mobile-${idx}`} review={review} idx={idx} topBase={120} />
+            ))}
+          </div>
+
+          {/* Left Cards Stack (Desktop Only) */}
+          <div className="hidden md:flex flex-col relative w-full">
             {leftReviews.map((review, idx) => (
               <ReviewCard key={`left-${idx}`} review={review} idx={idx} topBase={120} />
             ))}
@@ -193,8 +200,8 @@ export default function Reviews() {
           </div>
         </div>
 
-        {/* Right Column */}
-        <div className="flex flex-col relative w-full h-full order-2 md:order-2">
+        {/* Right Column (Desktop Only) */}
+        <div className="hidden md:flex flex-col relative w-full h-full order-2 md:order-2">
           {/* Right Cards Stack (Start sticking immediately without header) */}
           <div className="flex flex-col relative w-full">
             {rightReviews.map((review, idx) => (

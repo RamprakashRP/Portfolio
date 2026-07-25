@@ -16,7 +16,7 @@ export default function RecentProjects({ topProjects = [] }: { topProjects?: any
   return (
     <section 
       id="recent-projects" 
-      className="relative w-full bg-[#000000]/50 text-white pt-20 md:pt-32 pb-16 md:pb-24 px-4 md:px-6 flex justify-center -mt-8 rounded-t-[3rem] border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] z-30"
+      className="relative w-full bg-[#000000]/50 text-white pt-10 md:pt-32 pb-10 md:pb-24 px-4 md:px-6 flex justify-center -mt-8 rounded-t-[3rem] border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] z-30"
     >
       <div className="max-w-7xl w-full flex flex-col">
         
@@ -70,7 +70,7 @@ export default function RecentProjects({ topProjects = [] }: { topProjects?: any
                 className={`${spans.colSpan} ${spans.rowSpan} bg-[#09090a] border border-white/10 rounded-2xl md:rounded-3xl p-3 md:p-6 h-[180px] md:h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl`}
               >
                 <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90 group-hover:opacity-100 transition-opacity" />
-                <div className="absolute inset-0 w-full h-full opacity-60 md:opacity-100 group-hover:opacity-40 transition-opacity flex items-center justify-center p-2 pb-10 md:p-6 md:pb-20">
+                <div className="absolute inset-0 w-full h-full opacity-100 group-hover:opacity-40 transition-opacity flex items-center justify-center p-2 pb-10 md:p-6 md:pb-20">
                   {project.previewCover || (project.media && project.media.length > 0) ? (
                     <div className="w-full h-full rounded-2xl border border-white/5 overflow-hidden relative">
                       <Image src={project.previewCover || project.media?.[0]} alt={project.name || project.title} fill className="object-cover" />

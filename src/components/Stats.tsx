@@ -39,7 +39,7 @@ const Counter = ({ value, suffix = '' }: { value: number, suffix?: string }) => 
 
 export default function Stats() {
   return (
-    <section id="stats" className="relative w-full bg-[#000000]/50 text-white py-32 px-6 flex justify-center border-t border-white/5 overflow-hidden">
+    <section id="stats" className="relative w-full bg-[#000000]/50 text-white py-10 md:py-32 px-6 flex justify-center border-t border-white/5 overflow-hidden">
       
       {/* Subtle Dot Grid Background Pattern */}
       <div 

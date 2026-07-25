@@ -17,7 +17,7 @@ export default function Profile() {
   ];
 
   return (
-    <section id="profile" className="w-full bg-[#000000]/50 text-white py-32 px-6 flex flex-col items-center relative z-10">
+    <section id="profile" className="w-full bg-[#000000]/50 text-white py-10 md:py-32 px-6 flex flex-col items-center relative z-10">
       <div className="max-w-6xl w-full flex flex-col items-center">
 
         {/* Top: Heading & Button */}

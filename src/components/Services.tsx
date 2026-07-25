@@ -59,7 +59,7 @@ export default function Services() {
   return (
     <section 
       id="services" 
-      className="relative w-full bg-[#000000]/50 text-white pt-32 pb-24 px-6 flex justify-center -mt-8 rounded-t-[3rem] border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] z-20"
+      className="relative w-full bg-[#000000]/50 text-white pt-10 md:pt-32 pb-10 md:pb-24 px-6 flex justify-center -mt-8 rounded-t-[3rem] border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] z-20"
     >
       <div className="max-w-6xl w-full flex flex-col">
         
