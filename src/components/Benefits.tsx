@@ -68,30 +68,30 @@ export default function Benefits() {
             return (
               <div 
                 key={idx}
-                className="sticky w-full flex flex-col md:flex-row bg-gradient-to-br from-[#151515] to-[#09090a] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),_0_10px_30px_rgba(0,0,0,0.8)] border border-white/5 rounded-2xl md:rounded-3xl overflow-hidden mb-6 md:mb-12"
+                className="sticky w-full flex flex-col md:flex-row bg-gradient-to-br from-[#151515] to-[#09090a] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),_0_10px_30px_rgba(0,0,0,0.8)] border border-white/5 rounded-3xl overflow-hidden mb-8 md:mb-12"
                 style={{
-                  top: `calc(var(--card-top) + ${idx * 12}px)`,
+                  top: `calc(var(--card-top) + ${idx * 16}px)`,
                   zIndex: 10 + idx,
                 }}
               >
                 {/* Left Side (Positive) */}
-                <div className="flex-1 p-5 md:p-10 md:border-r border-white/5">
-                  <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-white/10 flex items-center justify-center mb-3 md:mb-6">
-                    <Check className="w-3 h-3 md:w-4 md:h-4 text-white" />
+                <div className="flex-1 p-8 md:p-10 md:border-r border-white/5">
+                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center mb-5 md:mb-6">
+                    <Check className="w-4 h-4 text-white" />
                   </div>
-                  <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-4 text-white">{benefit.positiveTitle}</h3>
-                  <p className="text-xs md:text-sm text-neutral-400 leading-relaxed font-light">
+                  <h3 className="text-xl font-bold mb-3 md:mb-4 text-white">{benefit.positiveTitle}</h3>
+                  <p className="text-sm text-neutral-400 leading-relaxed font-light">
                     {benefit.positiveDesc}
                   </p>
                 </div>
                 
                 {/* Right Side (Negative) */}
-                <div className="flex-1 p-5 md:p-10 bg-[#050505]">
-                  <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-white/5 flex items-center justify-center mb-3 md:mb-6">
-                    <X className="w-3 h-3 md:w-4 md:h-4 text-neutral-500" />
+                <div className="flex-1 p-8 md:p-10 bg-[#050505]">
+                  <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center mb-5 md:mb-6">
+                    <X className="w-4 h-4 text-neutral-500" />
                   </div>
-                  <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-4 text-neutral-300">{benefit.negativeTitle}</h3>
-                  <p className="text-xs md:text-sm text-neutral-500 leading-relaxed font-light">
+                  <h3 className="text-xl font-bold mb-3 md:mb-4 text-neutral-300">{benefit.negativeTitle}</h3>
+                  <p className="text-sm text-neutral-500 leading-relaxed font-light">
                     {benefit.negativeDesc}
                   </p>
                 </div>
