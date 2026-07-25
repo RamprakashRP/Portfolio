@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Mail } from 'lucide-react';
 import { FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 import GlassSurface from './GlassSurface';
 
@@ -21,7 +22,13 @@ export default function Profile() {
       <div className="max-w-6xl w-full flex flex-col items-center">
 
         {/* Top: Heading & Button */}
-        <div className="flex flex-col items-center text-center mb-16 space-y-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: "-50px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="flex flex-col items-center text-center mb-16 space-y-6"
+        >
           <div className="group flex items-center space-x-2 bg-[#111] border border-white/10 rounded-full px-4 py-1.5 w-fit shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] cursor-default transition-all duration-500">
             <div className="w-4 h-4 shrink-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0xMiAydjIwTTIyIDEySDIiLz48L3N2Zz4=')] bg-cover bg-center opacity-70" />
             <span className="text-xs font-semibold text-neutral-300 tracking-wider flex items-center whitespace-nowrap">
@@ -43,7 +50,7 @@ export default function Profile() {
           <p className="text-sm md:text-base text-neutral-400 max-w-lg">
             Brief initial presentation of myself and my previous experiences.
           </p>
-        </div>
+        </motion.div>
 
         {/* Content Columns */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-8 w-full">

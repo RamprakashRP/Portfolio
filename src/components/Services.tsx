@@ -64,7 +64,14 @@ export default function Services() {
       <div className="max-w-6xl w-full flex flex-col">
         
         {/* Top container */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
+        {/* Top container */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: "-50px" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20"
+        >
           <div className="flex flex-col items-start gap-4">
             <div className="flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 w-fit">
               <div className="w-4 h-4 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0xMiAydjIwTTIyIDEySDIiLz48L3N2Zz4=')] bg-cover bg-center opacity-70" />
@@ -85,7 +92,7 @@ export default function Services() {
           >
             Contact Now
           </Link>
-        </div>
+        </motion.div>
 
         {/* Services Bento */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full mb-20">

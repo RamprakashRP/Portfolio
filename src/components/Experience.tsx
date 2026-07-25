@@ -112,19 +112,31 @@ export default function Experience() {
       <div className="max-w-7xl w-full">
         
         {/* Top Header Row */}
-        <div className="flex justify-between items-center text-[10px] font-bold tracking-widest text-neutral-500 uppercase mb-20">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: "-50px" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="flex justify-between items-center text-[10px] font-bold tracking-widest text-neutral-500 uppercase mb-20"
+        >
           <span>07</span>
           <span>{'//EXPERIENCE'}</span>
           <span>2013 - PRESENT</span>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_2.5fr] gap-10 lg:gap-20 items-start relative">
           
           {/* Left Column: Title and Image Viewer (Sticky) */}
           <div className="lg:sticky lg:top-32 flex flex-col items-start h-auto lg:h-[calc(100vh-8rem)] lg:pb-10">
-            <h2 className="text-5xl md:text-6xl font-black tracking-tight uppercase break-words w-full mb-4 lg:mb-12">
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+              className="text-5xl md:text-6xl font-black tracking-tight uppercase break-words w-full mb-4 lg:mb-12"
+            >
               EXPERIENCE
-            </h2>
+            </motion.h2>
 
             {/* Creative Image Viewer */}
             <div className="w-full flex-1 relative hidden lg:flex flex-col justify-start items-center pt-8">

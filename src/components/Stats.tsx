@@ -53,11 +53,17 @@ export default function Stats() {
       <div className="max-w-7xl w-full relative z-10">
         
         {/* Top Header Row */}
-        <div className="flex justify-between items-center text-[10px] font-bold tracking-widest text-neutral-500 uppercase mb-24">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: "-50px" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="flex justify-between items-center text-[10px] font-bold tracking-widest text-neutral-500 uppercase mb-24"
+        >
           <span>06</span>
           <span>//STATS</span>
           <span>FUN FACTS</span>
-        </div>
+        </motion.div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-8 items-start">

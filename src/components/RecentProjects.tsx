@@ -5,6 +5,8 @@ import { ArrowUpRight } from 'lucide-react';
 
 import Image from 'next/image';
 
+import { motion } from 'framer-motion';
+
 const bentoSpans = [
   { colSpan: 'col-span-2 md:col-span-2', rowSpan: 'row-span-2' },
   { colSpan: 'col-span-1 md:col-span-1', rowSpan: 'row-span-2' },
@@ -21,7 +23,13 @@ export default function RecentProjects({ topProjects = [] }: { topProjects?: any
       <div className="max-w-7xl w-full flex flex-col">
         
         {/* Top Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: "-50px" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20"
+        >
           <div className="flex flex-col items-start gap-4">
             <div className="flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 w-fit">
               <div className="w-4 h-4 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0xMiAydjIwTTIyIDEySDIiLz48L3N2Zz4=')] bg-cover bg-center opacity-70" />
@@ -56,7 +64,7 @@ export default function RecentProjects({ topProjects = [] }: { topProjects?: any
               Contact Now
             </Link>
           </div>
-        </div>
+        </motion.div>
 
         {/* PROJECTS BENTO GRID (3 Cols) */}
         <div className="grid grid-cols-3 md:grid-cols-3 gap-3 md:gap-6 relative z-10">

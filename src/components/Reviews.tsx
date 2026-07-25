@@ -2,6 +2,7 @@
 import React from 'react';
 import { Star } from 'lucide-react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 import Image from 'next/image';
 import { leftReviews, rightReviews, Testimonial } from '@/data/testimonials';
@@ -41,7 +42,7 @@ export const ReviewCard = ({ review, isSticky = true, idx = 0, topBase = 0, clas
   const topOffset = topBase + idx * 20;
   return (
     <div 
-      className={`${isSticky ? 'sticky mb-8' : 'relative mb-10'} w-full bg-gradient-to-br from-[#111111] to-[#060606] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),_0_20px_40px_rgba(0,0,0,0.8)] border border-white/5 rounded-3xl p-8 flex flex-col ${className}`}
+      className={`${isSticky ? 'sticky mb-8' : 'relative mb-10'} w-full bg-gradient-to-br from-[#111111] to-[#060606] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),_0_20px_40px_rgba(0,0,0,0.8)] border border-white/5 rounded-3xl p-8 flex flex-col transition-transform duration-300 md:hover:scale-[1.01] ${className}`}
       style={isSticky ? { top: `${topOffset}px`, zIndex: 10 + idx } : {}}
     >
       <div className="flex items-center gap-4 mb-6">
@@ -88,13 +89,25 @@ export default function Reviews() {
             <span className="text-sm font-medium text-white">Happy Team</span>
           </div>
 
-          <h2 className="text-[3.5rem] md:text-7xl font-normal tracking-[-0.04em] mb-2 text-white leading-tight">
-            Coworkers Love me
-          </h2>
-          
-          <p className="text-neutral-400 text-sm font-normal mb-8">
-            Trusted by 100+ happy Coworkers, adding 95% Satisfaction.
-          </p>
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, margin: "-50px" }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="text-[3rem] font-normal tracking-[-0.04em] mb-4 text-white leading-tight"
+            >
+              Coworkers <br/> Love me
+            </motion.h2>
+            
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+              className="text-neutral-400 text-sm font-normal mb-8 max-w-[200px]"
+            >
+              Trusted by 100+ happy Coworkers, adding 95% Satisfaction.
+            </motion.p>
 
           {/* Stats Row */}
           <div className="flex items-center gap-2 mb-8 w-full">
@@ -140,13 +153,25 @@ export default function Reviews() {
               <span className="text-sm font-medium text-white">Happy Team</span>
             </div>
 
-            <h2 className="text-[3.5rem] md:text-7xl font-normal tracking-[-0.04em] mb-4 text-white">
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, margin: "-50px" }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="text-[3.5rem] md:text-7xl font-normal tracking-[-0.04em] mb-4 text-white"
+            >
               Coworkers Love me
-            </h2>
+            </motion.h2>
             
-            <p className="text-neutral-400 text-sm md:text-base font-normal mb-8">
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+              className="text-neutral-400 text-sm md:text-base font-normal mb-8"
+            >
               Trusted by 100+ happy Coworkers, adding 95% Satisfaction.
-            </p>
+            </motion.p>
 
             {/* Stats Row */}
             <div className="flex items-center gap-4 mb-10 w-full">

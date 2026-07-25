@@ -130,13 +130,25 @@ export default function FAQ() {
             <span className="text-xs font-semibold text-neutral-300 tracking-wider">FAQ Section</span>
           </div>
 
-          <h2 className="text-5xl md:text-6xl font-medium tracking-tight mb-4">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+            className="text-5xl md:text-6xl font-medium tracking-tight mb-4"
+          >
             Questions, <span className="text-neutral-500">Answers</span>
-          </h2>
+          </motion.h2>
           
-          <p className="text-neutral-400 text-sm md:text-base mb-12">
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+            className="text-neutral-400 text-sm md:text-base mb-12"
+          >
             Get quick answers to your most pressing questions:
-          </p>
+          </motion.p>
 
           {/* Featured Review Card */}
           <ReviewCard 
