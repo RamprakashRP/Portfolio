@@ -186,6 +186,10 @@ export default function Reviews() {
             {leftReviews.map((review, idx) => (
               <ReviewCard key={`left-${idx}`} review={review} idx={idx} topBase={120} />
             ))}
+            {/* Mobile-only "Could be Anyone" card at the very end */}
+            {rightReviews.filter(r => r.name === 'Could be Anyone!!').map((review, idx) => (
+              <ReviewCard key={`left-anyone-${idx}`} review={review} idx={leftReviews.length} topBase={120} className="md:hidden" />
+            ))}
           </div>
         </div>
 
@@ -194,7 +198,13 @@ export default function Reviews() {
           {/* Right Cards Stack (Start sticking immediately without header) */}
           <div className="flex flex-col relative w-full pt-10 md:pt-0">
             {rightReviews.map((review, idx) => (
-              <ReviewCard key={`right-${idx}`} review={review} idx={idx} topBase={120} />
+              <ReviewCard 
+                key={`right-${idx}`} 
+                review={review} 
+                idx={idx} 
+                topBase={120} 
+                className={review.name === 'Could be Anyone!!' ? 'hidden md:flex' : ''} 
+              />
             ))}
           </div>
         </div>

@@ -44,7 +44,7 @@ export default function Benefits() {
       <div className="max-w-4xl w-full flex flex-col items-center">
         
         {/* Top Header */}
-        <div className="sticky top-16 md:top-24 z-20 flex flex-col items-center gap-3 md:gap-4 mb-10 md:mb-20 text-center w-full pt-4 md:pt-0 bg-[#000000]/50 backdrop-blur-md md:bg-transparent md:backdrop-blur-none pb-4 md:pb-0 rounded-b-3xl md:rounded-none">
+        <div className="sticky top-4 md:top-24 z-20 flex flex-col items-center gap-2 md:gap-4 mb-10 md:mb-20 text-center w-full md:bg-transparent md:backdrop-blur-none pointer-events-none">
           <div className="flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 w-fit">
             <span className="text-xs font-semibold text-neutral-300 tracking-wider">Why choose me</span>
           </div>
@@ -59,7 +59,7 @@ export default function Benefits() {
 
         {/* Stacking Cards Container */}
         {/* We add a large padding-bottom so you have room to scroll through the stickiness */}
-        <div className="w-full relative flex flex-col pb-[30vh] [--card-top:280px] md:[--card-top:260px]">
+        <div className="w-full relative flex flex-col pb-[30vh] [--card-top:160px] md:[--card-top:260px]">
           {benefitsData.map((benefit, idx) => {
             // By dynamically increasing the top offset by a small amount (20px),
             // the cards will stack like a deck, leaving the top edge of previous cards visible!
