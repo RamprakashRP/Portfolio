@@ -6,10 +6,10 @@ import { ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
 
 const bentoSpans = [
-  { colSpan: 'md:col-span-2', rowSpan: 'row-span-2' },
-  { colSpan: 'md:col-span-1', rowSpan: 'row-span-2' },
-  { colSpan: 'md:col-span-1', rowSpan: 'row-span-2' },
-  { colSpan: 'md:col-span-2', rowSpan: 'row-span-2' }
+  { colSpan: 'col-span-2 md:col-span-2', rowSpan: 'row-span-2' },
+  { colSpan: 'col-span-1 md:col-span-1', rowSpan: 'row-span-2' },
+  { colSpan: 'col-span-1 md:col-span-1', rowSpan: 'row-span-2' },
+  { colSpan: 'col-span-2 md:col-span-2', rowSpan: 'row-span-2' }
 ];
 
 export default function RecentProjects({ topProjects = [] }: { topProjects?: any[] }) {
@@ -59,7 +59,7 @@ export default function RecentProjects({ topProjects = [] }: { topProjects?: any
         </div>
 
         {/* PROJECTS BENTO GRID (3 Cols) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 relative z-10">
           
           {topProjects.slice(0, 4).map((project, idx) => {
             const spans = bentoSpans[idx];
@@ -67,10 +67,10 @@ export default function RecentProjects({ topProjects = [] }: { topProjects?: any
               <Link
                 href={`/projects/${project.id}`}
                 key={idx}
-                className={`col-span-1 ${spans.colSpan} ${spans.rowSpan} bg-[#09090a] border border-white/10 rounded-3xl p-6 h-[450px] flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl ${idx === 3 ? 'hidden md:flex' : 'flex'}`}
+                className={`${spans.colSpan} ${spans.rowSpan} bg-[#09090a] border border-white/10 rounded-2xl md:rounded-3xl p-3 md:p-6 h-[180px] md:h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl`}
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-[#000000]/20 to-transparent z-10 opacity-90 group-hover:opacity-100 transition-opacity" />
-                <div className="absolute inset-0 w-full h-full opacity-100 group-hover:opacity-40 transition-opacity flex items-center justify-center p-6 pb-20">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 w-full h-full opacity-60 md:opacity-100 group-hover:opacity-40 transition-opacity flex items-center justify-center p-6 pb-20">
                   {project.previewCover || (project.media && project.media.length > 0) ? (
                     <div className="w-full h-full rounded-2xl border border-white/5 overflow-hidden relative">
                       <Image src={project.previewCover || project.media?.[0]} alt={project.name || project.title} fill className="object-cover" />
@@ -82,11 +82,11 @@ export default function RecentProjects({ topProjects = [] }: { topProjects?: any
                   )}
                 </div>
                 <div className="relative z-20 flex justify-between items-end h-full">
-                  <h3 className="text-2xl font-bold text-white mb-2 ml-2 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-4 group-hover:translate-y-0 duration-300">
+                  <h3 className="text-[13px] md:text-2xl font-bold text-white mb-1 md:mb-2 ml-1 md:ml-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 duration-300 leading-tight">
                     {project.name}
                   </h3>
-                  <div className="w-12 h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-2 ml-2 shadow-lg group-hover:bg-white/10 transition-colors shrink-0">
-                    <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />
+                  <div className="w-7 h-7 md:w-12 md:h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-1 md:mb-2 ml-1 md:ml-2 shadow-lg md:group-hover:bg-white/10 transition-colors shrink-0">
+                    <ArrowUpRight className="w-3.5 h-3.5 md:w-5 md:h-5 text-neutral-400 md:group-hover:text-white transition-colors" />
                   </div>
                 </div>
               </Link>
