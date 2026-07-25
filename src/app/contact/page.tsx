@@ -83,7 +83,7 @@ export default function ContactPage() {
     }
   };
   return (
-    <main className="min-h-screen text-white pt-40 pb-20 flex justify-center selection:bg-neutral-800">
+    <main className="min-h-screen text-white pt-24 md:pt-40 pb-20 flex justify-center selection:bg-neutral-800">
       
       <div className="max-w-6xl w-full px-6 grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-16 items-start">
         
@@ -127,11 +127,13 @@ export default function ContactPage() {
           </div>
 
           {/* Review Block */}
-          <ReviewCard 
-            review={specialReviews.sims} 
-            isSticky={false} 
-            className="w-full mb-8"
-          />
+          <div className="hidden lg:block w-full mb-8">
+            <ReviewCard 
+              review={specialReviews.sims} 
+              isSticky={false} 
+              className="w-full"
+            />
+          </div>
 
           {/* CTA Block */}
           <div className="bg-gradient-to-br from-[#111111] to-[#060606] border border-white/5 rounded-[2rem] p-8 flex items-center justify-between shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),_0_20px_40px_rgba(0,0,0,0.6)]">
@@ -274,6 +276,15 @@ export default function ContactPage() {
 
           </form>
 
+        </div>
+
+        {/* Review Block (Mobile only) */}
+        <div className="block lg:hidden w-full mt-2">
+          <ReviewCard 
+            review={specialReviews.sims} 
+            isSticky={false} 
+            className="w-full"
+          />
         </div>
 
       </div>
