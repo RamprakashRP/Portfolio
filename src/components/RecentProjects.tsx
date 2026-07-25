@@ -70,7 +70,7 @@ export default function RecentProjects({ topProjects = [] }: { topProjects?: any
                 className={`${spans.colSpan} ${spans.rowSpan} bg-[#09090a] border border-white/10 rounded-2xl md:rounded-3xl p-3 md:p-6 h-[180px] md:h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl`}
               >
                 <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90 group-hover:opacity-100 transition-opacity" />
-                <div className="absolute inset-0 w-full h-full opacity-60 md:opacity-100 group-hover:opacity-40 transition-opacity flex items-center justify-center p-6 pb-20">
+                <div className="absolute inset-0 w-full h-full opacity-60 md:opacity-100 group-hover:opacity-40 transition-opacity flex items-center justify-center p-2 pb-10 md:p-6 md:pb-20">
                   {project.previewCover || (project.media && project.media.length > 0) ? (
                     <div className="w-full h-full rounded-2xl border border-white/5 overflow-hidden relative">
                       <Image src={project.previewCover || project.media?.[0]} alt={project.name || project.title} fill className="object-cover" />
