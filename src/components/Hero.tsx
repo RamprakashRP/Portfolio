@@ -169,7 +169,7 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
 
         {/* Rank 1 (Col Span 2) */}
         {rank1 && (
-          <Link href="/achievements" className="col-span-2 md:col-span-2 row-span-2 bg-[#09090a] border border-white/10 rounded-2xl md:rounded-3xl p-4 md:p-6 h-[250px] md:h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
+          <Link href="/achievements" className="col-span-2 md:col-span-2 row-span-2 bg-[#09090a] border border-white/10 rounded-2xl md:rounded-3xl p-4 md:p-6 h-[220px] md:h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
             <Image src={rank1.homeCover || rank1.media?.[0] || '/placeholder.jpg'} alt={rank1.title} fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
             <div className="relative z-20 flex justify-between items-end h-full">
@@ -183,7 +183,7 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
 
         {/* Rank 3 (Col Span 1) */}
         {rank3 && (
-          <Link href="/achievements" className="col-span-1 md:col-span-1 row-span-2 bg-[#09090a] border border-white/10 rounded-2xl md:rounded-3xl p-3 md:p-6 h-[180px] md:h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
+          <Link href="/achievements" className="col-span-1 md:col-span-1 row-span-2 bg-[#09090a] border border-white/10 rounded-2xl md:rounded-3xl p-3 md:p-6 h-[220px] md:h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
             <Image src={rank3.previewCover || rank3.media?.[0] || '/placeholder.jpg'} alt={rank3.title} fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
             <div className="relative z-20 flex justify-between items-end h-full">
@@ -197,7 +197,7 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
 
         {/* Rank 4 (Col Span 1) */}
         {rank4 && (
-          <Link href="/achievements" className="flex col-span-1 md:col-span-1 row-span-2 bg-[#09090a] border border-white/10 rounded-2xl md:rounded-3xl p-3 md:p-6 h-[180px] md:h-[450px] flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
+          <Link href="/achievements" className="flex col-span-1 md:col-span-1 row-span-2 bg-[#09090a] border border-white/10 rounded-2xl md:rounded-3xl p-3 md:p-6 h-[220px] md:h-[450px] flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
             <Image src={rank4.previewCover || rank4.media?.[0] || '/placeholder.jpg'} alt={rank4.title} fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
             <div className="relative z-20 flex justify-between items-end h-full">
