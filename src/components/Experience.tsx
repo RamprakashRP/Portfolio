@@ -108,7 +108,7 @@ export default function Experience() {
   }, [activeImages]);
 
   return (
-    <section id="experience" className="w-full bg-[#000000]/50 text-white py-32 px-6 flex justify-center border-t border-white/5">
+    <section id="experience" className="w-full bg-[#000000]/50 text-white py-10 md:py-32 px-6 flex justify-center border-t border-white/5">
       <div className="max-w-7xl w-full">
         
         {/* Top Header Row */}

@@ -183,7 +183,11 @@ export default function Reviews() {
 
           {/* Mobile Single Stack */}
           <div className="flex md:hidden flex-col relative w-full mt-4 order-2">
-            {[...leftReviews, ...rightReviews].map((review, idx) => (
+            {[
+              ...rightReviews.filter(r => r.name !== 'Could be Anyone!!'),
+              ...leftReviews,
+              ...rightReviews.filter(r => r.name === 'Could be Anyone!!')
+            ].map((review, idx) => (
               <ReviewCard key={`mobile-${idx}`} review={review} idx={idx} topBase={120} />
             ))}
           </div>

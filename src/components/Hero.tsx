@@ -112,18 +112,7 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
             <Link href="/contact" className="px-6 py-2.5 rounded-full bg-gradient-to-b from-white to-neutral-200 text-black text-sm font-semibold hover:opacity-90 transition-opacity shadow-[0_0_30px_rgba(255,255,255,0.4)]">
               Contact Now
             </Link>
-            <div 
-              onClick={() => window.dispatchEvent(new Event('open-notifications'))}
-              className="hidden md:flex relative w-10 h-10 rounded-full bg-white/5 border border-white/10 items-center justify-center hover:bg-white/10 transition-colors cursor-pointer group" 
-              title="Notifications"
-            >
-              <Bell className="w-4 h-4 text-neutral-400 group-hover:text-white transition-colors" />
-              {/* Notification Ping Dot */}
-              <span className="absolute top-2.5 right-2.5 flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-              </span>
-            </div>
+
           </motion.div>
         </div>
 

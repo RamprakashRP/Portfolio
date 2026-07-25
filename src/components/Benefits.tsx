@@ -39,7 +39,7 @@ export default function Benefits() {
   return (
     <section 
       id="benefits" 
-      className="relative w-full bg-[#000000]/50 text-white pt-20 md:pt-32 pb-8 md:pb-32 px-4 md:px-6 flex justify-center -mt-8 rounded-t-[3rem] border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] z-40"
+      className="relative w-full bg-[#000000]/50 text-white pt-10 md:pt-32 pb-8 md:pb-32 px-4 md:px-6 flex justify-center -mt-8 rounded-t-[3rem] border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] z-40"
     >
       <div className="max-w-4xl w-full flex flex-col items-center">
         
