@@ -75,7 +75,7 @@ export default function Reviews() {
   return (
     <section 
       id="reviews" 
-      className="relative w-full bg-[#000000]/50 text-white pt-32 pb-[30vh] px-6 flex justify-center -mt-8 rounded-t-[3rem] border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] z-50"
+      className="relative w-full bg-[#000000]/50 text-white pt-20 md:pt-32 pb-20 md:pb-[30vh] px-4 md:px-6 flex justify-center -mt-8 rounded-t-[3rem] border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] z-50"
     >
       <div className="max-w-6xl w-full flex flex-col md:grid md:grid-cols-2 gap-10 md:gap-20 relative items-start">
         

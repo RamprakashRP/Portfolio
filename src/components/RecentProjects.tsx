@@ -16,7 +16,7 @@ export default function RecentProjects({ topProjects = [] }: { topProjects?: any
   return (
     <section 
       id="recent-projects" 
-      className="relative w-full bg-[#000000]/50 text-white pt-32 pb-24 px-6 flex justify-center -mt-8 rounded-t-[3rem] border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] z-30"
+      className="relative w-full bg-[#000000]/50 text-white pt-20 md:pt-32 pb-16 md:pb-24 px-4 md:px-6 flex justify-center -mt-8 rounded-t-[3rem] border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] z-30"
     >
       <div className="max-w-7xl w-full flex flex-col">
         
