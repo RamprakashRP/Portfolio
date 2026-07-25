@@ -62,16 +62,16 @@ export default function AchievementsPageWrapper() {
           {/* --- HIGHLIGHTED HERO SECTION --- */}
           {highlights.length > 0 && (
             <div className="mb-8">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-2 gap-3 md:gap-6">
                 {highlights.map((achievement) => {
                   const isRank1 = achievement.rpRank === 1;
                   return (
                     <div 
                       key={achievement.id} 
                       onClick={() => setSelectedAchievement(achievement)}
-                      className={`group relative overflow-hidden rounded-3xl bg-[#0a0a0a] border border-white/10 flex flex-col justify-end p-6 md:p-8 hover:border-white/20 transition-all cursor-pointer ${
-                        isRank1 ? 'col-span-1 lg:col-span-2 h-[500px]' : 'col-span-1 h-[400px]'
-                      } ${achievement.rpRank === 4 ? 'hidden md:flex' : 'flex'}`}
+                      className={`group relative overflow-hidden rounded-2xl md:rounded-3xl bg-[#0a0a0a] border border-white/10 flex flex-col justify-end p-4 md:p-8 hover:border-white/20 transition-all cursor-pointer ${
+                        isRank1 ? 'col-span-2 lg:col-span-2 h-[280px] md:h-[500px]' : 'col-span-1 h-[200px] md:h-[400px]'
+                      } flex`}
                     >
                       {/* Background Image (Cover) */}
                       {(achievement.highlightCover || achievement.media?.[0]) && (
@@ -88,25 +88,25 @@ export default function AchievementsPageWrapper() {
 
                       {/* Content */}
                       <div className="relative z-10 flex flex-col">
-                        <div className="flex flex-wrap items-center gap-3 mb-4">
-                        <div className="flex flex-wrap gap-2">
-                          {(achievement.tags || []).map((tag: string) => (
-                            <div key={tag} className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-[10px] sm:text-xs font-medium">
+                        <div className="flex flex-wrap items-center gap-1.5 md:gap-3 mb-2 md:mb-4">
+                        <div className="flex flex-wrap gap-1 md:gap-2">
+                          {(achievement.tags || []).slice(0, isRank1 ? 4 : 1).map((tag: string) => (
+                            <div key={tag} className="flex items-center space-x-1 md:space-x-1.5 px-2 md:px-3 py-0.5 md:py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-[9px] sm:text-[10px] md:text-xs font-medium">
                               <Tag className="w-3 h-3" />
                               <span>{tag}</span>
                             </div>
                           ))}
                         </div>
-                          <div className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/5 backdrop-blur-md border border-white/5 text-[10px] sm:text-xs text-neutral-300">
-                            <Calendar className="w-3 h-3" />
+                          <div className="flex items-center space-x-1 md:space-x-1.5 px-2 md:px-3 py-0.5 md:py-1 rounded-full bg-white/5 backdrop-blur-md border border-white/5 text-[9px] sm:text-[10px] md:text-xs text-neutral-300">
+                            <Calendar className="w-2.5 h-2.5 md:w-3 md:h-3" />
                             <span>{achievement.date}</span>
                           </div>
                         </div>
 
-                        <h3 className={`${isRank1 ? 'text-3xl md:text-5xl' : 'text-2xl md:text-3xl'} font-medium tracking-tight mb-3 group-hover:text-neutral-200 transition-colors`}>
+                        <h3 className={`${isRank1 ? 'text-2xl sm:text-3xl md:text-5xl' : 'text-sm sm:text-2xl md:text-3xl'} font-medium tracking-tight mb-1 md:mb-3 group-hover:text-neutral-200 transition-colors leading-tight`}>
                           {achievement.title}
                         </h3>
-                        <p className={`text-neutral-400 line-clamp-2 leading-relaxed ${isRank1 ? 'text-base max-w-3xl' : 'text-sm'}`}>
+                        <p className={`text-neutral-400 line-clamp-2 leading-relaxed ${isRank1 ? 'text-xs md:text-base max-w-3xl' : 'text-[10px] md:text-sm hidden sm:-webkit-box'}`}>
                           {achievement.description}
                         </p>
 
