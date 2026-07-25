@@ -41,8 +41,7 @@ export default function AchievementsPageWrapper() {
   const allAchievements = achievements;
 
   return (
-    <div className="bg-[#000000] min-h-screen text-white font-sans selection:bg-white/20">
-      <Navbar />
+    <div className="min-h-screen text-white font-sans selection:bg-white/20">
       
       <main className="max-w-7xl mx-auto px-6 pt-40 pb-24 flex flex-col items-center">
         
