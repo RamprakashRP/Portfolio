@@ -20,18 +20,18 @@ const ServiceCard = ({ card }: { card: ServiceData }) => {
   const Icon = (LucideIcons as any)[card.iconName] || LucideIcons.Check;
 
   return (
-    <div className="bg-gradient-to-b from-[#151515] to-[#09090a] border border-white/10 rounded-[2rem] p-8 flex flex-col gap-6 shadow-[0_20px_40px_rgba(0,0,0,0.8),inset_0_1px_2px_rgba(255,255,255,0.15)] transform transition-transform hover:-translate-y-1 overflow-hidden">
+    <div className="bg-gradient-to-b from-[#151515] to-[#09090a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-8 flex flex-col gap-4 md:gap-6 shadow-[0_20px_40px_rgba(0,0,0,0.8),inset_0_1px_2px_rgba(255,255,255,0.15)] transform transition-transform hover:-translate-y-1 overflow-hidden">
       <div className="flex items-center gap-3">
         <Icon className="w-5 h-5 text-neutral-300" />
-        <h3 className="text-xl font-bold text-white">{card.title}</h3>
+        <h3 className="text-lg md:text-xl font-bold text-white leading-tight">{card.title}</h3>
       </div>
       
-      <p className="text-sm text-neutral-400 leading-relaxed font-light">
+      <p className="text-xs md:text-sm text-neutral-400 leading-relaxed font-light">
         {card.description}
       </p>
 
       {hasImages && (
-        <div className="mt-4 relative w-full h-[244px] rounded-xl overflow-hidden bg-neutral-900/50 border border-white/5 flex items-center shadow-inner">
+        <div className="mt-2 md:mt-4 relative w-full h-[150px] md:h-[244px] rounded-xl overflow-hidden bg-neutral-900/50 border border-white/5 flex items-center shadow-inner">
           {isSlider ? (
             <motion.div 
               className="flex gap-4 h-full"
@@ -39,7 +39,7 @@ const ServiceCard = ({ card }: { card: ServiceData }) => {
               transition={{ repeat: Infinity, ease: "linear", duration: 15 }}
             >
               {[...card.images!, ...card.images!].map((img, idx) => (
-                <div key={idx} className="relative min-w-[350px] h-full rounded-lg overflow-hidden border border-white/10 shadow-md">
+                <div key={idx} className="relative min-w-[250px] md:min-w-[350px] h-full rounded-lg overflow-hidden border border-white/10 shadow-md">
                   <Image src={img} alt={`${card.title} preview ${idx}`} fill className="object-cover" />
                 </div>
               ))}
