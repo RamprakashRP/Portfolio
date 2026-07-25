@@ -105,6 +105,7 @@ export default function Navbar() {
   // Sync active item with pathname on load and implement Scroll Spy
   useEffect(() => {
     isProgrammaticScroll.current = true;
+    setIsVisible(true);
     setTimeout(() => { isProgrammaticScroll.current = false; }, 2000);
     setHasScrolledOnce(false);
 
@@ -146,9 +147,10 @@ export default function Navbar() {
           const element = document.getElementById(targetId);
           if (element) {
             isProgrammaticScroll.current = true;
+            setIsVisible(true);
             const targetPosition = element.getBoundingClientRect().top + window.scrollY;
             window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-            setTimeout(() => { isProgrammaticScroll.current = false; }, 1200);
+            setTimeout(() => { isProgrammaticScroll.current = false; }, 1500);
           }
         }, 500);
       }
@@ -219,6 +221,7 @@ export default function Navbar() {
     
     // Always set active item immediately to prevent Framer Motion animation glitches across route changes
     setActiveItem(itemName);
+    setIsVisible(true);
     
     // Close mobile menu on click
     setIsMobileMenuOpen(false);
