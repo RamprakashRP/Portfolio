@@ -165,17 +165,17 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
       </div>
 
       {/* --- ACHIEVEMENTS BENTO GRID (3 Cols) --- */}
-      <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10 mt-12">
+      <div className="max-w-7xl w-full grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 relative z-10 mt-12">
 
         {/* Rank 1 (Col Span 2) */}
         {rank1 && (
-          <Link href="/achievements" className="col-span-1 md:col-span-2 row-span-2 bg-[#09090a] border border-white/10 rounded-3xl p-6 h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
+          <Link href="/achievements" className="col-span-2 md:col-span-2 row-span-2 bg-[#09090a] border border-white/10 rounded-2xl md:rounded-3xl p-4 md:p-6 h-[250px] md:h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
             <Image src={rank1.homeCover || rank1.media?.[0] || '/placeholder.jpg'} alt={rank1.title} fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
             <div className="relative z-20 flex justify-between items-end h-full">
-              <h3 className="text-2xl font-semibold text-white max-w-sm">{rank1.title}</h3>
-              <div className="w-12 h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-2 ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
-                <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />
+              <h3 className="text-lg md:text-2xl font-semibold text-white max-w-[80%] md:max-w-sm leading-tight">{rank1.title}</h3>
+              <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-1 md:mb-2 ml-1 md:ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
+                <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 text-neutral-400 group-hover:text-white transition-colors" />
               </div>
             </div>
           </Link>
@@ -183,13 +183,13 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
 
         {/* Rank 3 (Col Span 1) */}
         {rank3 && (
-          <Link href="/achievements" className="col-span-1 md:col-span-1 row-span-2 bg-[#09090a] border border-white/10 rounded-3xl p-6 h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
+          <Link href="/achievements" className="col-span-1 md:col-span-1 row-span-2 bg-[#09090a] border border-white/10 rounded-2xl md:rounded-3xl p-3 md:p-6 h-[180px] md:h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
             <Image src={rank3.previewCover || rank3.media?.[0] || '/placeholder.jpg'} alt={rank3.title} fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
             <div className="relative z-20 flex justify-between items-end h-full">
-              <h3 className="text-xl font-semibold text-white">{rank3.title}</h3>
-              <div className="w-12 h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-2 ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
-                <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />
+              <h3 className="text-[13px] md:text-xl font-semibold text-white leading-tight">{rank3.title}</h3>
+              <div className="w-7 h-7 md:w-12 md:h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-1 md:mb-2 ml-1 md:ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
+                <ArrowUpRight className="w-3.5 h-3.5 md:w-5 md:h-5 text-neutral-400 group-hover:text-white transition-colors" />
               </div>
             </div>
           </Link>
@@ -197,13 +197,13 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
 
         {/* Rank 4 (Col Span 1) */}
         {rank4 && (
-          <Link href="/achievements" className="col-span-1 md:col-span-1 row-span-2 bg-[#09090a] border border-white/10 rounded-3xl p-6 h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
+          <Link href="/achievements" className="hidden md:flex col-span-1 md:col-span-1 row-span-2 bg-[#09090a] border border-white/10 rounded-2xl md:rounded-3xl p-3 md:p-6 h-[180px] md:h-[450px] flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
             <Image src={rank4.previewCover || rank4.media?.[0] || '/placeholder.jpg'} alt={rank4.title} fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
             <div className="relative z-20 flex justify-between items-end h-full">
-              <h3 className="text-xl font-semibold text-white">{rank4.title}</h3>
-              <div className="w-12 h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-2 ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
-                <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />
+              <h3 className="text-[13px] md:text-xl font-semibold text-white leading-tight">{rank4.title}</h3>
+              <div className="w-7 h-7 md:w-12 md:h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-1 md:mb-2 ml-1 md:ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
+                <ArrowUpRight className="w-3.5 h-3.5 md:w-5 md:h-5 text-neutral-400 group-hover:text-white transition-colors" />
               </div>
             </div>
           </Link>
@@ -211,13 +211,13 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
 
         {/* Rank 2 (Col Span 2) */}
         {rank2 && (
-          <Link href="/achievements" className="col-span-1 md:col-span-2 row-span-2 bg-[#09090a] border border-white/10 rounded-3xl p-6 h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
+          <Link href="/achievements" className="col-span-1 md:col-span-2 row-span-2 bg-[#09090a] border border-white/10 rounded-2xl md:rounded-3xl p-3 md:p-6 h-[180px] md:h-[450px] flex flex-col justify-end group relative overflow-hidden cursor-pointer hover:border-white/20 transition-colors shadow-2xl">
             <Image src={rank2.homeCover || rank2.media?.[0] || '/placeholder.jpg'} alt={rank2.title} fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
             <div className="relative z-20 flex justify-between items-end h-full">
-              <h3 className="text-2xl font-semibold text-white max-w-sm">{rank2.title}</h3>
-              <div className="w-12 h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-2 ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
-                <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />
+              <h3 className="text-[13px] md:text-2xl font-semibold text-white max-w-[80%] md:max-w-sm leading-tight">{rank2.title}</h3>
+              <div className="w-7 h-7 md:w-12 md:h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-1 md:mb-2 ml-1 md:ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
+                <ArrowUpRight className="w-3.5 h-3.5 md:w-5 md:h-5 text-neutral-400 group-hover:text-white transition-colors" />
               </div>
             </div>
           </Link>
