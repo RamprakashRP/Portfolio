@@ -96,7 +96,7 @@ export default function Reviews() {
               transition={{ duration: 0.5, ease: "easeOut" }}
               className="text-[3rem] font-normal tracking-[-0.04em] mb-4 text-white leading-tight"
             >
-              Coworkers <br/> Love me
+              Coworkers <br/> <span className="text-neutral-500">Love me</span>
             </motion.h2>
             
             <motion.p 
@@ -158,9 +158,9 @@ export default function Reviews() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, margin: "-50px" }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="text-[3.5rem] md:text-7xl font-normal tracking-[-0.04em] mb-4 text-white"
+              className="text-[3.5rem] md:text-7xl font-normal tracking-[-0.04em] mb-4 text-white leading-tight"
             >
-              Coworkers Love me
+              Coworkers <br/> <span className="text-neutral-500">Love me</span>
             </motion.h2>
             
             <motion.p 

@@ -44,7 +44,7 @@ export default function Profile() {
           </div>
 
           <h2 className="text-4xl md:text-5xl font-medium tracking-tight">
-            Ramprakash Raja, <span className="text-neutral-500">Your Friend</span>
+            Ramprakash Raja, <br/> <span className="text-neutral-500">Your Friend</span>
           </h2>
 
           <p className="text-sm md:text-base text-neutral-400 max-w-lg">

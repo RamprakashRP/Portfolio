@@ -50,7 +50,7 @@ export default function Benefits() {
           </div>
 
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-medium tracking-tight leading-tight px-2 drop-shadow-xl md:drop-shadow-none text-white">
-            Why me as <br className="md:hidden" /><span className="text-neutral-500">Professional Partner</span>
+            Why me as <br/> <span className="text-neutral-500">Professional Partner</span>
           </h2>
           <p className="text-neutral-400 text-xs md:text-sm lg:text-base px-4 drop-shadow-md md:drop-shadow-none">
             Why Partner with Me for the Professional Excellence

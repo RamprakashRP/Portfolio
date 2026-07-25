@@ -38,7 +38,7 @@ export default function RecentProjects({ topProjects = [] }: { topProjects?: any
 
             <Link href="/projects" className="flex items-center gap-4 cursor-pointer group">
               <h2 className="text-5xl md:text-6xl font-medium tracking-tight group-hover:opacity-80 transition-opacity">
-                Recent <span className="text-neutral-500">Projects</span>
+                Recent <br/> <span className="text-neutral-500">Projects</span>
               </h2>
               <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center bg-white/5 group-hover:bg-white/10 transition-colors">
                 <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors" />

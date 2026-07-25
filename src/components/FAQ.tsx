@@ -135,9 +135,9 @@ export default function FAQ() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, margin: "-50px" }}
             transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-            className="text-5xl md:text-6xl font-medium tracking-tight mb-4"
+            className="text-5xl md:text-6xl font-medium tracking-tight mb-4 leading-tight"
           >
-            Questions, <span className="text-neutral-500">Answers</span>
+            Questions, <br/> <span className="text-neutral-500">Answers</span>
           </motion.h2>
           
           <motion.p 

@@ -79,7 +79,7 @@ export default function Services() {
             </div>
 
             <h2 className="text-5xl md:text-6xl font-medium tracking-tight">
-              Services <span className="text-neutral-500">Provided</span>
+              Services <br/> <span className="text-neutral-500">Provided</span>
             </h2>
             <p className="text-neutral-400 text-sm md:text-base max-w-xl">
               Explore our diverse services and unlock tailored solutions that elevate your growth and impact.
