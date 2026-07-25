@@ -42,6 +42,34 @@ const faqs = [
   {
     question: 'Can you redesign my existing website?',
     answer: "Absolutely! I can refresh and optimize your current website to improve performance, usability, and aesthetics"
+  },
+  {
+    question: "Are you an AI Engineer or Data Scientist?",
+    answer: "Yes, I am an AI & Machine Learning Professional focusing on building scalable intelligent systems, leveraging predictive analytics, LLMs, and Python."
+  },
+  {
+    question: "Are you an incoming student at the University of Waterloo?",
+    answer: "Yes! I am an incoming student for the MDSAI (Master of Data Science and Artificial Intelligence) Co-op program at the University of Waterloo, Canada, continuing my journey in advanced AI."
+  },
+  {
+    question: "Do you offer Web Development services?",
+    answer: "Absolutely! I am a Full-Stack Web Developer. I build highly optimized, responsive, and beautifully designed web applications using modern technologies like React, Next.js, and TypeScript."
+  },
+  {
+    question: "Are you available as a Freelancer?",
+    answer: "Yes, I take on select freelance projects. Whether you need a custom automation workflow, a branding overhaul, or a complex AI integration, feel free to reach out."
+  },
+  {
+    question: "What is your role as a Student Community Leader?",
+    answer: "I actively engage in tech communities and have proudly served as a top 10 Google Student Ambassador (India) and Microsoft Student Ambassador, fostering growth and sharing knowledge."
+  },
+  {
+    question: "Do you specialize in Next.js and React?",
+    answer: "Yes, Next.js and React are my go-to frameworks for creating lightning-fast, SEO-optimized, and highly interactive user interfaces."
+  },
+  {
+    question: "Can you help with UI/UX Design?",
+    answer: "I provide comprehensive UI/UX design services. From wireframing to high-fidelity prototyping, I ensure every digital product is intuitive, accessible, and visually striking."
   }
 ];
 
@@ -79,6 +107,7 @@ const AccordionItem = ({ faq, isOpen, onClick }: { faq: any, isOpen: boolean, on
 
 export default function FAQ() {
   const [openIndices, setOpenIndices] = useState<number[]>([0]); // First one open by default
+  const [visibleCount, setVisibleCount] = useState(10);
 
   const toggleIndex = (index: number) => {
     setOpenIndices(prev => 
@@ -135,7 +164,7 @@ export default function FAQ() {
 
         {/* Right Column: Accordion */}
         <div className="flex flex-col w-full">
-          {faqs.map((faq, idx) => (
+          {faqs.slice(0, visibleCount).map((faq, idx) => (
             <AccordionItem 
               key={idx} 
               faq={faq} 
@@ -143,6 +172,15 @@ export default function FAQ() {
               onClick={() => toggleIndex(idx)} 
             />
           ))}
+          
+          {visibleCount < faqs.length && (
+            <button 
+              onClick={() => setVisibleCount(faqs.length)}
+              className="mt-6 px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white text-sm font-semibold hover:bg-white/10 transition-colors w-full md:w-fit self-center"
+            >
+              Load More Questions
+            </button>
+          )}
         </div>
 
       </div>

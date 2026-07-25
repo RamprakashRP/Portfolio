@@ -77,7 +77,7 @@ export default function Reviews() {
       id="reviews" 
       className="relative w-full bg-[#000000]/50 text-white pt-20 md:pt-32 pb-20 md:pb-[30vh] px-4 md:px-6 flex justify-center -mt-8 rounded-t-[3rem] border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] z-50"
     >
-      <div className="max-w-6xl w-full flex flex-col md:grid md:grid-cols-2 gap-10 md:gap-20 relative items-start">
+      <div className="max-w-6xl w-full flex flex-col md:grid md:grid-cols-2 gap-0 md:gap-20 relative items-start">
         
         {/* MOBILE HEADER (Visible only on mobile) */}
         <div className="flex md:hidden flex-col items-start gap-4 mb-2 w-full order-1">
@@ -196,7 +196,7 @@ export default function Reviews() {
         {/* Right Column */}
         <div className="flex flex-col relative w-full h-full order-2 md:order-2">
           {/* Right Cards Stack (Start sticking immediately without header) */}
-          <div className="flex flex-col relative w-full pt-10 md:pt-0">
+          <div className="flex flex-col relative w-full">
             {rightReviews.map((review, idx) => (
               <ReviewCard 
                 key={`right-${idx}`} 
