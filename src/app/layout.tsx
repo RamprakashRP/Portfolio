@@ -25,15 +25,28 @@ export const metadata: Metadata = {
     template: "%s | Ramprakash Raja",
     default: "Ramprakash Raja - Portfolio",
   },
-  description: "Ramprakash Raja — final-year engineering student headed to the MDSAI program at University of Waterloo, top 10 Google Student Ambassador (India), and Microsoft Student Ambassador.",
+  description: "Ramprakash Raja — AI Engineer, Freelance Web Developer, and Community Builder. Final-year engineering student headed to the MDSAI program at University of Waterloo. Top 6 Google Student Ambassador (India) and Microsoft Student Ambassador.",
   keywords: [
     "Ramprakash Raja",
+    "AI Engineer",
+    "Freelancer",
+    "Freelance Web Developer",
+    "Community Builder",
+    "Student Community Leader",
     "Software Developer",
+    "Full Stack Developer",
+    "Machine Learning Engineer",
     "AIML Professional",
     "Google Student Ambassador",
     "Microsoft Student Ambassador",
     "University of Waterloo",
-    "India Impact Summit",
+    "Waterloo Student",
+    "MDSAI",
+    "India AI Impact Summit",
+    "Best Outgoing Student SRM IST",
+    "SRM Institute of Science and Technology",
+    "Tech Speaker",
+    "AI Film Festival Dubai"
   ],
   authors: [{ name: "Ramprakash Raja" }],
   creator: "Ramprakash Raja",
@@ -42,8 +55,8 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Ramprakash Raja - Portfolio",
-    description: "Ramprakash Raja — final-year engineering student headed to the MDSAI program at University of Waterloo, top 10 Google Student Ambassador (India), and Microsoft Student Ambassador.",
+    title: "Ramprakash Raja | AI Engineer & Community Builder",
+    description: "Ramprakash Raja — AI Engineer, Freelance Web Developer, and Community Builder. Top 6 Google Student Ambassador.",
     url: siteUrl,
     siteName: "Ramprakash Raja Portfolio",
     images: [
@@ -51,7 +64,7 @@ export const metadata: Metadata = {
         url: "/profile-pic.jpeg",
         width: 1200,
         height: 630,
-        alt: "Ramprakash Raja",
+        alt: "Ramprakash Raja - AI Engineer",
       },
     ],
     locale: "en_US",
@@ -59,14 +72,47 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ramprakash Raja - Portfolio",
-    description: "Ramprakash Raja — final-year engineering student headed to the MDSAI program at University of Waterloo, top 10 Google Student Ambassador (India), and Microsoft Student Ambassador.",
+    title: "Ramprakash Raja | AI Engineer",
+    description: "AI Engineer, Freelance Web Developer, and Community Builder. Top 6 Google Student Ambassador.",
     images: ["/profile-pic.jpeg"],
   },
   icons: {
     icon: "/rp-logo.png",
     apple: "/rp-logo.png",
   },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Ramprakash Raja",
+  jobTitle: "AI Engineer & Freelance Web Developer",
+  description: "Ramprakash Raja is an AI Engineer, Community Builder, and Top 6 Google Student Ambassador. Incoming MDSAI student at the University of Waterloo.",
+  url: siteUrl,
+  image: `${siteUrl}/profile-pic.jpeg`,
+  sameAs: [
+    "https://www.linkedin.com/in/ramprakashraja",
+    "https://github.com/RamprakashRP",
+    "https://www.instagram.com/ramprakash.raja_2004"
+  ],
+  alumniOf: [
+    {
+      "@type": "CollegeOrUniversity",
+      name: "SRM Institute of Science and Technology"
+    },
+    {
+      "@type": "CollegeOrUniversity",
+      name: "University of Waterloo"
+    }
+  ],
+  knowsAbout: [
+    "Artificial Intelligence",
+    "Machine Learning",
+    "Web Development",
+    "Full Stack Development",
+    "Community Building",
+    "Public Speaking"
+  ]
 };
 
 export default function RootLayout({
@@ -79,6 +125,12 @@ export default function RootLayout({
       lang="en"
       className={`${outfit.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-transparent" suppressHydrationWarning>
         <Loader />
         <ScrollHandler />
