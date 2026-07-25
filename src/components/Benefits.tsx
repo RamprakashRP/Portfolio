@@ -44,22 +44,22 @@ export default function Benefits() {
       <div className="max-w-4xl w-full flex flex-col items-center">
         
         {/* Top Header */}
-        <div className="flex flex-col items-center gap-4 mb-20 text-center">
+        <div className="sticky top-16 md:top-24 z-20 flex flex-col items-center gap-3 md:gap-4 mb-10 md:mb-20 text-center w-full pt-4 md:pt-0 bg-[#000000]/50 backdrop-blur-md md:bg-transparent md:backdrop-blur-none pb-4 md:pb-0 rounded-b-3xl md:rounded-none">
           <div className="flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 w-fit">
             <span className="text-xs font-semibold text-neutral-300 tracking-wider">Why choose me</span>
           </div>
 
-          <h2 className="text-5xl md:text-6xl font-medium tracking-tight">
-            Why me as <span className="text-neutral-500">Professional Partner</span>
+          <h2 className="text-4xl md:text-6xl font-medium tracking-tight leading-tight px-4">
+            Why me as <br className="md:hidden" /><span className="text-neutral-500">Professional Partner</span>
           </h2>
-          <p className="text-neutral-400 text-sm md:text-base">
+          <p className="text-neutral-400 text-sm md:text-base px-4">
             Why Partner with Me for the Professional Excellence
           </p>
         </div>
 
         {/* Stacking Cards Container */}
         {/* We add a large padding-bottom so you have room to scroll through the stickiness */}
-        <div className="w-full relative flex flex-col pb-[30vh]">
+        <div className="w-full relative flex flex-col pb-[30vh] [--card-top:280px] md:[--card-top:260px]">
           {benefitsData.map((benefit, idx) => {
             // By dynamically increasing the top offset by a small amount (20px),
             // the cards will stack like a deck, leaving the top edge of previous cards visible!
@@ -70,7 +70,7 @@ export default function Benefits() {
                 key={idx}
                 className="sticky w-full flex flex-col md:flex-row bg-gradient-to-br from-[#151515] to-[#09090a] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),_0_20px_40px_rgba(0,0,0,0.8)] border border-white/5 rounded-3xl overflow-hidden mb-12"
                 style={{
-                  top: `${topOffset}px`,
+                  top: `calc(var(--card-top) + ${idx * 20}px)`,
                   zIndex: 10 + idx,
                 }}
               >
