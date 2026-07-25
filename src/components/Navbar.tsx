@@ -19,6 +19,7 @@ export default function Navbar() {
   const [hasScrolledOnce, setHasScrolledOnce] = useState(false);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isProgrammaticScroll = useRef(false);
+  const isNavigatingRef = useRef(false);
 
   const startHideTimer = () => {
     if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
@@ -105,6 +106,7 @@ export default function Navbar() {
   // Sync active item with pathname on load and implement Scroll Spy
   useEffect(() => {
     isProgrammaticScroll.current = true;
+    isNavigatingRef.current = false;
     setIsVisible(true);
     setTimeout(() => { isProgrammaticScroll.current = false; }, 2000);
     setHasScrolledOnce(false);
@@ -116,6 +118,7 @@ export default function Navbar() {
       // Setup Scroll Spy for Home Page Sections
       const observer = new IntersectionObserver(
         (entries) => {
+          if (isNavigatingRef.current) return;
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               if (entry.target.id === 'services') setActiveItem('Services');
@@ -133,6 +136,7 @@ export default function Navbar() {
       if (reviewsEl) observer.observe(reviewsEl);
 
       const handleScroll = () => {
+        if (isNavigatingRef.current) return;
         if (window.scrollY < 300) setActiveItem('Home');
       };
       
@@ -164,6 +168,12 @@ export default function Navbar() {
 
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, itemName: string) => {
+    // Flag that we are navigating to prevent Scroll Spy from overriding the active item
+    isNavigatingRef.current = true;
+    
+    // Always set active item immediately to prevent Framer Motion animation glitches across route changes
+    setActiveItem(itemName);
+    setIsVisible(true);
     // If it's a hash link and we are on the Home page, intercept for custom smooth scroll
     if (href.startsWith('/#') && pathname === '/') {
       e.preventDefault();
@@ -215,13 +225,10 @@ export default function Navbar() {
         const ease = progress < 0.5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
         window.scrollTo(0, startPosition - (startPosition * ease));
         if (timeElapsed < duration) requestAnimationFrame(animation);
+        else isNavigatingRef.current = false;
       };
       requestAnimationFrame(animation);
     }
-    
-    // Always set active item immediately to prevent Framer Motion animation glitches across route changes
-    setActiveItem(itemName);
-    setIsVisible(true);
     
     // Close mobile menu on click
     setIsMobileMenuOpen(false);
