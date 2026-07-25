@@ -20,6 +20,8 @@ export default function Navbar() {
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isProgrammaticScroll = useRef(false);
   const isNavigatingRef = useRef(false);
+  const [hoveredNavName, setHoveredNavName] = useState<string | null>(null);
+  const isDragging = useRef(false);
 
   const startHideTimer = () => {
     if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
@@ -167,6 +169,42 @@ export default function Navbar() {
   }, [pathname]);
 
 
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsHovered(true);
+    isDragging.current = false;
+    const touch = e.touches[0];
+    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+    const navItem = element?.closest('[data-nav-name]');
+    if (navItem) {
+      setHoveredNavName(navItem.getAttribute('data-nav-name'));
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    isDragging.current = true;
+    const touch = e.touches[0];
+    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+    const navItem = element?.closest('[data-nav-name]');
+    if (navItem) {
+      setHoveredNavName(navItem.getAttribute('data-nav-name'));
+    } else {
+      setHoveredNavName(null);
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    setIsHovered(false);
+    if (isDragging.current && hoveredNavName) {
+      // If they slid their finger to a new item, trigger a click programmatically
+      // because native click events are canceled upon dragging.
+      const el = document.getElementById(`nav-link-${hoveredNavName}`);
+      if (el) el.click();
+    }
+    setHoveredNavName(null);
+    isDragging.current = false;
+  };
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, itemName: string) => {
     // Flag that we are navigating to prevent Scroll Spy from overriding the active item
     isNavigatingRef.current = true;
@@ -260,14 +298,15 @@ export default function Navbar() {
       <div 
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onTouchStart={() => setIsHovered(true)}
-        onTouchEnd={() => setIsHovered(false)}
-        className={`fixed top-6 left-1/2 -translate-x-1/2 z-[100] transition-all duration-500 ease-in-out ${isVisible ? 'translate-y-0 opacity-100' : '-translate-y-32 opacity-0 pointer-events-none'}`}
+        className={`fixed bottom-6 md:bottom-auto md:top-6 left-1/2 -translate-x-1/2 z-[100] transition-all duration-500 ease-in-out ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-32 md:-translate-y-32 opacity-0 pointer-events-none'}`}
       >
         
         {/* MOBILE LAYOUT (Icon Dock) */}
         <motion.nav 
-          className="md:hidden flex items-center gap-1 sm:gap-2 px-3 py-2 bg-[#111111]/30 backdrop-blur-[40px] backdrop-saturate-[180%] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] overflow-hidden rounded-full w-max"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          className="md:hidden flex items-center gap-1 sm:gap-2 px-3 py-2 bg-[#111111]/30 backdrop-blur-[40px] backdrop-saturate-[180%] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] rounded-full w-max relative"
         >
           {navItems.map((item) => {
             const isActive = activeItem === item.name;
@@ -275,15 +314,30 @@ export default function Navbar() {
             return (
               <Link
                 key={item.name}
+                id={`nav-link-${item.name}`}
+                data-nav-name={item.name}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href, item.name)}
                 className={`p-2.5 rounded-full transition-colors relative z-10 flex items-center justify-center ${isActive ? 'text-white bg-white/10' : 'text-neutral-400 hover:text-white hover:bg-white/5'}`}
               >
-                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                <Icon className="w-5 h-5" />
+                <AnimatePresence>
+                  {hoveredNavName === item.name && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.8 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.8 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                      className="absolute -top-12 px-3 py-1.5 bg-white text-black text-xs font-bold rounded-full shadow-xl pointer-events-none whitespace-nowrap"
+                    >
+                      {item.name}
+                      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-t-white" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </Link>
             );
           })}
-
         </motion.nav>
 
         {/* DESKTOP LAYOUT (Unified Pill) */}
