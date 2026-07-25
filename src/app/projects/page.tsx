@@ -72,7 +72,7 @@ export default function ProjectsPage() {
     oldest: 'Oldest First'
   };
   return (
-    <main className="min-h-screen text-white pt-40 pb-20 relative flex flex-col items-center">
+    <main className="min-h-screen text-white pt-12 md:pt-40 pb-20 relative flex flex-col items-center">
       
       {/* Background Texture Placeholder */}
       <div className="absolute inset-0 z-0 opacity-20 pointer-events-none mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] bg-repeat" />

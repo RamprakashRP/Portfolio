@@ -17,7 +17,7 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
   const rank4 = topAchievements.find(a => a.rpRank === 4);
 
   return (
-    <section className="min-h-[150vh] text-white relative flex flex-col items-center pt-32 pb-24 px-6 font-sans">
+    <section className="min-h-[150vh] text-white relative flex flex-col items-center pt-12 md:pt-32 pb-24 px-6 font-sans">
       
       {/* Background Video (Hero Only) */}
       <div className="absolute top-0 left-0 w-full h-[100vh] z-0 overflow-hidden pointer-events-none">
