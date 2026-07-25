@@ -59,7 +59,7 @@ export default function RecentProjects({ topProjects = [] }: { topProjects?: any
         </div>
 
         {/* PROJECTS BENTO GRID (3 Cols) */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 relative z-10">
+        <div className="grid grid-cols-3 md:grid-cols-3 gap-3 md:gap-6 relative z-10">
           
           {topProjects.slice(0, 4).map((project, idx) => {
             const spans = bentoSpans[idx];

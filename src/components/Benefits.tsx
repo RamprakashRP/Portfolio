@@ -44,7 +44,7 @@ export default function Benefits() {
       <div className="max-w-4xl w-full flex flex-col items-center">
         
         {/* Top Header */}
-        <div className="sticky top-4 md:top-24 z-0 md:z-20 flex flex-col items-center gap-2 md:gap-4 mb-6 md:mb-20 text-center w-full md:bg-transparent md:backdrop-blur-none pointer-events-none">
+        <div className="sticky top-0 md:top-24 z-40 flex flex-col items-center gap-2 md:gap-4 pt-4 pb-8 mb-6 md:mb-20 text-center w-full md:bg-transparent bg-gradient-to-b from-[#050505] via-[#050505] to-transparent pointer-events-none">
           <div className="flex items-center space-x-2 bg-[#111] border border-white/10 rounded-full px-3 md:px-4 py-1 md:py-1.5 w-fit pointer-events-auto shadow-lg">
             <span className="text-xs font-semibold text-neutral-300 tracking-wider">Why choose me</span>
           </div>
@@ -71,7 +71,7 @@ export default function Benefits() {
                 className="sticky w-full flex flex-col md:flex-row bg-gradient-to-br from-[#151515] to-[#09090a] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),_0_10px_30px_rgba(0,0,0,0.8)] border border-white/5 rounded-2xl md:rounded-3xl overflow-hidden mb-6 md:mb-12"
                 style={{
                   top: `calc(var(--card-top) + ${idx * 12}px)`,
-                  zIndex: 20 + idx,
+                  zIndex: 10 + idx,
                 }}
               >
                 {/* Left Side (Positive) */}

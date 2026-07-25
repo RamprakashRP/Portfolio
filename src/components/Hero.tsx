@@ -165,7 +165,7 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
       </div>
 
       {/* --- ACHIEVEMENTS BENTO GRID (3 Cols) --- */}
-      <div className="max-w-7xl w-full grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 relative z-10 mt-12">
+      <div className="max-w-7xl w-full grid grid-cols-3 md:grid-cols-3 gap-3 md:gap-6 relative z-10 mt-12">
 
         {/* Rank 1 (Col Span 2) */}
         {rank1 && (
