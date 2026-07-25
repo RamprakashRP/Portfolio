@@ -85,7 +85,8 @@ export default function ContactPage() {
   return (
     <main className="min-h-screen text-white pt-24 md:pt-40 pb-20 flex justify-center selection:bg-neutral-800">
       
-      <div className="max-w-6xl w-full px-6 grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-16 items-start">
+      <div className="max-w-6xl w-full px-6 flex flex-col gap-8 md:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-8 md:gap-16 items-start">
         
         {/* Left Side Content */}
         <div className="flex flex-col">
@@ -135,13 +136,6 @@ export default function ContactPage() {
             />
           </div>
 
-          {/* CTA Block */}
-          <div className="bg-gradient-to-br from-[#111111] to-[#060606] border border-white/5 rounded-[2rem] p-8 flex items-center justify-between shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),_0_20px_40px_rgba(0,0,0,0.6)]">
-            <h3 className="text-xl font-bold tracking-tight text-white">Prefer to book a call ?</h3>
-            <button className="px-6 py-3 rounded-full bg-gradient-to-br from-neutral-100 to-neutral-300 shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),_0_10px_20px_rgba(0,0,0,0.5)] border border-neutral-400 text-black text-sm font-bold hover:-translate-y-0.5 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,1),_0_15px_30px_rgba(0,0,0,0.8)] transition-all duration-300 whitespace-nowrap">
-              Let's Book A Call
-            </button>
-          </div>
 
         </div>
 
@@ -278,8 +272,19 @@ export default function ContactPage() {
 
         </div>
 
-        {/* Review Block (Mobile only) */}
-        <div className="block lg:hidden w-full mt-2">
+        </div>
+
+        <div className="flex flex-col gap-8 w-full">
+          {/* CTA Block */}
+          <div className="bg-gradient-to-br from-[#111111] to-[#060606] border border-white/5 rounded-[2rem] p-6 md:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),_0_20px_40px_rgba(0,0,0,0.6)]">
+            <h3 className="text-lg md:text-xl font-bold tracking-tight text-white text-center sm:text-left">Prefer to book a call ?</h3>
+            <button className="w-full sm:w-auto px-6 py-3 rounded-full bg-gradient-to-br from-neutral-100 to-neutral-300 shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),_0_10px_20px_rgba(0,0,0,0.5)] border border-neutral-400 text-black text-sm font-bold hover:-translate-y-0.5 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,1),_0_15px_30px_rgba(0,0,0,0.8)] transition-all duration-300 whitespace-nowrap">
+              Let's Book A Call
+            </button>
+          </div>
+
+          {/* Review Block (Mobile only) */}
+          <div className="block lg:hidden w-full">
           <ReviewCard 
             review={specialReviews.sims} 
             isSticky={false} 
@@ -287,6 +292,7 @@ export default function ContactPage() {
           />
         </div>
 
+      </div>
       </div>
 
       {/* Success Toast Popup */}
