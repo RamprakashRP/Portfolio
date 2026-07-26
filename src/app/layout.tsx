@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s | Ramprakash Raja",
     default: "Ramprakash Raja - Portfolio",
   },
-  description: "Ramprakash Raja — AI Engineer, Freelance Web Developer, and Community Builder. Vector Institute AI Scholar. Final-year engineering student headed to the MDSAI program at University of Waterloo. Top 6 Google Student Ambassador.",
+  description: "Ramprakash Raja — AI Engineer | Vector AI Scholar | MDSAI Co-op @ UWaterloo | Google & Microsoft Student Ambassador. Freelance Web Developer.",
   keywords: [
     "Ramprakash Raja",
     "AI Engineer",
@@ -58,8 +58,8 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Ramprakash Raja | AI Engineer & Community Builder",
-    description: "Ramprakash Raja — AI Engineer, Freelance Web Developer, and Vector AI Scholar. Top 6 Google Student Ambassador.",
+    title: "Ramprakash Raja | AI Engineer & Vector Scholar",
+    description: "AI Engineer | Vector AI Scholar | MDSAI Co-op @ UWaterloo | Google & Microsoft Student Ambassador.",
     url: siteUrl,
     siteName: "Ramprakash Raja Portfolio",
     images: [
@@ -75,8 +75,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ramprakash Raja | AI Engineer",
-    description: "AI Engineer, Vector AI Scholar, and Community Builder. Top 6 Google Student Ambassador.",
+    title: "Ramprakash Raja | AI Engineer & Vector Scholar",
+    description: "AI Engineer | Vector AI Scholar | MDSAI Co-op @ UWaterloo | Google & Microsoft Student Ambassador.",
     images: ["/profile-pic.jpeg"],
   },
   icons: {
@@ -89,8 +89,8 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Ramprakash Raja",
-  jobTitle: "AI Engineer & Freelance Web Developer",
-  description: "Ramprakash Raja is an AI Engineer, Vector AI Scholar (1 of 100 in Canada), and Top 6 Google Student Ambassador. Incoming MDSAI student at the University of Waterloo.",
+  jobTitle: "AI Engineer | Vector AI Scholar | MDSAI Co-op @ UWaterloo",
+  description: "Ramprakash Raja is an AI Engineer, Vector AI Scholar (1 of 100 in Canada), and Google & Microsoft Student Ambassador. Incoming MDSAI student at the University of Waterloo.",
   url: siteUrl,
   image: `${siteUrl}/profile-pic.jpeg`,
   sameAs: [
