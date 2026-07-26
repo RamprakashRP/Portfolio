@@ -3,7 +3,7 @@
 Welcome to the open-source repository for my personal portfolio website! This site serves as a dynamic, interactive showcase of my professional experience, projects, and achievements.
 
 ## 🚀 Live Preview
-**[View Live Site](https://portfolio-3qpv-m5ja1n8b9-ramprakashrp-projects.vercel.app/)** *(Update this link to your custom domain once connected)*
+**[View Live Site](https://ramprakashraja.dev)**
 
 ## 🎨 Design Philosophy
 This portfolio is built with a strong emphasis on **premium aesthetics, smooth micro-animations, and a recruiter-friendly UX**. The UI leverages deep dark modes, glassmorphism overlays, smooth page transitions, and responsive masonry layouts to create a memorable browsing experience.
