@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s | Ramprakash Raja",
     default: "Ramprakash Raja - Portfolio",
   },
-  description: "Ramprakash Raja — AI Engineer, Freelance Web Developer, and Community Builder. Final-year engineering student headed to the MDSAI program at University of Waterloo. Top 6 Google Student Ambassador (India) and Microsoft Student Ambassador.",
+  description: "Ramprakash Raja — AI Engineer, Freelance Web Developer, and Community Builder. Vector Institute AI Scholar. Final-year engineering student headed to the MDSAI program at University of Waterloo. Top 6 Google Student Ambassador.",
   keywords: [
     "Ramprakash Raja",
     "AI Engineer",
@@ -37,6 +37,9 @@ export const metadata: Metadata = {
     "Full Stack Developer",
     "Machine Learning Engineer",
     "AIML Professional",
+    "Vector Scholar",
+    "Vector AI Scholarship",
+    "Vector Institute",
     "Google Student Ambassador",
     "Microsoft Student Ambassador",
     "University of Waterloo",
@@ -56,7 +59,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Ramprakash Raja | AI Engineer & Community Builder",
-    description: "Ramprakash Raja — AI Engineer, Freelance Web Developer, and Community Builder. Top 6 Google Student Ambassador.",
+    description: "Ramprakash Raja — AI Engineer, Freelance Web Developer, and Vector AI Scholar. Top 6 Google Student Ambassador.",
     url: siteUrl,
     siteName: "Ramprakash Raja Portfolio",
     images: [
@@ -73,7 +76,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Ramprakash Raja | AI Engineer",
-    description: "AI Engineer, Freelance Web Developer, and Community Builder. Top 6 Google Student Ambassador.",
+    description: "AI Engineer, Vector AI Scholar, and Community Builder. Top 6 Google Student Ambassador.",
     images: ["/profile-pic.jpeg"],
   },
   icons: {
@@ -87,7 +90,7 @@ const jsonLd = {
   "@type": "Person",
   name: "Ramprakash Raja",
   jobTitle: "AI Engineer & Freelance Web Developer",
-  description: "Ramprakash Raja is an AI Engineer, Community Builder, and Top 6 Google Student Ambassador. Incoming MDSAI student at the University of Waterloo.",
+  description: "Ramprakash Raja is an AI Engineer, Vector AI Scholar (1 of 100 in Canada), and Top 6 Google Student Ambassador. Incoming MDSAI student at the University of Waterloo.",
   url: siteUrl,
   image: `${siteUrl}/profile-pic.jpeg`,
   sameAs: [
