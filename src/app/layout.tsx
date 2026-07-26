@@ -96,7 +96,13 @@ const jsonLd = {
   sameAs: [
     "https://www.linkedin.com/in/ramprakashraja",
     "https://github.com/RamprakashRP",
-    "https://www.instagram.com/ramprakash.raja_2004"
+    "https://www.instagram.com/ramprakash.raja_2004",
+    "https://vectorinstitute.ai/research-talent/students/scholarships/"
+  ],
+  award: [
+    "Vector Scholarship in Artificial Intelligence (Vector Institute)",
+    "Top 6 Google Student Ambassador India",
+    "Best Outgoing Student SRM IST"
   ],
   alumniOf: [
     {
