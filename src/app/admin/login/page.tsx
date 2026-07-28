@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { startAuthentication } from '@simplewebauthn/browser';
 import { useRouter } from 'next/navigation';
 import { Fingerprint } from 'lucide-react';
-import Link from 'next/link';
 
 export default function AdminLoginPage() {
   const [status, setStatus] = useState('');
@@ -78,12 +77,6 @@ export default function AdminLoginPage() {
         {status && (
           <p className="mt-6 text-sm text-center text-neutral-400 max-w-[250px]">{status}</p>
         )}
-
-        <div className="mt-8 text-sm text-neutral-600 text-center">
-          <Link href="/admin/register-device" className="hover:text-neutral-300 transition underline decoration-neutral-700 underline-offset-4">
-            Register a new device
-          </Link>
-        </div>
       </div>
 
       <style jsx global>{`
