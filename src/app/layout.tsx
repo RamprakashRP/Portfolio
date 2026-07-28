@@ -80,8 +80,8 @@ export const metadata: Metadata = {
     images: ["/profile-pic.jpeg"],
   },
   icons: {
-    icon: "/rp-logo.png",
-    apple: "/rp-logo.png",
+    icon: "/RPW.svg",
+    apple: "/RPW.svg",
   },
 };
 
