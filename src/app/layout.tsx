@@ -85,44 +85,60 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Ramprakash Raja",
-  jobTitle: "AI Engineer | Vector AI Scholar | MDSAI Co-op @ UWaterloo",
-  description: "Ramprakash Raja is an AI Engineer, Vector AI Scholar (1 of 100 in Canada), and Google & Microsoft Student Ambassador. Incoming MDSAI student at the University of Waterloo.",
-  url: siteUrl,
-  image: `${siteUrl}/profile-pic.jpeg`,
-  sameAs: [
-    "https://www.linkedin.com/in/ramprakashraja",
-    "https://github.com/RamprakashRP",
-    "https://www.instagram.com/ramprakash.raja_2004",
-    "https://vectorinstitute.ai/research-talent/students/scholarships/"
-  ],
-  award: [
-    "Vector Scholarship in Artificial Intelligence (Vector Institute)",
-    "Top 6 Google Student Ambassador India",
-    "Best Outgoing Student SRM IST"
-  ],
-  alumniOf: [
-    {
-      "@type": "CollegeOrUniversity",
-      name: "SRM Institute of Science and Technology"
-    },
-    {
-      "@type": "CollegeOrUniversity",
-      name: "University of Waterloo"
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Ramprakash Raja",
+    jobTitle: "AI Engineer | Vector AI Scholar | MDSAI Co-op @ UWaterloo",
+    description: "Ramprakash Raja is an AI Engineer, Vector AI Scholar (1 of 100 in Canada), and Google & Microsoft Student Ambassador. Incoming MDSAI student at the University of Waterloo.",
+    url: siteUrl,
+    image: `${siteUrl}/profile-pic.jpeg`,
+    sameAs: [
+      "https://www.linkedin.com/in/ramprakashraja",
+      "https://github.com/RamprakashRP",
+      "https://www.instagram.com/ramprakash.raja_2004",
+      "https://vectorinstitute.ai/research-talent/students/scholarships/"
+    ],
+    award: [
+      "Vector Scholarship in Artificial Intelligence (Vector Institute)",
+      "Top 6 Google Student Ambassador India",
+      "Best Outgoing Student SRM IST"
+    ],
+    alumniOf: [
+      {
+        "@type": "CollegeOrUniversity",
+        name: "SRM Institute of Science and Technology"
+      },
+      {
+        "@type": "CollegeOrUniversity",
+        name: "University of Waterloo"
+      }
+    ],
+    knowsAbout: [
+      "Artificial Intelligence",
+      "Machine Learning",
+      "Web Development",
+      "Full Stack Development",
+      "Community Building",
+      "Public Speaking"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: "Ramprakash Raja - Freelance AI Consultant",
+    description: "Top-tier AI engineering services specializing in custom LLM solutions, RAG pipelines, and full-stack web development.",
+    url: `${siteUrl}/#services`,
+    image: `${siteUrl}/profile-pic.jpeg`,
+    areaServed: ["Waterloo", "Ontario", "Canada", "Remote"],
+    priceRange: "$$",
+    provider: {
+      "@type": "Person",
+      name: "Ramprakash Raja"
     }
-  ],
-  knowsAbout: [
-    "Artificial Intelligence",
-    "Machine Learning",
-    "Web Development",
-    "Full Stack Development",
-    "Community Building",
-    "Public Speaking"
-  ]
-};
+  }
+];
 
 export default function RootLayout({
   children,
