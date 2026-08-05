@@ -126,7 +126,19 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
         dataToSave.id = title ? title.toLowerCase().replace(/[^a-z0-9]+/g, '-') : Date.now().toString();
       }
 
-      // Rank Cascading Logic
+      const tableName = currentType === 'experience' ? 'experiences' : currentType;
+
+      // 1. Save data FIRST to ensure it doesn't fail AFTER cascading
+      if (initialData) {
+        const matchField = 'id';
+        const { error } = await supabase.from(tableName).update(dataToSave).eq(matchField, initialData[matchField]);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.from(tableName).insert([dataToSave]);
+        if (error) throw error;
+      }
+
+      // 2. Rank Cascading Logic
       const newR = dataToSave.rpRank;
       const oldR = initialData?.rpRank;
 
@@ -134,49 +146,38 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
         if (typeof newR === 'number') {
           if (typeof oldR !== 'number') {
             // Added new rank (Scenario A/D)
-            const { data } = await supabase.from(currentType).select('id, rpRank').gte('rpRank', newR);
+            const { data } = await supabase.from(tableName).select('id, rpRank').gte('rpRank', newR).neq('id', dataToSave.id);
             if (data) {
               for (const item of data) {
-                await supabase.from(currentType).update({ rpRank: item.rpRank + 1 }).eq('id', item.id);
+                await supabase.from(tableName).update({ rpRank: item.rpRank + 1 }).eq('id', item.id);
               }
             }
           } else if (oldR > newR) {
             // Moved UP in rank (e.g., 4 to 2)
-            const { data } = await supabase.from(currentType).select('id, rpRank').gte('rpRank', newR).lt('rpRank', oldR);
+            const { data } = await supabase.from(tableName).select('id, rpRank').gte('rpRank', newR).lt('rpRank', oldR).neq('id', dataToSave.id);
             if (data) {
               for (const item of data) {
-                await supabase.from(currentType).update({ rpRank: item.rpRank + 1 }).eq('id', item.id);
+                await supabase.from(tableName).update({ rpRank: item.rpRank + 1 }).eq('id', item.id);
               }
             }
           } else if (oldR < newR) {
             // Moved DOWN in rank (e.g., 2 to 4)
-            const { data } = await supabase.from(currentType).select('id, rpRank').gt('rpRank', oldR).lte('rpRank', newR);
+            const { data } = await supabase.from(tableName).select('id, rpRank').gt('rpRank', oldR).lte('rpRank', newR).neq('id', dataToSave.id);
             if (data) {
               for (const item of data) {
-                await supabase.from(currentType).update({ rpRank: item.rpRank - 1 }).eq('id', item.id);
+                await supabase.from(tableName).update({ rpRank: item.rpRank - 1 }).eq('id', item.id);
               }
             }
           }
         } else if (typeof oldR === 'number') {
           // Rank removed (Scenario C)
-          const { data } = await supabase.from(currentType).select('id, rpRank').gt('rpRank', oldR);
+          const { data } = await supabase.from(tableName).select('id, rpRank').gt('rpRank', oldR).neq('id', dataToSave.id);
           if (data) {
             for (const item of data) {
-              await supabase.from(currentType).update({ rpRank: item.rpRank - 1 }).eq('id', item.id);
+              await supabase.from(tableName).update({ rpRank: item.rpRank - 1 }).eq('id', item.id);
             }
           }
         }
-      }
-
-      if (initialData) {
-        const tableName = currentType === 'experience' ? 'experiences' : currentType;
-        const matchField = 'id';
-        const { error } = await supabase.from(tableName).update(dataToSave).eq(matchField, initialData[matchField]);
-        if (error) throw error;
-      } else {
-        const tableName = currentType === 'experience' ? 'experiences' : currentType;
-        const { error } = await supabase.from(tableName).insert([dataToSave]);
-        if (error) throw error;
       }
       
       onSuccess();
