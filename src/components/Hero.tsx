@@ -18,7 +18,7 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
 
   return (
     <section className="min-h-[150vh] text-white relative flex flex-col items-center pt-12 md:pt-32 pb-24 px-6 font-sans">
-      
+
       {/* Background Video (Hero Only) */}
       <div className="absolute top-0 left-0 w-full h-[100vh] z-0 overflow-hidden pointer-events-none">
         <video
@@ -26,10 +26,15 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
           loop
           muted
           playsInline
+          preload="metadata"
           className="w-full h-full object-cover [mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)]"
         >
-          <source src="/background.mp4" type="video/mp4" />
+          <source src="/background.webm" type="video/webm" />
         </video>
+
+        {/* Adjustable blur & opacity overlay */}
+        <div className="absolute inset-0 bg-black/30 backdrop-blur-[3px] [mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)]" />
+
         {/* Fallback ambient light */}
         <div className="absolute top-0 right-1/4 w-[800px] h-[800px] bg-white/5 rounded-full blur-[150px] pointer-events-none" />
       </div>
@@ -52,7 +57,7 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
         {/* Left: Text Content */}
         <div className="flex flex-col space-y-6 max-w-xl md:items-start items-center text-center md:text-left mx-auto md:mx-0 z-30 relative">
           {/* Badge */}
-          <motion.div 
+          <motion.div
             initial="hidden"
             animate={isLoading ? "hidden" : "visible"}
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
@@ -63,24 +68,24 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
             <span className="text-xs font-medium text-neutral-300">Software Developer / AIML Professional</span>
           </motion.div>
 
-          <motion.h1 
+          <motion.h1
             initial="hidden"
             animate={isLoading ? "hidden" : "visible"}
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-[4.5rem] font-bold tracking-tight leading-[1.1] mt-2 uppercase drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)] flex flex-col md:flex-row md:items-center cursor-default"
           >
-            <motion.span 
+            <motion.span
               whileHover={{ scale: 1.05, textShadow: "0px 0px 20px rgba(255,255,255,0.8)" }}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
               className="text-white inline-block origin-left"
             >
               Ramprakash
             </motion.span>
-            <motion.span 
+            <motion.span
               whileHover={{ scale: 1.05, textShadow: "0px 0px 20px rgba(255,255,255,0.5)", WebkitTextStroke: '2px rgba(255,255,255,1)' } as any}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
-              className="md:ml-4 text-transparent inline-block origin-left transition-colors duration-300" 
+              className="md:ml-4 text-transparent inline-block origin-left transition-colors duration-300"
               style={{ WebkitTextStroke: '1px rgba(255,255,255,0.5)' }}
             >
               Raja
@@ -88,7 +93,7 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
             <span className="sr-only"> - AI Developer & Data Scientist</span>
           </motion.h1>
 
-          <motion.p 
+          <motion.p
             initial="hidden"
             animate={isLoading ? "hidden" : "visible"}
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
@@ -99,7 +104,7 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
           </motion.p>
 
           {/* Buttons - Elevated z-index to be above Lanyard */}
-          <motion.div 
+          <motion.div
             initial="hidden"
             animate={isLoading ? "hidden" : "visible"}
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
@@ -125,7 +130,7 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
         <div className="hidden lg:flex flex-col justify-center space-y-24 relative pl-4 z-10">
 
           {/* Testimonial 1 */}
-          <motion.div 
+          <motion.div
             animate={{ y: [0, -15, 0] }}
             transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
             className="bg-[#0a0a0a]/80 backdrop-blur-md border border-white/10 p-5 rounded-2xl w-64 transform -rotate-[8deg] shadow-2xl relative"
@@ -138,7 +143,7 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
           </motion.div>
 
           {/* Testimonial 2 */}
-          <motion.div 
+          <motion.div
             animate={{ y: [0, -15, 0] }}
             transition={{ repeat: Infinity, duration: 6, ease: "easeInOut", delay: 1 }}
             className="bg-[#0a0a0a]/80 backdrop-blur-md border border-white/10 p-5 rounded-2xl w-64 transform rotate-[6deg] shadow-2xl self-end relative right-8"
