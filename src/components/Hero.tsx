@@ -167,7 +167,27 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
             <Image src={rank1.homeCover || rank1.media?.[0] || '/placeholder.jpg'} alt={rank1.title} fill className="object-cover opacity-100 group-hover:opacity-40 transition-opacity" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
             <div className="relative z-20 flex justify-between items-end h-full">
-              <h3 className="text-lg md:text-2xl font-semibold text-white max-w-[80%] md:max-w-sm leading-tight">{rank1.title}</h3>
+              <div className="flex flex-col gap-1 md:gap-2 max-w-[80%] md:max-w-md">
+                <h3 className="text-lg md:text-2xl font-semibold text-white leading-tight">{rank1.title}</h3>
+                
+                {/* Desktop only details */}
+                <div className="hidden md:flex flex-col gap-2 mt-2">
+                  <p className="text-sm text-neutral-300 line-clamp-2 leading-relaxed">
+                    {rank1.description}
+                  </p>
+                  <div className="flex flex-wrap items-center gap-2 mt-1">
+                    <span className="px-2.5 py-1 bg-white/10 rounded-md text-xs font-medium text-white/90 backdrop-blur-md">
+                      {rank1.date}
+                    </span>
+                    {rank1.tags?.slice(0, 2).map((tag: any) => (
+                      <span key={tag} className="px-2.5 py-1 bg-red-500/20 text-red-300 border border-red-500/20 rounded-md text-xs font-medium backdrop-blur-md">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              
               <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-1 md:mb-2 ml-1 md:ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
                 <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 text-neutral-400 group-hover:text-white transition-colors" />
               </div>
@@ -181,7 +201,27 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
             <Image src={rank3.previewCover || rank3.media?.[0] || '/placeholder.jpg'} alt={rank3.title} fill className="object-cover opacity-100 group-hover:opacity-40 transition-opacity" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
             <div className="relative z-20 flex justify-between items-end h-full">
-              <h3 className="text-[13px] md:text-xl font-semibold text-white leading-tight">{rank3.title}</h3>
+              <div className="flex flex-col gap-1 md:gap-2 max-w-[80%] md:max-w-[85%]">
+                <h3 className="text-[13px] md:text-xl font-semibold text-white leading-tight">{rank3.title}</h3>
+                
+                {/* Desktop only details */}
+                <div className="hidden md:flex flex-col gap-1 md:gap-2 mt-1 md:mt-2">
+                  <p className="text-xs text-neutral-300 line-clamp-2 leading-relaxed">
+                    {rank3.description}
+                  </p>
+                  <div className="flex flex-wrap items-center gap-1.5 mt-1">
+                    <span className="px-2 py-0.5 bg-white/10 rounded-md text-[11px] font-medium text-white/90 backdrop-blur-md">
+                      {rank3.date}
+                    </span>
+                    {rank3.tags?.slice(0, 1).map((tag: any) => (
+                      <span key={tag} className="px-2 py-0.5 bg-red-500/20 text-red-300 border border-red-500/20 rounded-md text-[11px] font-medium backdrop-blur-md">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              
               <div className="w-7 h-7 md:w-12 md:h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-1 md:mb-2 ml-1 md:ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
                 <ArrowUpRight className="w-3.5 h-3.5 md:w-5 md:h-5 text-neutral-400 group-hover:text-white transition-colors" />
               </div>
@@ -195,7 +235,27 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
             <Image src={rank4.previewCover || rank4.media?.[0] || '/placeholder.jpg'} alt={rank4.title} fill className="object-cover opacity-100 group-hover:opacity-40 transition-opacity" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
             <div className="relative z-20 flex justify-between items-end h-full">
-              <h3 className="text-[13px] md:text-xl font-semibold text-white leading-tight">{rank4.title}</h3>
+              <div className="flex flex-col gap-1 md:gap-2 max-w-[80%] md:max-w-[85%]">
+                <h3 className="text-[13px] md:text-xl font-semibold text-white leading-tight">{rank4.title}</h3>
+                
+                {/* Desktop only details */}
+                <div className="hidden md:flex flex-col gap-1 md:gap-2 mt-1 md:mt-2">
+                  <p className="text-xs text-neutral-300 line-clamp-2 leading-relaxed">
+                    {rank4.description}
+                  </p>
+                  <div className="flex flex-wrap items-center gap-1.5 mt-1">
+                    <span className="px-2 py-0.5 bg-white/10 rounded-md text-[11px] font-medium text-white/90 backdrop-blur-md">
+                      {rank4.date}
+                    </span>
+                    {rank4.tags?.slice(0, 1).map((tag: any) => (
+                      <span key={tag} className="px-2 py-0.5 bg-red-500/20 text-red-300 border border-red-500/20 rounded-md text-[11px] font-medium backdrop-blur-md">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              
               <div className="w-7 h-7 md:w-12 md:h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-1 md:mb-2 ml-1 md:ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
                 <ArrowUpRight className="w-3.5 h-3.5 md:w-5 md:h-5 text-neutral-400 group-hover:text-white transition-colors" />
               </div>
@@ -209,7 +269,27 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
             <Image src={rank2.homeCover || rank2.media?.[0] || '/placeholder.jpg'} alt={rank2.title} fill className="object-cover opacity-100 group-hover:opacity-40 transition-opacity" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/40 to-transparent z-10 opacity-90" />
             <div className="relative z-20 flex justify-between items-end h-full">
-              <h3 className="text-[13px] md:text-2xl font-semibold text-white max-w-[80%] md:max-w-sm leading-tight">{rank2.title}</h3>
+              <div className="flex flex-col gap-1 md:gap-2 max-w-[80%] md:max-w-md">
+                <h3 className="text-[13px] md:text-2xl font-semibold text-white leading-tight">{rank2.title}</h3>
+                
+                {/* Desktop only details */}
+                <div className="hidden md:flex flex-col gap-2 mt-2">
+                  <p className="text-sm text-neutral-300 line-clamp-2 leading-relaxed">
+                    {rank2.description}
+                  </p>
+                  <div className="flex flex-wrap items-center gap-2 mt-1">
+                    <span className="px-2.5 py-1 bg-white/10 rounded-md text-xs font-medium text-white/90 backdrop-blur-md">
+                      {rank2.date}
+                    </span>
+                    {rank2.tags?.slice(0, 2).map((tag: any) => (
+                      <span key={tag} className="px-2.5 py-1 bg-red-500/20 text-red-300 border border-red-500/20 rounded-md text-xs font-medium backdrop-blur-md">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              
               <div className="w-7 h-7 md:w-12 md:h-12 rounded-full bg-black border border-white/10 flex items-center justify-center mb-1 md:mb-2 ml-1 md:ml-2 shadow-lg group-hover:bg-white/10 transition-colors flex-shrink-0">
                 <ArrowUpRight className="w-3.5 h-3.5 md:w-5 md:h-5 text-neutral-400 group-hover:text-white transition-colors" />
               </div>
