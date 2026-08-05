@@ -16,6 +16,13 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
   const rank3 = topAchievements.find(a => a.rpRank === 3);
   const rank4 = topAchievements.find(a => a.rpRank === 4);
 
+  console.log('Hero Render Data:', {
+    rank1Desc: rank1?.description,
+    rank1Tags: rank1?.tags,
+    rank1Date: rank1?.date
+  });
+
+
   return (
     <section className="min-h-[150vh] text-white relative flex flex-col items-center pt-12 md:pt-32 pb-24 px-6 font-sans">
 
