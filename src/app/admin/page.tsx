@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Plus, Edit2, Trash2, Search, Filter, Award, LayoutGrid, Briefcase, ChevronDown, ChevronUp, GripVertical } from 'lucide-react';
+import { Plus, Edit2, Trash2, Search, Filter, Award, LayoutGrid, Briefcase, ChevronDown, ChevronUp, GripVertical, Save, X } from 'lucide-react';
 import { Reorder, useDragControls } from 'framer-motion';
 import AdminModal from './components/AdminModal';
 
@@ -115,17 +115,52 @@ const ListItem = ({ item, activeTab, onClick, dragControls }: { item: any, activ
   );
 };
 
-const DraggableWrapper = ({ item, activeTab, onClick, onDragEnd }: { item: any, activeTab: string, onClick: () => void, onDragEnd: () => void }) => {
+
+const ReorderableListItem = ({ item, dragControls }: { item: any, dragControls?: any }) => {
+  return (
+    <div className="flex flex-row items-center gap-4 p-3 bg-white/[0.02] border border-white/10 rounded-xl hover:bg-white/[0.05] transition-all group">
+      {dragControls && (
+        <div 
+          className="cursor-grab active:cursor-grabbing p-2 text-neutral-500 hover:text-white"
+          onPointerDown={(e) => {
+            e.preventDefault();
+            dragControls.start(e);
+          }}
+        >
+          <GripVertical className="w-5 h-5" />
+        </div>
+      )}
+      <div className="w-12 h-12 rounded-lg bg-black overflow-hidden relative shrink-0 border border-white/10">
+        <img src={item.previewCover || item.media?.[0] || '/lanyard/ID Front.png'} alt="" className="w-full h-full object-cover opacity-80" />
+      </div>
+      <div className="flex-1 overflow-hidden flex items-center justify-between">
+        <div className="overflow-hidden pr-4">
+          <h4 className="text-sm font-bold text-white truncate">{item.title || item.name || item.company}</h4>
+          <p className="text-xs text-neutral-500 truncate">{item.description || item.location}</p>
+        </div>
+        <div className="px-3 py-1 bg-red-500/20 border border-red-500/30 text-red-400 font-bold text-xs rounded-lg shrink-0">
+          Rank {item.rpRank}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const DraggableWrapper = ({ item, activeTab, onClick, onDragEnd, isReordering }: { item: any, activeTab: string, onClick: () => void, onDragEnd: () => void, isReordering?: boolean }) => {
   const controls = useDragControls();
   return (
     <Reorder.Item value={item} dragListener={false} dragControls={controls} onDragEnd={onDragEnd} className="relative">
-      <ListItem item={item} activeTab={activeTab} onClick={onClick} dragControls={controls} />
+      {isReordering ? (
+        <ReorderableListItem item={item} dragControls={controls} />
+      ) : (
+        <ListItem item={item} activeTab={activeTab} onClick={onClick} dragControls={controls} />
+      )}
     </Reorder.Item>
   );
 };
 
 export default function AdminPage() {
-  const [activeTab, setActiveTab] = useState<'achievements' | 'projects' | 'experience'>('achievements');
+    const [activeTab, setActiveTab] = useState<'achievements' | 'projects' | 'experience'>('achievements');
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -134,6 +169,35 @@ export default function AdminPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingData, setEditingData] = useState<any>(null);
   const [isSortOpen, setIsSortOpen] = useState(false);
+
+  const [isReordering, setIsReordering] = useState(false);
+  const [isSavingRanks, setIsSavingRanks] = useState(false);
+  const [reorderItems, setReorderItems] = useState<any[]>([]);
+
+  const toggleReorderMode = () => {
+    if (!isReordering) {
+      setSearchQuery('');
+      setSortOrder('rprank');
+      setReorderItems(items.filter(item => item.rpRank != null).sort((a,b) => a.rpRank - b.rpRank));
+      setIsReordering(true);
+    } else {
+      setIsReordering(false);
+    }
+  };
+
+  const handleSaveRanks = async () => {
+    setIsSavingRanks(true);
+    const tableName = activeTab === 'experience' ? 'experiences' : activeTab;
+    for (let i = 0; i < reorderItems.length; i++) {
+      const expectedRank = i + 1;
+      if (reorderItems[i].rpRank !== expectedRank) {
+        await supabase.from(tableName).update({ rpRank: expectedRank }).eq('id', reorderItems[i].id);
+      }
+    }
+    await fetchData();
+    setIsSavingRanks(false);
+    setIsReordering(false);
+  };
 
   useEffect(() => {
     if (activeTab === 'experience') {
@@ -156,18 +220,15 @@ export default function AdminPage() {
   };
 
   const handleReorder = (newOrder: any[]) => {
-    setItems(newOrder);
+    if (isReordering) {
+      setReorderItems(newOrder);
+    } else {
+      setItems(newOrder);
+    }
   };
 
-  const handleDragEnd = async () => {
-    const tableName = activeTab === 'experience' ? 'experiences' : activeTab;
-    for (let i = 0; i < items.length; i++) {
-      const expectedRank = i + 1;
-      if (items[i].rpRank !== expectedRank) {
-        supabase.from(tableName).update({ rpRank: expectedRank }).eq('id', items[i].id).then();
-        items[i].rpRank = expectedRank;
-      }
-    }
+  const handleDragEnd = () => {
+    // DB update is now handled in handleSaveRanks
   };
 
   const handleAddNew = () => {
@@ -327,7 +388,43 @@ export default function AdminPage() {
             </h2>
             
             <div className="flex flex-row items-center gap-2 sm:gap-4 w-full lg:w-auto">
-              <div className="relative flex-1 sm:w-72">
+              
+              {!isReordering && (
+                <button
+                  onClick={toggleReorderMode}
+                  className="px-4 py-2.5 sm:py-3 bg-white/5 hover:bg-red-500/20 border border-transparent hover:border-red-500/30 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all text-neutral-400 hover:text-red-400 shrink-0"
+                >
+                  <Edit2 className="w-4 h-4" />
+                  <span className="hidden sm:inline">Edit Ranks</span>
+                </button>
+              )}
+
+              {isReordering && (
+                <>
+                  <button
+                    onClick={() => setIsReordering(false)}
+                    disabled={isSavingRanks}
+                    className="px-4 py-2.5 sm:py-3 bg-white/5 hover:bg-white/10 border border-transparent rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all text-neutral-400 hover:text-white shrink-0 disabled:opacity-50"
+                  >
+                    <X className="w-4 h-4" />
+                    <span className="hidden sm:inline">Cancel</span>
+                  </button>
+                  <button
+                    onClick={handleSaveRanks}
+                    disabled={isSavingRanks}
+                    className="px-4 py-2.5 sm:py-3 bg-red-500 hover:bg-red-600 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all text-white shadow-[0_0_15px_rgba(239,68,68,0.3)] shrink-0 disabled:opacity-50"
+                  >
+                    {isSavingRanks ? (
+                      <span className="animate-spin w-4 h-4 border-2 border-white/20 border-t-white rounded-full"></span>
+                    ) : (
+                      <Save className="w-4 h-4" />
+                    )}
+                    <span className="hidden sm:inline">{isSavingRanks ? 'Saving...' : 'Save Ranks'}</span>
+                  </button>
+                </>
+              )}
+
+              <div className={`relative flex-1 sm:w-72 ${isReordering ? 'opacity-30 pointer-events-none' : ''}`}>
                 <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
                 <input 
                   type="text"
@@ -338,7 +435,7 @@ export default function AdminPage() {
                 />
               </div>
               
-              <div className="relative w-auto">
+              <div className={`relative w-auto ${isReordering ? 'opacity-30 pointer-events-none' : ''}`}>
                 <button
                   onClick={() => setIsSortOpen(!isSortOpen)}
                   className="w-auto sm:w-48 pl-9 sm:pl-11 pr-3 sm:pr-4 py-2.5 sm:py-3 bg-[#0a0a0b] border border-white/5 rounded-xl sm:rounded-2xl text-xs sm:text-sm text-left text-white focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all cursor-pointer shadow-inner relative flex items-center gap-2"
@@ -384,14 +481,18 @@ export default function AdminPage() {
                 <p className="font-medium text-lg text-neutral-400">No matching entries found.</p>
                 <p className="text-sm mt-1">Try a different search or add a new entry.</p>
               </div>
-            ) : sortOrder === 'rprank' && !searchQuery ? (
-              <Reorder.Group axis="y" values={filteredItems} onReorder={handleReorder} className="space-y-4">
-                {filteredItems.map((item) => {
-                  // We need to use a small wrapper component inside map to avoid useDragControls hook inside map block natively
-                  // Wait, Reorder.Item allows dragControls but it expects it to be created via useDragControls
-                  // Let's create an inline component or use a wrapper.
-                  return <DraggableWrapper key={item.id} item={item} activeTab={activeTab} onClick={() => handleEdit(item)} onDragEnd={handleDragEnd} />
-                })}
+            ) : isReordering ? (
+              <Reorder.Group axis="y" values={reorderItems} onReorder={handleReorder} className="space-y-4">
+                {reorderItems.map((item) => (
+                  <DraggableWrapper 
+                    key={item.id} 
+                    item={item} 
+                    activeTab={activeTab} 
+                    onClick={() => {}} 
+                    onDragEnd={handleDragEnd} 
+                    isReordering={true} 
+                  />
+                ))}
               </Reorder.Group>
             ) : (
               <div className="space-y-4">

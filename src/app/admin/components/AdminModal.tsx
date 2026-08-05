@@ -96,6 +96,33 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
     setFormData((prev: any) => ({ ...prev, [field]: value }));
   };
 
+  const handleUnrank = async () => {
+    if (!initialData || typeof initialData.rpRank !== 'number') return;
+    const oldR = initialData.rpRank;
+    setLoading(true);
+    setError(null);
+    try {
+      const tableName = currentType === 'experience' ? 'experiences' : currentType;
+      
+      // Update current item to null
+      await supabase.from(tableName).update({ rpRank: null }).eq('id', initialData.id);
+      
+      // Shift everything below it up (e.g. 3 -> 2, 4 -> 3)
+      const { data } = await supabase.from(tableName).select('id, rpRank').gt('rpRank', oldR);
+      if (data) {
+        for (const item of data) {
+          await supabase.from(tableName).update({ rpRank: item.rpRank - 1 }).eq('id', item.id);
+        }
+      }
+      
+      onSuccess();
+      onClose();
+    } catch (err: any) {
+      setError(err.message || 'Error unranking item.');
+      setLoading(false);
+    }
+  };
+
   const handleSave = async () => {
     const isTopRanked = typeof formData.rpRank === 'number' && formData.rpRank >= 1 && formData.rpRank <= 4;
     
@@ -738,7 +765,7 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
         </div>
 
         <div className="p-4 sm:p-8 border-t border-white/5 flex justify-between items-center bg-[#111113]/80 backdrop-blur-xl relative z-10">
-          <div>
+          <div className="flex items-center space-x-2 sm:space-x-4">
             {initialData && (
               <button 
                 onClick={async () => {
@@ -758,7 +785,17 @@ export default function AdminModal({ isOpen, onClose, type, initialData, onSucce
                 }`}
               >
                 <Trash2 className="w-4 h-4" />
-                <span>{confirmDelete ? 'Click again to confirm' : 'Delete Entry'}</span>
+                <span>{confirmDelete ? 'Click again to confirm' : 'Delete'}</span>
+              </button>
+            )}
+            {initialData && typeof initialData.rpRank === 'number' && (
+              <button
+                onClick={handleUnrank}
+                disabled={loading}
+                className="px-6 py-3 bg-white/5 hover:bg-orange-500/20 border border-transparent hover:border-orange-500/30 rounded-full text-sm font-bold flex items-center space-x-2 transition-all text-neutral-400 hover:text-orange-400 disabled:opacity-50"
+              >
+                <Award className="w-4 h-4" />
+                <span>Unrank</span>
               </button>
             )}
           </div>
@@ -953,6 +990,7 @@ const TagsInputField = ({ label, value = [], onChange, allTags = [] }: any) => {
   const [inputValue, setInputValue] = useState('');
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   useEffect(() => {
     if (inputValue.trim()) {
@@ -961,9 +999,11 @@ const TagsInputField = ({ label, value = [], onChange, allTags = [] }: any) => {
       );
       setSuggestions(filtered);
       setShowSuggestions(true);
+      setSelectedIndex(-1);
     } else {
       setSuggestions([]);
       setShowSuggestions(false);
+      setSelectedIndex(-1);
     }
   }, [inputValue, allTags, value]);
 
@@ -974,6 +1014,7 @@ const TagsInputField = ({ label, value = [], onChange, allTags = [] }: any) => {
     }
     setInputValue('');
     setShowSuggestions(false);
+    setSelectedIndex(-1);
   };
 
   const removeTag = (tagToRemove: string) => {
@@ -981,9 +1022,23 @@ const TagsInputField = ({ label, value = [], onChange, allTags = [] }: any) => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ',') {
+    if (e.key === 'ArrowDown') {
       e.preventDefault();
-      addTag(inputValue);
+      if (showSuggestions && suggestions.length > 0) {
+        setSelectedIndex(prev => (prev < suggestions.length - 1 ? prev + 1 : prev));
+      }
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (showSuggestions && suggestions.length > 0) {
+        setSelectedIndex(prev => (prev > 0 ? prev - 1 : -1));
+      }
+    } else if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      if (showSuggestions && selectedIndex >= 0 && selectedIndex < suggestions.length) {
+        addTag(suggestions[selectedIndex]);
+      } else {
+        addTag(inputValue);
+      }
     } else if (e.key === 'Backspace' && !inputValue && value.length > 0) {
       removeTag(value[value.length - 1]);
     }
@@ -1015,11 +1070,11 @@ const TagsInputField = ({ label, value = [], onChange, allTags = [] }: any) => {
       
       {showSuggestions && suggestions.length > 0 && (
         <div className="absolute top-full mt-1 left-0 w-full max-h-48 overflow-y-auto bg-[#111113] border border-white/10 rounded-2xl shadow-xl z-50 custom-scrollbar">
-          {suggestions.map(tag => (
+          {suggestions.map((tag, idx) => (
             <button
               key={tag}
               onClick={() => addTag(tag)}
-              className="w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-white/5 hover:text-white transition-colors border-b border-white/5 last:border-0"
+              className={`w-full text-left px-4 py-2 text-sm transition-colors border-b border-white/5 last:border-0 ${idx === selectedIndex ? 'bg-red-500/20 text-red-400' : 'text-neutral-300 hover:bg-white/5 hover:text-white'}`}
             >
               {tag}
             </button>
