@@ -102,10 +102,10 @@ const LocationCard = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const tickerHeight = (isDesktop && !isRowLayout) ? 40 : 80;
-  const colonClass = `text-neutral-700 font-light mb-6 ${tickerHeight === 40 ? 'text-2xl' : 'text-4xl'}`;
-  const labelClass = `text-[10px] uppercase tracking-wider text-neutral-500 font-semibold ${tickerHeight === 40 ? '' : 'md:text-xs'}`;
-  const flexClass = tickerHeight === 40 ? 'gap-x-1 gap-y-4 justify-center' : 'gap-x-2 md:gap-x-4 gap-y-6';
+  const tickerHeight = !isDesktop ? 48 : (!isRowLayout ? 40 : 80);
+  const colonClass = `text-neutral-700 font-light mb-6 ${tickerHeight <= 48 ? 'text-2xl' : 'text-4xl'}`;
+  const labelClass = `text-[10px] uppercase tracking-wider text-neutral-500 font-semibold ${tickerHeight <= 48 ? '' : 'md:text-xs'}`;
+  const flexClass = tickerHeight <= 48 ? 'gap-x-1 gap-y-4 justify-center' : 'gap-x-2 md:gap-x-4 gap-y-6';
 
   const ActiveTimeDisplay = () => {
     if (isPlaceholder) {
@@ -114,7 +114,7 @@ const LocationCard = ({
 
     if (unit === 'date') {
       return (
-        <div className={`font-semibold text-white tracking-wide mt-2 ${tickerHeight === 40 ? 'text-xl md:text-2xl' : 'text-3xl md:text-4xl'}`}>
+        <div className={`font-semibold text-white tracking-wide mt-2 ${tickerHeight <= 48 ? 'text-xl md:text-2xl' : 'text-3xl md:text-4xl'}`}>
           {activeDate ? formatDateObj(activeDate) : '-'}
         </div>
       );
@@ -184,17 +184,17 @@ const LocationCard = ({
       
       <div className="relative z-10 w-full flex flex-col h-full">
         {/* Header: Title & Format Controls */}
-        <div className={`flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/10 ${tickerHeight === 40 ? 'mb-6 pb-4' : 'mb-10 pb-6'}`}>
+        <div className={`flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/10 ${tickerHeight <= 48 ? 'mb-6 pb-4' : 'mb-10 pb-6'}`}>
           <div className="flex items-center gap-4">
-            <img src={`https://flagcdn.com/${flagCode}.svg`} alt={`${country} Flag`} className={`${tickerHeight === 40 ? 'w-8 h-5' : 'w-10 h-7'} rounded-sm object-cover`} />
-            <h3 className={`font-bold ${tickerHeight === 40 ? 'text-2xl' : 'text-3xl md:text-4xl'}`}>{country}</h3>
-            <span className={`px-4 py-1.5 text-[10px] md:text-xs font-bold rounded-full border ml-2 whitespace-nowrap ${badgeColor} ${tickerHeight === 40 ? 'hidden lg:block' : ''}`}>
+            <img src={`https://flagcdn.com/${flagCode}.svg`} alt={`${country} Flag`} className={`${tickerHeight <= 48 ? 'w-8 h-5' : 'w-10 h-7'} rounded-sm object-cover`} />
+            <h3 className={`font-bold ${tickerHeight <= 48 ? 'text-2xl' : 'text-3xl md:text-4xl'}`}>{country}</h3>
+            <span className={`px-4 py-1.5 text-[10px] md:text-xs font-bold rounded-full border ml-2 whitespace-nowrap ${badgeColor} ${tickerHeight <= 48 ? 'hidden lg:block' : ''}`}>
               {badge}
             </span>
           </div>
           
           {/* Local Format Changer */}
-          {isDesktop && !isRowLayout ? (
+          {!isDesktop || !isRowLayout ? (
             <div className="relative">
               <button 
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -276,13 +276,16 @@ const LocationCard = ({
                 >
                   <div className="pt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
                     {staticDetails.map((detail, idx) => (
-                      <div key={idx} className="bg-black/40 border border-white/10 rounded-xl p-5 flex flex-col md:flex-row md:items-center gap-4">
-                        <div className="p-3 bg-white/5 rounded-full w-fit">
+                      <div key={idx} className="md:bg-black/40 md:border border-white/10 rounded-xl py-3 md:p-5 flex flex-col md:flex-row md:items-center gap-1 md:gap-4 border-b md:border-b-0 border-white/5 last:border-b-0">
+                        <div className="hidden md:flex p-3 bg-white/5 rounded-full w-fit">
                           <detail.icon className="w-5 h-5 text-neutral-400" />
                         </div>
                         <div>
-                          <div className="text-xs text-neutral-500 uppercase tracking-widest font-bold mb-1">
-                            {detail.title}
+                          <div className="flex items-center gap-2 mb-0.5 md:mb-1">
+                            <detail.icon className="w-3.5 h-3.5 text-neutral-500 md:hidden" />
+                            <div className="text-[10px] md:text-xs text-neutral-500 uppercase tracking-widest font-bold">
+                              {detail.title}
+                            </div>
                           </div>
                           
                           {/* Display Date vs Duration based on format */}
