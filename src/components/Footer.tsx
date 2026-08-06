@@ -73,10 +73,11 @@ export default function Footer() {
             <div className="flex flex-col gap-4">
               <h4 className="text-white font-semibold mb-2 tracking-wider uppercase text-sm">Playground</h4>
               <div className="flex flex-col gap-3 text-sm font-medium text-neutral-400">
-                <p className="text-xs text-neutral-500 mb-2 max-w-xs">An interactive space for testing out new features, innovative ideas, and experimental games.</p>
-                <Link href="/playground" className="hover:text-white transition-colors w-fit">Experimental Features</Link>
-                <Link href="/playground/interactive" className="hover:text-white transition-colors w-fit">Interactive Games</Link>
-                <Link href="/playground/sandbox" className="hover:text-white transition-colors w-fit">UI Sandbox</Link>
+                <p className="text-xs text-neutral-500 mb-2 max-w-xs">An interactive space for testing out new features, innovative ideas, and experimental projects.</p>
+                <Link href="/playground" className="hover:text-white transition-colors w-fit flex items-center gap-2">
+                  Explore Hub
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-white/10 text-white">New</span>
+                </Link>
               </div>
             </div>
           </div>

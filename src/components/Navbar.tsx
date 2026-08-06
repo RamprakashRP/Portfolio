@@ -276,7 +276,7 @@ export default function Navbar() {
     <>
       {/* FIXED LOGO - Top Left */}
       <div 
-        className="fixed top-6 left-6 z-[110] cursor-pointer mix-blend-difference hover:opacity-80 transition-opacity"
+        className="fixed top-6 left-6 z-[110] cursor-pointer hover:opacity-80 transition-opacity"
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       >
         <Logo />
