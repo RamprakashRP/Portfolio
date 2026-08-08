@@ -2,8 +2,30 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Target, Puzzle, Trophy, ArrowUpRight } from 'lucide-react';
 import { projectsList } from '@/data/projects';
+import { Metadata } from 'next';
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const projectListEntry = projectsList.find(p => p.id === slug);
+  
+  if (!projectListEntry) return {};
 
+  const description = projectListEntry.description || '';
+
+  return {
+    title: projectListEntry.name,
+    description: description.substring(0, 160),
+    alternates: {
+      canonical: `/projects/${slug}`,
+    },
+    openGraph: {
+      title: projectListEntry.name,
+      description: description.substring(0, 160),
+      url: `/projects/${slug}`,
+      type: 'article',
+    }
+  };
+}
 export default async function ProjectDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 

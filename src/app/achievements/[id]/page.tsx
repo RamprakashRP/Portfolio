@@ -5,11 +5,34 @@ import { ArrowLeft, Calendar, Tag } from 'lucide-react';
 import { achievements } from '@/data/achievements';
 import Navbar from '@/components/Navbar';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 
 export async function generateStaticParams() {
   return achievements.map((achievement) => ({
     id: achievement.id,
   }));
+}
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const achievement = achievements.find(a => a.id === params.id);
+  
+  if (!achievement) {
+    return {};
+  }
+
+  return {
+    title: achievement.title,
+    description: achievement.description.substring(0, 160),
+    alternates: {
+      canonical: `/achievements/${achievement.id}`,
+    },
+    openGraph: {
+      title: achievement.title,
+      description: achievement.description.substring(0, 160),
+      url: `/achievements/${achievement.id}`,
+      type: 'article',
+    }
+  };
 }
 
 export default function AchievementDetailPage({ params }: { params: { id: string } }) {
