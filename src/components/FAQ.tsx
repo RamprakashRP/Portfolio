@@ -48,20 +48,20 @@ const faqs = [
     answer: "Yes, I am an AI & Machine Learning Professional focusing on building scalable intelligent systems, leveraging predictive analytics, LLMs, and Python."
   },
   {
-    question: "Are you an incoming student at the University of Waterloo?",
-    answer: "Yes! I am an incoming student for the MDSAI (Master of Data Science and Artificial Intelligence) Co-op program at the University of Waterloo, Canada, continuing my journey in advanced AI."
+    question: "Are you a Graduate Student at the University of Waterloo?",
+    answer: "Yes! I am an active MDSAI (Master of Data Science and Artificial Intelligence) Graduate Student at the University of Waterloo (UWaterloo), Canada, focusing on advanced machine learning, AI architectures, and data science."
   },
   {
     question: "Do you offer Web Development services?",
-    answer: "Absolutely! I am a Full-Stack Web Developer. I build highly optimized, responsive, and beautifully designed web applications using modern technologies like React, Next.js, and TypeScript."
+    answer: "Absolutely! I am an elite Full-Stack Web Developer. I build lightning-fast, SEO-optimized, and beautifully designed web applications using modern technologies like Next.js, React, TypeScript, and TailwindCSS."
   },
   {
-    question: "Are you available as a Freelancer?",
-    answer: "Yes, I take on select freelance projects. Whether you need a custom automation workflow, a branding overhaul, or a complex AI integration, feel free to reach out."
+    question: "Are you available as a Freelancer in Waterloo, Toronto, or Remotely?",
+    answer: "Yes! I take on select freelance web development, custom AI solutions, and automation engineering projects for startups, businesses, and founders across Waterloo, the Greater Toronto Area (GTA), Canada, and worldwide."
   },
   {
-    question: "What is your role as a Student Community Leader?",
-    answer: "I actively engage in tech communities and have proudly served as a top 10 Google Student Ambassador (India) and Microsoft Student Ambassador, fostering growth and sharing knowledge."
+    question: "What is your background and leadership experience?",
+    answer: "I graduated with First Class with Distinction (9.68 CGPA, Best Outgoing Student) in B.Tech AI & ML, was awarded the Vector Scholarship in AI in Canada, and served as a Top 6 Google Student Ambassador in India and Microsoft Student Ambassador."
   },
   {
     question: "Do you specialize in Next.js and React?",

@@ -402,12 +402,11 @@ export default function GeographicTimeline() {
   }, []);
 
   const totalLifeMs = now.getTime() - BIRTH_DATE.getTime();
-  const indiaMs = totalLifeMs - DUBAI_DURATION_MS; 
-  const timeSinceDubaiLeft = now.getTime() - DUBAI_DEPARTURE.getTime();
-  
   const canadaLandingDate = CANADA_LANDING;
-  const canadaCountdownMs = canadaLandingDate ? Math.max(0, canadaLandingDate.getTime() - now.getTime()) : 0;
-  const hasLandedInCanada = canadaLandingDate && now.getTime() >= canadaLandingDate.getTime();
+  const canadaDurationMs = Math.max(0, now.getTime() - canadaLandingDate.getTime());
+  const indiaLifetimeMs = Math.max(0, (canadaLandingDate.getTime() - BIRTH_DATE.getTime()) - DUBAI_DURATION_MS); 
+  const timeSinceIndiaLeft = Math.max(0, now.getTime() - canadaLandingDate.getTime());
+  const timeSinceDubaiLeft = now.getTime() - DUBAI_DEPARTURE.getTime();
 
   return (
     <main className="min-h-screen bg-transparent text-white selection:bg-white/20 overflow-x-hidden flex flex-col pb-40">
@@ -436,81 +435,81 @@ export default function GeographicTimeline() {
             >
               
               <LocationCard 
-            country="Canada"
-            flagCode="ca"
-            badge={!canadaLandingDate ? 'No Plans' : hasLandedInCanada ? 'Currently Visiting' : 'Visiting In'}
-            badgeColor={!canadaLandingDate ? 'bg-neutral-500/10 text-neutral-500 border-neutral-500/20' : hasLandedInCanada ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20'}
-            activeTitle={!canadaLandingDate ? 'Time Until Visit' : hasLandedInCanada ? 'Current Duration' : 'Time Until Visit'}
-            activeIcon={Plane}
-            activeMs={canadaLandingDate ? (hasLandedInCanada ? (now.getTime() - canadaLandingDate.getTime()) : canadaCountdownMs) : 0}
-            activeDate={canadaLandingDate}
-            isPlaceholder={!canadaLandingDate}
-            staticDetails={[
-              {
-                title: "Total Time Spent",
-                icon: Clock,
-                ms: hasLandedInCanada ? (now.getTime() - canadaLandingDate.getTime()) : null,
-                fromDate: hasLandedInCanada ? canadaLandingDate : null,
-                toDate: hasLandedInCanada ? now : null
-              },
-              {
-                title: "Time Since Left",
-                icon: History,
-                ms: null,
-                fromDate: null,
-                toDate: null
-              },
-              {
-                title: "Time Until Visit",
-                icon: Plane,
-                ms: canadaLandingDate ? (hasLandedInCanada ? null : canadaCountdownMs) : null,
-                fromDate: canadaLandingDate && !hasLandedInCanada ? now : null,
-                toDate: canadaLandingDate && !hasLandedInCanada ? canadaLandingDate : null
-              }
-            ]}
-            isRowLayout={!isDesktop || layoutStage >= 2}
-            isDesktop={isDesktop}
-            layoutClass={getCanadaClass()}
-          />
+                country="Canada"
+                flagCode="ca"
+                badge="Current Residence / Active"
+                badgeColor="bg-green-500/10 text-green-400 border-green-500/20"
+                activeTitle="Current Duration"
+                activeIcon={RefreshCw}
+                activeMs={canadaDurationMs}
+                activeDate={canadaLandingDate}
+                isPlaceholder={false}
+                staticDetails={[
+                  {
+                    title: "Total Time Spent",
+                    icon: Clock,
+                    ms: canadaDurationMs,
+                    fromDate: canadaLandingDate,
+                    toDate: now
+                  },
+                  {
+                    title: "Time Since Left",
+                    icon: History,
+                    ms: null,
+                    fromDate: null,
+                    toDate: null
+                  },
+                  {
+                    title: "Relocation Date",
+                    icon: Plane,
+                    ms: null,
+                    fromDate: null,
+                    toDate: canadaLandingDate
+                  }
+                ]}
+                isRowLayout={!isDesktop || layoutStage >= 2}
+                isDesktop={isDesktop}
+                layoutClass={getCanadaClass()}
+              />
 
-          <LocationCard 
-            country="India"
-            flagCode="in"
-            badge="Currently Visiting"
-            badgeColor="bg-green-500/10 text-green-400 border-green-500/20"
-            activeTitle="Current Duration"
-            activeIcon={RefreshCw}
-            activeMs={indiaMs}
-            activeDate={BIRTH_DATE}
-            staticDetails={[
-              {
-                title: "Total Time Spent",
-                icon: Clock,
-                ms: indiaMs,
-                dateRanges: [
-                  { from: BIRTH_DATE, to: DUBAI_ARRIVAL },
-                  { from: DUBAI_DEPARTURE, to: null }
-                ]
-              },
-              {
-                title: "Time Since Left",
-                icon: History,
-                ms: null,
-                fromDate: null,
-                toDate: null
-              },
-              {
-                title: "Time Until Visit",
-                icon: Plane,
-                ms: null,
-                fromDate: null,
-                toDate: null
-              }
-            ]}
-            isRowLayout={!isDesktop || layoutStage >= 4}
-            isDesktop={isDesktop}
-            layoutClass={getIndiaClass()}
-          />
+              <LocationCard 
+                country="India"
+                flagCode="in"
+                badge="Birthplace & Past Residence"
+                badgeColor="bg-white/5 text-neutral-400 border-white/10"
+                activeTitle="Time Since Relocated"
+                activeIcon={History}
+                activeMs={timeSinceIndiaLeft}
+                activeDate={canadaLandingDate}
+                staticDetails={[
+                  {
+                    title: "Total Time Spent",
+                    icon: Clock,
+                    ms: indiaLifetimeMs,
+                    dateRanges: [
+                      { from: BIRTH_DATE, to: DUBAI_ARRIVAL },
+                      { from: DUBAI_DEPARTURE, to: canadaLandingDate }
+                    ]
+                  },
+                  {
+                    title: "Time Since Left",
+                    icon: History,
+                    ms: timeSinceIndiaLeft,
+                    fromDate: canadaLandingDate,
+                    toDate: now
+                  },
+                  {
+                    title: "Time Until Next Visit",
+                    icon: Plane,
+                    ms: null,
+                    fromDate: null,
+                    toDate: null
+                  }
+                ]}
+                isRowLayout={!isDesktop || layoutStage >= 4}
+                isDesktop={isDesktop}
+                layoutClass={getIndiaClass()}
+              />
 
           <LocationCard 
             country="Dubai"

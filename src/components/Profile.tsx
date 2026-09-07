@@ -10,11 +10,11 @@ import GlassSurface from './GlassSurface';
 
 export default function Profile() {
   const skills = [
-    'Web Development', 'UX Design', 'UI Design', 'Management',
-    'Software Development', 'AI Enthusiast', 'Data Analyst',
-    'Social Media Management', 'Python', 'HTML', 'CSS', 'JS',
-    'Figma', 'Framer', 'SQL', 'Canva', 'N8N', 'API', 'JOAT',
-    'Leadership'
+    'AI Engineering', 'Machine Learning', 'Next.js & React', 'Full-Stack Web Dev',
+    'Python & FastAPI', 'TypeScript', 'UI/UX Design', 'UWaterloo MDSAI',
+    'Vector AI Scholar', 'LLM & RAG Systems', 'N8N Automation', 'Figma',
+    'Cloud & APIs', 'Software Architecture', 'Jack of All Trades', 'Project Management',
+    'Leadership', 'SQL & Databases'
   ];
 
   return (
@@ -44,11 +44,11 @@ export default function Profile() {
           </div>
 
           <h2 className="text-4xl md:text-5xl font-medium tracking-tight">
-            Ramprakash Raja, <br/> <span className="text-neutral-500">Your Friend</span>
+            Ramprakash Raja, <br/> <span className="text-neutral-500">Your Friend & Engineering Partner</span>
           </h2>
 
           <p className="text-sm md:text-base text-neutral-400 max-w-lg">
-            Brief initial presentation of myself and my previous experiences.
+            A comprehensive overview of my journey, technical background, and global engineering impact.
           </p>
         </motion.div>
 
@@ -88,7 +88,7 @@ export default function Profile() {
             {/* Text Wrapper */}
             <div className="px-4 pb-4">
               <h3 className="text-2xl font-semibold mb-1">Ramprakash Raja</h3>
-              <p className="text-sm text-neutral-400 mb-6">AI Developer & Data Scientist</p>
+              <p className="text-sm text-neutral-400 mb-6">AI Engineer & MDSAI @ UWaterloo</p>
 
               {/* Social Media Row (3D Buttons) */}
               <div className="flex items-center justify-start gap-4 mb-6">
@@ -121,7 +121,7 @@ export default function Profile() {
             {/* About */}
             <div className="mb-10">
               <p className="text-sm md:text-base text-neutral-300 leading-loose font-light">
-                <strong className="text-white font-medium">Ramprakash Raja</strong> is an AI Developer and Data Scientist based in Chennai, Tamil Nadu. Specializing in building scalable applications with Python, FastAPI, and TypeScript, he is passionate about technology and innovation. Currently an active <Link href="/achievements" className="text-white underline decoration-white/30 underline-offset-4 hover:decoration-white transition-colors">Google Student Ambassador</Link> and <Link href="/achievements" className="text-white underline decoration-white/30 underline-offset-4 hover:decoration-white transition-colors">Microsoft Student Ambassador</Link>, Ramprakash is dedicated to creating a meaningful impact in the software development industry. He is preparing for his upcoming transition to the University of Waterloo for the MDSAI Co-op program.
+                <strong className="text-white font-medium">Ramprakash Raja</strong> is an elite AI Engineer, Data Scientist, and MDSAI Graduate Student at the University of Waterloo based in Waterloo, Ontario, Canada (Greater Toronto Area). Celebrated as a premier freelance web developer, versatile coder, and technical project manager, he combines advanced artificial intelligence with modern full-stack web craftsmanship. A Vector AI Scholar, former Top 6 <Link href="/achievements" className="text-white underline decoration-white/30 underline-offset-4 hover:decoration-white transition-colors">Google Student Ambassador</Link> in India, and <Link href="/achievements" className="text-white underline decoration-white/30 underline-offset-4 hover:decoration-white transition-colors">Microsoft Student Ambassador</Link>, Ramprakash is the trusted technical partner for startups, researchers, and global enterprises seeking world-class software and AI solutions.
               </p>
             </div>
 

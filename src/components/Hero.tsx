@@ -1,11 +1,10 @@
 'use client';
-
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
-import Lanyard from './Lanyard';
-import { ArrowUpRight, MousePointer2, Bell, Download } from 'lucide-react';
 import Image from 'next/image';
+import { ArrowUpRight, MousePointer2 } from 'lucide-react';
+import Lanyard from './Lanyard';
+import { motion } from 'framer-motion';
 import { useLoaderStore } from '@/store/loaderStore';
 
 export default function Hero({ topAchievements = [] }: { topAchievements?: any[] }) {
@@ -72,7 +71,7 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
             className="flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-3 py-1.5 w-fit"
           >
             <div className="w-4 h-4 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0xMiAydjIwTTIyIDEySDIiLz48L3N2Zz4=')] bg-cover bg-center opacity-70" />
-            <span className="text-xs font-medium text-neutral-300">Software Developer / AIML Professional</span>
+            <span className="text-xs font-medium text-neutral-300">AI Engineer / Full-Stack Developer</span>
           </motion.div>
 
           <motion.h1
@@ -97,7 +96,7 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
             >
               Raja
             </motion.span>
-            <span className="sr-only"> - AI Developer & Data Scientist</span>
+            <span className="sr-only"> - AI Engineer & Data Scientist</span>
           </motion.h1>
 
           <motion.p
@@ -107,7 +106,7 @@ export default function Hero({ topAchievements = [] }: { topAchievements?: any[]
             transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-sm md:text-base text-neutral-100 md:text-neutral-200 leading-relaxed font-light mt-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] max-w-[95%]"
           >
-            <strong className="text-white font-medium drop-shadow-md">Ramprakash Raja</strong> is an AI Developer and Data Scientist based in Chennai, Tamil Nadu. Specializing in building scalable applications with Python, FastAPI, and TypeScript, he is an active Google Student Ambassador and Microsoft Student Ambassador. Ramprakash is currently preparing for his upcoming transition to the University of Waterloo for the MDSAI Co-op program.
+            <strong className="text-white font-medium drop-shadow-md">Ramprakash Raja</strong> is an AI Engineer, Data Scientist, and MDSAI Graduate Student at the University of Waterloo based in Waterloo, Ontario, Canada (Greater Toronto Area). Recognized as an elite full-stack web developer, freelance coder, and versatile tech leader, he specializes in architecting production-grade AI systems, full-stack applications with Next.js, Python, and TypeScript, and high-impact automated workflows. A Vector AI Scholar and former Top 6 Google Student Ambassador in India, Ramprakash crafts exceptional digital experiences for ambitious teams worldwide.
           </motion.p>
 
           {/* Buttons - Elevated z-index to be above Lanyard */}

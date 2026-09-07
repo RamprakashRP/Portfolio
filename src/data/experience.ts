@@ -13,6 +13,17 @@ export interface ExperienceData {
 
 export const experiences: ExperienceData[] = [
   {
+    company: 'University of Waterloo',
+    logo: '/RPW.png',
+    roles: [
+      {
+        position: 'MDSAI Graduate Student (Master of Data Science & Artificial Intelligence)',
+        duration: 'Aug 2026 - Present',
+        description: 'Pursuing advanced graduate studies in Data Science and Artificial Intelligence (MDSAI) at the University of Waterloo, Ontario, Canada. Specializing in state-of-the-art machine learning, deep neural architectures, scalable distributed computing, and generative AI research.'
+      }
+    ]
+  },
+  {
     company: 'Google',
     logo: '/google.png',
     roles: [

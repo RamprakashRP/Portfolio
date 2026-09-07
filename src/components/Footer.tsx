@@ -84,9 +84,9 @@ export default function Footer() {
 
           <div className="grid grid-cols-2 md:flex md:flex-row items-center justify-between gap-4 md:gap-4 text-[10px] sm:text-xs font-light text-neutral-500 text-center md:text-left w-full">
             <span className="col-span-1">ramprakashraja1@gmail.com</span>
-            <span className="col-span-1">+91 86670 29091</span>
+            <span className="col-span-1">Waterloo, ON, Canada</span>
             <span className="col-span-1">Official Portfolio</span>
-            <span className="col-span-1">© {new Date().getFullYear()} RP</span>
+            <span className="col-span-1">© {new Date().getFullYear()} Ramprakash Raja</span>
           </div>
 
         </div>

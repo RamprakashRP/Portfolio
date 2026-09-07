@@ -13,7 +13,7 @@ export default function ContactPage() {
   // Custom Dropdown State
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedBudget, setSelectedBudget] = useState('');
-  const budgetOptions = ['Under ₹10,000', '₹10,000 - ₹50,000', '₹50,000+'];
+  const budgetOptions = ['Under $1,500 CAD', '$1,500 - $5,000 CAD', '$5,000+ CAD / Custom Enterprise'];
 
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

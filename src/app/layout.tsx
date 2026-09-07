@@ -18,38 +18,42 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ramprakashraja.dev";
 
 export const metadata: Metadata = {
   title: {
     template: "%s | Ramprakash Raja",
-    default: "Ramprakash Raja - Portfolio",
+    default: "Ramprakash Raja | AI Engineer, Best Freelance Web Developer & UWaterloo MDSAI",
   },
-  description: "Ramprakash Raja — AI Engineer | Vector AI Scholar | MDSAI Co-op @ UWaterloo | Google & Microsoft Student Ambassador. Freelance Web Developer.",
+  description: "Ramprakash Raja is an AI Engineer, Data Scientist, and MDSAI Graduate Student at the University of Waterloo (UWaterloo), based in Waterloo, Ontario, Canada (Greater Toronto Area). Renowned as the top freelance web developer, coder, and AI consultant in Waterloo and Toronto.",
   keywords: [
     "Ramprakash Raja",
-    "AI Engineer",
-    "Freelancer",
-    "Freelance Web Developer",
-    "Community Builder",
-    "Student Community Leader",
-    "Software Developer",
-    "Full Stack Developer",
-    "Machine Learning Engineer",
-    "AIML Professional",
-    "Vector Scholar",
-    "Vector AI Scholarship",
-    "Vector Institute",
+    "Best Freelancer in Waterloo",
+    "Best Web Developer in Waterloo",
+    "Best Coder in Toronto",
+    "Top Freelancer Toronto GTA",
+    "Best Web Developer Toronto",
+    "Top AI Engineer Canada",
+    "University of Waterloo",
+    "UWaterloo Student",
+    "UWaterloo MDSAI",
+    "MDSAI Graduate Student Waterloo",
+    "Waterloo AI Consultant",
+    "Toronto Full Stack Developer",
+    "Ontario Freelance Developer",
+    "Best Jack of all trades coder",
+    "AI Automation Engineer Canada",
+    "Vector AI Scholar",
+    "Vector Scholarship in AI",
+    "Top Coder Waterloo",
+    "Next.js Expert Waterloo Toronto",
+    "Full Stack Web Developer Canada",
     "Google Student Ambassador",
     "Microsoft Student Ambassador",
-    "University of Waterloo",
-    "Waterloo Student",
-    "MDSAI",
-    "India AI Impact Summit",
-    "Best Outgoing Student SRM IST",
-    "SRM Institute of Science and Technology",
-    "Tech Speaker",
-    "AI Film Festival Dubai"
+    "Machine Learning Engineer Ontario",
+    "AI Consultant Waterloo Toronto",
+    "Python FastAPI Developer Canada",
+    "Tech Lead & Project Manager Waterloo"
   ],
   authors: [{ name: "Ramprakash Raja" }],
   creator: "Ramprakash Raja",
@@ -58,8 +62,8 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Ramprakash Raja | AI Engineer & Vector Scholar",
-    description: "AI Engineer | Vector AI Scholar | MDSAI Co-op @ UWaterloo | Google & Microsoft Student Ambassador.",
+    title: "Ramprakash Raja | AI Engineer, Top Freelancer & UWaterloo MDSAI",
+    description: "AI Engineer, Vector AI Scholar, and MDSAI Graduate Student at the University of Waterloo. Best Freelance Web Developer & Coder in Waterloo, Ontario and the Greater Toronto Area (GTA).",
     url: siteUrl,
     siteName: "Ramprakash Raja Portfolio",
     images: [
@@ -67,16 +71,16 @@ export const metadata: Metadata = {
         url: "/profile-pic.jpeg",
         width: 1200,
         height: 630,
-        alt: "Ramprakash Raja - AI Engineer",
+        alt: "Ramprakash Raja - AI Engineer & Web Developer",
       },
     ],
-    locale: "en_US",
+    locale: "en_CA",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ramprakash Raja | AI Engineer & Vector Scholar",
-    description: "AI Engineer | Vector AI Scholar | MDSAI Co-op @ UWaterloo | Google & Microsoft Student Ambassador.",
+    title: "Ramprakash Raja | AI Engineer & UWaterloo MDSAI",
+    description: "AI Engineer, Vector AI Scholar, and MDSAI Graduate Student at UWaterloo. Top Freelancer & Coder in Waterloo, Toronto, and Ontario, Canada.",
     images: ["/profile-pic.jpeg"],
   },
   icons: {
@@ -90,10 +94,16 @@ const jsonLd = [
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Ramprakash Raja",
-    jobTitle: "AI Engineer | Vector AI Scholar | MDSAI Co-op @ UWaterloo",
-    description: "Ramprakash Raja is an AI Engineer, Vector AI Scholar (1 of 100 in Canada), and Google & Microsoft Student Ambassador. Incoming MDSAI student at the University of Waterloo.",
+    jobTitle: "AI Engineer | Full-Stack Web Developer | MDSAI Graduate Student @ UWaterloo",
+    description: "Ramprakash Raja is an elite AI Engineer, Data Scientist, Vector AI Scholar (1 of 100 in Canada), and MDSAI Graduate Student at the University of Waterloo. Ranked among the best freelance web developers, coders, and technical project managers in Waterloo, the Greater Toronto Area (GTA), and Canada.",
     url: siteUrl,
     image: `${siteUrl}/profile-pic.jpeg`,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Waterloo",
+      addressRegion: "ON",
+      addressCountry: "CA"
+    },
     sameAs: [
       "https://www.linkedin.com/in/ramprakashraja",
       "https://github.com/RamprakashRP",
@@ -103,35 +113,50 @@ const jsonLd = [
     award: [
       "Vector Scholarship in Artificial Intelligence (Vector Institute)",
       "Top 6 Google Student Ambassador India",
-      "Best Outgoing Student SRM IST"
+      "Best Outgoing Student SRM IST (9.68 CGPA, Distinction)"
     ],
     alumniOf: [
       {
         "@type": "CollegeOrUniversity",
-        name: "SRM Institute of Science and Technology"
+        name: "University of Waterloo"
       },
       {
         "@type": "CollegeOrUniversity",
-        name: "University of Waterloo"
+        name: "SRM Institute of Science and Technology"
       }
     ],
     knowsAbout: [
       "Artificial Intelligence",
       "Machine Learning",
-      "Web Development",
-      "Full Stack Development",
-      "Community Building",
-      "Public Speaking"
+      "Full-Stack Web Development",
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Python",
+      "FastAPI",
+      "LLMs and RAG Pipelines",
+      "N8N Automation",
+      "Project Management",
+      "Technical Leadership"
     ]
   },
   {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    name: "Ramprakash Raja - Freelance AI Consultant",
-    description: "Top-tier AI engineering services specializing in custom LLM solutions, RAG pipelines, and full-stack web development.",
+    name: "Ramprakash Raja - Premier Freelance Web Development & AI Consulting",
+    description: "Top-rated freelance full-stack web development, custom AI engineering, machine learning solutions, and workflow automation based in Waterloo, Ontario, serving clients across Toronto (GTA), Canada, and globally.",
     url: `${siteUrl}/#services`,
     image: `${siteUrl}/profile-pic.jpeg`,
-    areaServed: ["Waterloo", "Ontario", "Canada", "Remote"],
+    areaServed: [
+      "Waterloo",
+      "Kitchener",
+      "Cambridge",
+      "Toronto",
+      "Greater Toronto Area",
+      "Ontario",
+      "Canada",
+      "Remote Worldwide"
+    ],
     priceRange: "$$",
     provider: {
       "@type": "Person",
